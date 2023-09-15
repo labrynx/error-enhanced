@@ -1,4 +1,4 @@
-# Enhanced Error Handling with `ts-mixer`
+# `error-enhanced` - Enhanced Error Handling with `ts-mixer`
 
 ## Table of Contents 
 [Overview](#overview) | [Installation](#installation) | [Features](#features) | [Classes](#classes) | [Helpers](#helpers) | [Example Usage](#example-usage) | [Full Example](#full-example) | [Contributing](#contributing) | [Changelog](#changelog) 
