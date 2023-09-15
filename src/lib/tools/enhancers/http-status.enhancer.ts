@@ -20,16 +20,16 @@ import { HttpMethods } from '../../enums/http-methods.enum';
  * httpStatus.setUrl("https://example.com").setLatency(120);
  */
 export class HttpStatusEnhancer {
-  private _httpStatusCode: number; // HTTP Status Code
+  private _httpStatusCode: number = -1; // HTTP Status Code
   private _url: string = ''; // The URL where the error occurred.
   private _httpMethod: string = ''; // The HTTP method (GET, POST, etc.) for the request that caused the error.
   private _requestHeaders: { [key: string]: any } = {}; // The headers of the HTTP request.
   private _responseHeaders: { [key: string]: any } = {}; // The headers in the HTTP response.
   private _queryParams: { [key: string]: any } = {}; // Query parameters in the URL.
-  private _requestBody: any; // The body of the HTTP request.
-  private _responseBody: any; // The body of the HTTP response.
+  private _requestBody: any = null; // The body of the HTTP request.
+  private _responseBody: any = null; // The body of the HTTP response.
   private _clientIp: string = ''; // The IP address of the client that made the request.
-  private _latency: number = 0; // The time taken for the request to complete.
+  private _latency: number = -1; // The time taken for the request to complete.
 
   public static HttpStatusCodes = HttpStatusCodes; // Expose HttpStatusCodes enum for external use
   public static HttpMethods = HttpMethods; // Expose HttpMethods enum for external use
@@ -41,7 +41,7 @@ export class HttpStatusEnhancer {
    *
    * @param httpStatusCode - The initial HTTP status code for the error object.
    */
-  constructor(httpStatusCode: HttpStatusCodes) {
+  constructor(httpStatusCode: number) {
     this._httpStatusCode = httpStatusCode;
   }
 
@@ -52,7 +52,7 @@ export class HttpStatusEnhancer {
    *
    * @returns The HTTP status code related to the error.
    */
-  public get httpStatusCode(): HttpStatusCodes {
+  public get httpStatusCode(): number {
     return this._httpStatusCode;
   }
 
@@ -86,7 +86,7 @@ export class HttpStatusEnhancer {
    * @param httpStatusCode - The HTTP status code.
    * @throws Will throw an error if the provided status code is not a valid HTTP status code.
    */
-  public setHttpStatusCode(httpStatusCode: HttpStatusCodes): this {
+  public setHttpStatusCode(httpStatusCode: number): this {
     const parsed = ValidHttpStatusCodes.safeParse(httpStatusCode);
     if (!parsed.success) {
       throw new Error(
@@ -124,7 +124,7 @@ export class HttpStatusEnhancer {
    * @param httpMethod - The HTTP method (GET, POST, etc.)
    * @throws Will throw an error if the method is not a valid HTTP method.
    */
-  public setHttpMethod(httpMethod: HttpMethods): this {
+  public setHttpMethod(httpMethod: string): this {
     const parsed = ValidHttpMethods.safeParse(httpMethod);
     if (!parsed.success) {
       throw new Error(

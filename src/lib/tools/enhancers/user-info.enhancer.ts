@@ -11,12 +11,12 @@ import { ValidString } from '../../validators/validators';
  * errorInfo.setUser("JohnDoe").setRoles(["admin", "user"]);
  */
 export class UserInfoEnhancer {
-  private _user: string = 'unkown'; // User ID or username related to the error
-  private _sessionId: string = 'unkown'; // User session ID
+  private _user: string = ''; // User ID or username related to the error
+  private _sessionId: string = ''; // User session ID
   private _roles: string[] = []; // User roles or permissions
-  private _authToken: string = 'unkown'; // Authentication token
-  private _ipAddress: string = 'unkown'; // IP Address
-  private _userAgent: string = 'unkown'; // Browser and OS details
+  private _authToken: string = ''; // Authentication token
+  private _ipAddress: string = ''; // IP Address
+  private _userAgent: string = ''; // Browser and OS details
   private _actionHistory: string[] = []; // Previous user actions
 
   /**

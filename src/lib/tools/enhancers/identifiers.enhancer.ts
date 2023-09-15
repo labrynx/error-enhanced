@@ -22,13 +22,13 @@ import {
  * error.setErrorCode(500).setSeverity(SeverityLevel.HIGH);
  */
 export class IdentifiersEnhancer {
-  private readonly _id: string; // Unique identifier for the error
-  private _errorCode: number = 0; // Custom error code, can be any type
+  private readonly _id: string = ''; // Unique identifier for the error
+  private _errorCode: number = -1; // Custom error code, can be any type
   private _errorCodePrefix: string = ''; // Prefix for Error Code
   private _errorDescription: string = ''; // Description for Error Code
-  private readonly _timestamp: number; // Unix timestamp when the error was created
-  private _severity: SeverityLevel; // Severity level of the error
-  private _category: Category; // Category to which the error belongs
+  private readonly _timestamp: number = -1; // Unix timestamp when the error was created
+  private _severity: string = ''; // Severity level of the error
+  private _category: string = ''; // Category to which the error belongs
 
   public static SeverityLevel = SeverityLevel; // Expose enum for external use
   public static Category = Category; // Expose enum for external use
@@ -165,13 +165,13 @@ export class IdentifiersEnhancer {
 
   /**
    * Sets the severity level of the error.
-   * @param {SeverityLevel} severity - The severity level to set.
+   * @param {string} severity - The severity level to set.
    * @returns {IdentifiersEnhancer} - The instance of the class, useful for chaining.
    * @throws Will throw an error if the severity level is not in the valid SeverityLevel enum.
    * @example
    * error.setSeverity(SeverityLevel.HIGH);
    */
-  public setSeverity(severity: SeverityLevel): this {
+  public setSeverity(severity: string): this {
     const parsed = ValidSeverityLevel.safeParse(severity);
 
     if (!parsed.success) {
@@ -188,23 +188,23 @@ export class IdentifiersEnhancer {
 
   /**
    * Gets the severity level of the error.
-   * @returns {SeverityLevel} - The severity level of the error.
+   * @returns {string} - The severity level of the error.
    * @example
    * const level = error.severity;  // Output example: SeverityLevel.HIGH
    */
-  public get severity(): SeverityLevel {
+  public get severity(): string {
     return this._severity;
   }
 
   /**
    * Sets the category of the error.
-   * @param {Category} category - The category to set.
+   * @param {string} category - The category to set.
    * @returns {IdentifiersEnhancer} - The instance of the class, useful for chaining.
    * @throws Will throw an error if the category is not in the valid Category enum.
    * @example
    * error.setCategory(Category.SYSTEM);
    */
-  public setCategory(category: Category): this {
+  public setCategory(category: string): this {
     const parsed = ValidCategory.safeParse(category);
 
     if (!parsed.success) {
@@ -221,11 +221,11 @@ export class IdentifiersEnhancer {
 
   /**
    * Gets the category of the error.
-   * @returns {Category} - The category of the error.
+   * @returns {string} - The category of the error.
    * @example
    * const cat = error.category;  // Output example: Category.SYSTEM
    */
-  public get category(): Category {
+  public get category(): string {
     return this._category;
   }
 
