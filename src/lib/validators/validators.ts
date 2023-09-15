@@ -1,12 +1,7 @@
 /**
- * @file validators.ts
- *
  * This file contains various Zod validators for input validation.
  * These validators are mainly used in the setters within the classes
  * of the error handling system.
- *
- * @author Alessandro Barbagallo
- * @version 1.0.0
  */
 
 import { z } from 'zod';

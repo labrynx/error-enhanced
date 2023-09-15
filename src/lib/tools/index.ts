@@ -42,34 +42,15 @@ export * from './enhancers/user-info.enhancer';
 export * from './enhancers/error-analysis.enhancer';
 
 // ============================================================================
-// Helpers
+// Utilities
 // ============================================================================
 
 /**
- * FilterHelper: Provides utility methods to filter out unused properties from error objects.
+ * FilterUtility: Provides utility methods to filter out unused properties from error objects.
  */
-export * from './helpers/filter.helper';
-
-// ============================================================================
-// Serializers
-// ============================================================================
+export * from './utilities/filter.utility';
 
 /**
- * JsonSerializer: Serializes the error object into a JSON string.
+ * SerializersUtility: Serializing class that transforms an object into JSON, CSV, XML and YAML strings.
  */
-export * from './serializers/json.serializer';
-
-/**
- * XmlSerializer: Serializes the error object into an XML string.
- */
-export * from './serializers/xml.serializer';
-
-/**
- * YamlSerializer: Serializes the error object into a YAML string.
- */
-export * from './serializers/yaml.serializer';
-
-/**
- * CsvSerializer: Serializes the error object into a CSV string.
- */
-export * from './serializers/csv.serializer';
+export * from './utilities/serializers.utility';
