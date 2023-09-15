@@ -1,61 +1,73 @@
+// Import required modules and classes
 import { Mixin } from 'ts-mixer';
-
 import {
   IdentifiersEnhancer,
   HttpStatusEnhancer,
   SystemContextEnhancer,
-  JsonSerializer,
-  FilterHelper,
+  SerializersUtility,
+  FilterUtility,
   UserInfoEnhancer,
   ErrorAnalysisEnhanced,
 } from '../src/';
 
+// Define the main ErrorEnhanced class by mixing in additional classes
+// to enrich it with various functionalities.
 class ErrorEnhanced extends Mixin(
-  Error, // <= Must!
+  Error, // Base class must be Error
   IdentifiersEnhancer,
   HttpStatusEnhancer,
   SystemContextEnhancer,
   UserInfoEnhancer,
-  FilterHelper,
+  FilterUtility,
   ErrorAnalysisEnhanced,
-  JsonSerializer,
+  SerializersUtility,
 ) {
   constructor() {
-    super();
+    super(); // Call the base constructor
     Object.setPrototypeOf(this, ErrorEnhanced.prototype);
   }
 }
 
-try {
-  throw new Error('Ha ocurrido un error');
-} catch (e) {
-  const error = new ErrorEnhanced();
+// Create an instance of ErrorEnhanced
+const error = new ErrorEnhanced();
 
-  // Its a normal error, give it a name and error message
-  error.name = 'UserNotAuthorizedError';
-  //error.message = 'User is not authorized';
+// Basic error information
+error.name = 'UserNotAuthorizedError';
+error.message = 'User is not authorized';
 
-  if (e instanceof Error) {
-    error.setOriginalError(e);
-  }
+// Associate the error with an original standard Error object
+const e: Error = new Error('This is an error');
+error.setOriginalError(e);
 
-  // Setting error code and its prefix
-  error.setErrorCode(1234).setErrorCodePrefix('EE');
+// Additional Error Metadata
+error.setErrorCode(5432).setErrorCodePrefix('EE');
 
-  // Setting error severity and category
-  error
-    .setSeverity(ErrorEnhanced.SeverityLevel.HIGH)
-    .setCategory(ErrorEnhanced.Category.NETWORK);
+// Setting Severity and Category
+error
+  .setSeverity(ErrorEnhanced.SeverityLevel.HIGH)
+  .setCategory(ErrorEnhanced.Category.NETWORK);
 
-  // Add some context
-  error
-    .setHttpStatusCode(404)
-    .setUrl('https://api.example.com/user')
-    .setHttpMethod(ErrorEnhanced.HttpMethods.GET);
+// HTTP Context
+error
+  .setHttpStatusCode(ErrorEnhanced.HttpStatusCodes.NOT_FOUND)
+  .setUrl('https://api.example.com/user')
+  .setHttpMethod(ErrorEnhanced.HttpMethods.GET);
 
-  error.originalError;
-  const serializedErrorJSON = error.filterUnused().toJSON();
+// User Information
+error.setUser('john_doe_123').setRoles(['admin', 'user']);
 
-  console.log('Salida JSON: ');
-  console.log(serializedErrorJSON);
-}
+// Serialize the error object into various formats after filtering unused properties
+const serializedErrorJSON = error.filterUnused().toJSON();
+const serializedErrorCSV = error.filterUnused().toCSV();
+const serializedErrorXML = error.filterUnused().toXML();
+const serializedErrorYAML = error.filterUnused().toYAML();
+
+// Log the serialized errors
+console.log('\n---\nJSON export: ');
+console.log(serializedErrorJSON);
+console.log('\n---\nCSV export: ');
+console.log(serializedErrorCSV);
+console.log('\n---\nXML export: ');
+console.log(serializedErrorXML);
+console.log('\n---\nYAML export: ');
+console.log(serializedErrorYAML);
