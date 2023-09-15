@@ -36,6 +36,11 @@ export * from './enhancers/system-context.enhancer';
  */
 export * from './enhancers/user-info.enhancer';
 
+/**
+ * ErrorAnalysisEnhanced: Adds error stack analysis and extraction.
+ */
+export * from './enhancers/error-analysis.enhancer';
+
 // ============================================================================
 // Helpers
 // ============================================================================
