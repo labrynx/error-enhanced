@@ -1,16 +1,7 @@
 # Enhanced Error Handling with `ts-mixer`
 
 ## Table of Contents 
-1. [Overview](#overview)
-2. [Installation](#installation)
-3. [Features](#features)
-4. [Classes](#classes)
-5. [Helpers](#helpers)
-6. [Example Usage](#example-usage)
-7. [Full Example](#full-example)
-8. [Troubleshooting](#troubleshooting) 
-9. [Contributing](#contributing) 
-10. [Changelog](#changelog) 
+[Overview](#overview) | [Installation](#installation) | [Features](#features) | [Classes](#classes) | [Helpers](#helpers) | [Example Usage](#example-usage) | [Full Example](#full-example) | [Contributing](#contributing) | [Changelog](#changelog) 
 
 ## Overview
 
@@ -454,12 +445,12 @@ This will create an `ErrorEnhanced` object, set some properties, filter out the 
 
 ---
 
-## Troubleshooting
-
----
-
 ## Contributing
+
+For guidelines on how to contribute to this project, please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 --- 
 
 ## Changelog
+
+For a detailed list of changes, please refer to the [CHANGELOG.md](CHANGELOG.md).
