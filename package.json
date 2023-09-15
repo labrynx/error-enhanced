@@ -1,6 +1,6 @@
 {
   "name": "error-enhanced",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Supercharge your Node.js error handling with this TypeScript library. Leverage modular architecture to enrich error objects with identifiers, system context, user info, and HTTP statuses. Perfect for debugging, logging, and boosting application robustness.",
   "main": "index.ts",
   "directories": {
@@ -30,7 +30,7 @@
     "serialization",
     "filtering"
   ],
-  "author": "Alessandro Barbagallo",
+  "author": "alessbarb",
   "license": "MIT",
   "dependencies": {
     "js-yaml": "^4.1.0",
