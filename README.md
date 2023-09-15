@@ -1,4 +1,4 @@
-# Enhanced Error Handling with ts-mixer
+# Enhanced Error Handling with `ts-mixer`
 
 ## Overview
 
