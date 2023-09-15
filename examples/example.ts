@@ -5,11 +5,9 @@ import {
   HttpStatusEnhancer,
   SystemContextEnhancer,
   JsonSerializer,
-  XmlSerializer,
   FilterHelper,
   UserInfoEnhancer,
-  YamlSerializer,
-  CsvSerializer,
+  ErrorAnalysisEnhanced,
 } from '../src/';
 
 class ErrorEnhanced extends Mixin(
@@ -19,10 +17,8 @@ class ErrorEnhanced extends Mixin(
   SystemContextEnhancer,
   UserInfoEnhancer,
   FilterHelper,
+  ErrorAnalysisEnhanced,
   JsonSerializer,
-  XmlSerializer,
-  YamlSerializer,
-  CsvSerializer,
 ) {
   constructor() {
     super();
@@ -30,40 +26,36 @@ class ErrorEnhanced extends Mixin(
   }
 }
 
-const error = new ErrorEnhanced();
+try {
+  throw new Error('Ha ocurrido un error');
+} catch (e) {
+  const error = new ErrorEnhanced();
 
-// Its a normal error, give it a name and error message
-error.name = 'UserNotAuthorizedError';
-error.message = 'User is not authorized';
+  // Its a normal error, give it a name and error message
+  error.name = 'UserNotAuthorizedError';
+  //error.message = 'User is not authorized';
 
-// Setting error code and its prefix
-error.setErrorCode(1234).setErrorCodePrefix('EE');
+  if (e instanceof Error) {
+    error.setOriginalError(e);
+  }
 
-// Setting error severity and category
-error
-  .setSeverity(ErrorEnhanced.SeverityLevel.HIGH)
-  .setCategory(ErrorEnhanced.Category.NETWORK);
+  // Setting error code and its prefix
+  error.setErrorCode(1234).setErrorCodePrefix('EE');
 
-// Add some context
-error.setModule('AuthenticationModule').setMethod('validateUser');
-error
-  .setHttpStatusCode(404)
-  .setUrl('https://api.example.com/user')
-  .setHttpMethod(ErrorEnhanced.HttpMethods.GET);
+  // Setting error severity and category
+  error
+    .setSeverity(ErrorEnhanced.SeverityLevel.HIGH)
+    .setCategory(ErrorEnhanced.Category.NETWORK);
 
-const serializedErrorJSON = error.filterUnused().toJSON();
-const serializedErrorXML = error.filterUnused().toXML();
-const serializedErrorYAML = error.filterUnused().toYAML();
-const serializedErrorCSV = error.filterUnused().toCSV(';', true);
+  // Add some context
+  error
+    .setHttpStatusCode(404)
+    .setUrl('https://api.example.com/user')
+    .setHttpMethod(ErrorEnhanced.HttpMethods.GET);
 
-console.log('Salida JSON: ');
-console.log(serializedErrorJSON);
-console.log('---');
-console.log('Salida XML: ');
-console.log(serializedErrorXML);
-console.log('---');
-console.log('Salida YAML: ');
-console.log(serializedErrorYAML);
-console.log('---');
-console.log('Salida CSV: ');
-console.log(serializedErrorCSV);
+  error.originalError;
+  const serializedErrorJSON = error.filterUnused().toJSON();
+
+  console.log('Salida JSON: ');
+  console.log(serializedErrorJSON);
+}
