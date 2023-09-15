@@ -1,8 +1,26 @@
 # Enhanced Error Handling with `ts-mixer`
 
+## Table of Contents 
+1. [Overview](#overview)
+2. [Installation](#installation)
+3. [Features](#features)
+4. [Classes](#classes)
+5. [Helpers](#helpers)
+6. [Example Usage](#example-usage)
+7. [Full Example](#full-example)
+8. [Troubleshooting](#troubleshooting) 
+9. [Contributing](#contributing) 
+10. [Changelog](#changelog) 
+
 ## Overview
 
 This TypeScript library supercharges error management in Node.js applications, offering an out-of-the-box, customizable solution that goes beyond stack traces. By leveraging the power of [ts-mixer](https://github.com/tannerntannern/ts-mixer), the library introduces a modular architecture that allows you to enrich error objects with a plethora of contextual information and metadata. Whether you're capturing system-level details, user interactions, or HTTP statuses, this library provides a holistic view of errors, facilitating debugging, logging, and ultimately, enhancing the robustness of your application.
+
+**Quick Example**:
+```typescript
+const error = new ErrorEnhanced();
+error.setErrorCode(400).setSeverity(ErrorEnhanced.SeverityLevel.HIGH);
+```
 
 ---
 
@@ -13,7 +31,7 @@ Before installing this library, make sure you have `Node.js` and `npm` installed
 To install the library, run the following command:
 
 ```bash
-npm install your-library-name
+npm install error-enhanced
 ```
 
 ### Peer Dependencies
@@ -36,6 +54,8 @@ For more details, visit tannerntannern's [ts-mixer](https://github.com/tannernta
 - Unused properties filtering to optimize the error object.
 - Multiple serialization formats for easy error object storage or sending to external services.
 
+> **Note**: Each feature is discussed in detail in the [Classes](#classes) and [Helpers](#helpers) sections.
+
 ---
 
 ## Classes
@@ -46,10 +66,11 @@ This class enriches errors with unique identifiers, error codes, and more.
 
 #### Properties
 
-- `_id`: Unique identifier (UUID)
+- `_id`: Unique identifier (UUID) - Automatically generated
 - `_errorCode`: Custom error code (Number)
 - `_errorCodePrefix`: Prefix for error code (String)
-- `_timestamp`: Unix timestamp when the error was created (Number)
+- `_errorDescription`: Description for error code (String)
+- `_timestamp`: Unix timestamp when the error was created (Number) - Automatically generated
 - `_severity`: Severity level of the error (Enum)
 - `_category`: Category to which the error belongs (Enum)
 
@@ -70,6 +91,14 @@ Sets the error code prefix. Validates if it's a string.
 
 ```typescript
 error.setErrorCodePrefix("ERR");
+```
+
+##### `setErrorDescription(description: string)`
+
+Sets the error description. Validates if it's a string.
+
+```typescript
+error.setErrorDescription("This is a description of an error");
 ```
 
 ##### `setSeverity(severity: SeverityLevel)`
@@ -95,8 +124,6 @@ Calculates a hash value for the error.
 ```typescript
 const hash = error.getHash();
 ```
-
-Certainly! Here's how the rest of the Classes section could be structured with detailed sub-sections and example usages.
 
 ---
 
@@ -261,12 +288,17 @@ error.setResponseHeaders({'Content-Type': 'application/json'});
 - **Methods:**
   - `filterUnused()`: Removes all properties that are null, undefined, or empty.
 
-### JsonSerializer
+### Serializers
 
-- Utility to serialize the object into a JSON string.
+- Utility to serialize the object into a JSON, CSV, XML and YAML string.
 
 - **Methods:**
-  - `toJson()`: Serializes the object to a JSON string, filters out properties that are null, undefined, or empty.
+  - `toJSON()`: Serializes the object to a JSON string.
+  - `toCSV()`: Serializes the object to a CSV string.
+  - `toXML()`: Serializes the object to a XML string.
+  - `toYAML()`: Serializes the object to a YAML string.
+
+> Note: If used combined FilterHelper and Serializers it filters out properties that are null, undefined, or empty and serializes to a new object.
 
 ---
 
@@ -412,7 +444,22 @@ error
   .setUrl('https://api.example.com/user')
   .setHttpMethod(ErrorEnhanced.HttpMethods.GET);
 
-const serializedError = error.filterUnused().toJson();
+const serializedErrorJSON = error.filterUnused().toJSON();
+const serializedErrorCSV = error.filterUnused().toCSV();
+const serializedErrorXML = error.filterUnused().toXML();
+const serializedErrorYAML = error.filterUnused().toYAML();
 ```
 
-This will create an `ErrorEnhanced` object, set some properties, filter out the unused ones, and serialize it to a JSON string.
+This will create an `ErrorEnhanced` object, set some properties, filter out the unused ones, and serialize it to a any string.
+
+---
+
+## Troubleshooting
+
+---
+
+## Contributing
+
+--- 
+
+## Changelog
