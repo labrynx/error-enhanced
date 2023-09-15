@@ -2,16 +2,42 @@
   "name": "error-enhanced",
   "version": "1.1.0",
   "description": "Supercharge your Node.js error handling with this TypeScript library. Leverage modular architecture to enrich error objects with identifiers, system context, user info, and HTTP statuses. Perfect for debugging, logging, and boosting application robustness.",
-  "main": "index.ts",
-  "directories": {
-    "test": "tests"
+  "author": "alessbarb",
+  "license": "MIT",
+  "private": false,
+  "homepage": "https://github.com/labrynx/error-enhanced#readme",
+  "bugs": "https://github.com/labrynx/error-enhanced/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/labrynx/error-enhanced.git"
+  },
+  "exports": "./dist/index.js",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "typesVersions": {
+    ">=3.7": {
+      "*": [
+        "ts3.7/*"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=6.0.0"
   },
   "scripts": {
-    "start": "tsc && node dist/index.js",
+    "start": "node dist/index.js",
     "build": "rm -rf ./dist && tsc",
     "lint": "eslint --ignore-path .eslintignore --ext .js,.ts .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
-    "test": "jest --runInBand --config=jest.config.ts"
+    "test": "jest --runInBand --config=jest.config.ts",
+    "test:watch": "jest --watch",
+    "release": "npm run build && npm publish"
   },
   "keywords": [
     "error-handling",
@@ -30,8 +56,9 @@
     "serialization",
     "filtering"
   ],
-  "author": "alessbarb",
-  "license": "MIT",
+  "peerDependencies": {
+    "ts-mixer": "^6.0.3"
+  },
   "dependencies": {
     "js-yaml": "^4.1.0",
     "json-stringify-safe": "^5.0.1",
