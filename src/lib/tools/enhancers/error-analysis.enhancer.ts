@@ -6,7 +6,7 @@ import path from 'path';
  * The ErrorAnalysisEnhanced class enhances an error object with details
  * like file information, line number, column number, etc.
  */
-export class ErrorAnalysisEnhanced {
+export class ErrorAnalysisEnhancer {
   private _originalError: Error | null = null;
   private _fileInfo: string = '';
   private _lineNumber: number = -1;
