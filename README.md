@@ -299,12 +299,23 @@ Below is a step-by-step guide to create an enriched error object.
 
 ### Basic Example
 
-Firstly, import the required modules and initialize the `ErrorEnhanced` class.
+Firstly, create a new error using Mixin from `ts-mixer`.
 
 ```typescript
-import { ErrorEnhanced } from 'error-enhanced';
-
-const error = new ErrorEnhanced();
+class ErrorEnhanced extends Mixin(
+  Error, // <= Must!
+  IdentifiersEnhancer,
+  HttpStatusEnhancer,
+  SystemContextEnhancer,
+  UserInfoEnhancer,
+  FilterHelper,
+  JsonSerializer,
+) {
+  constructor() {
+    super();
+    Object.setPrototypeOf(this, ErrorEnhanced.prototype);
+  }
+}
 ```
 
 ### Setting Error Properties
