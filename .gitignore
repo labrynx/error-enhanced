@@ -130,11 +130,8 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# Jest
+# Other files
 tests
-jest.config.ts
-
-
 npm-shrinkwrap.json
 tests/
 tsconfig.json
