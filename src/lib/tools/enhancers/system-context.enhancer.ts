@@ -12,13 +12,13 @@ import { ValidString } from '../../validators/validators';
  * systemContext.setEnvironment('production').refreshSystemInfo();
  */
 export class SystemContextEnhancer {
-  private _environment: string; // Application environment (e.g., "production", "development")
-  private _nodeVersion: string; // Node.js version
-  private _hostname: string; // System hostname
-  private _cpuArch: string; // CPU architecture
-  private _osType: string; // OS type
-  private _osRelease: string; // OS release version
-  private _systemUptime: number; // System uptime in seconds
+  private _environment: string = ''; // Application environment (e.g., "production", "development")
+  private _nodeVersion: string = ''; // Node.js version
+  private _hostname: string = ''; // System hostname
+  private _cpuArch: string = ''; // CPU architecture
+  private _osType: string = ''; // OS type
+  private _osRelease: string = ''; // OS release version
+  private _systemUptime: number = -1; // System uptime in seconds
 
   /**
    * @constructor

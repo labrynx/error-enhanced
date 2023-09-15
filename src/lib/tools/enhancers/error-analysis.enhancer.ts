@@ -8,12 +8,12 @@ import path from 'path';
  */
 export class ErrorAnalysisEnhanced {
   private _originalError: Error | null = null;
-  private _fileInfo: string = 'unknown';
+  private _fileInfo: string = '';
   private _lineNumber: number = -1;
   private _columnNumber: number = -1;
-  private _functionName: string = 'unknown';
-  private _typeName: string = 'unknown';
-  private _methodName: string = 'unknown';
+  private _functionName: string = '';
+  private _typeName: string = '';
+  private _methodName: string = '';
   private _fullStack: string[] = [];
 
   constructor() {}
