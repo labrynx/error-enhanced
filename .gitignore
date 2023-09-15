@@ -138,3 +138,4 @@ jest.config.ts
 npm-shrinkwrap.json
 tests/
 tsconfig.json
+.npmrc
