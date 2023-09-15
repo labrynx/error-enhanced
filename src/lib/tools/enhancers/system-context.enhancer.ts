@@ -1,5 +1,4 @@
 import os from 'os';
-import path from 'path';
 import { ValidString } from '../../validators/validators';
 
 /**
@@ -10,11 +9,9 @@ import { ValidString } from '../../validators/validators';
  *
  * @example
  * const systemContext = new SystemContextEnhancer();
- * systemContext.setModule('AuthModule').setMethod('validateUser');
+ * systemContext.setEnvironment('production').refreshSystemInfo();
  */
 export class SystemContextEnhancer {
-  private _module: string = ''; // Module where the error originated
-  private _method: string = ''; // Method where the error originated
   private _environment: string; // Application environment (e.g., "production", "development")
   private _nodeVersion: string; // Node.js version
   private _hostname: string; // System hostname
@@ -29,9 +26,6 @@ export class SystemContextEnhancer {
    * Constructs a new SystemContextEnhancer object and initializes it with system context.
    */
   constructor() {
-    // Capture originating module and method, and initialize system info
-    this.captureModuleAndMethod();
-
     this._environment = process.env.NODE_ENV || 'unknown';
     this._nodeVersion = process.version;
     this._hostname = os.hostname();
@@ -44,60 +38,6 @@ export class SystemContextEnhancer {
   // ====================================================================
   // Getters & Setters
   // ====================================================================
-
-  /**
-   * Sets the name of the originating module.
-   *
-   * @param module - Name of the module
-   * @returns this instance for chaining
-   *
-   * @example
-   * systemContext.setModule('AuthModule');
-   */
-  public setModule(module: string): this {
-    const parsed = ValidString.safeParse(module);
-    if (!parsed.success) {
-      throw new Error('Invalid module name');
-    }
-    this._module = module;
-    return this;
-  }
-
-  /**
-   * Gets the name of the originating module.
-   *
-   * @returns Name of the module
-   */
-  public get module(): string {
-    return this._module;
-  }
-
-  /**
-   * Sets the name of the originating method.
-   *
-   * @param method - Name of the method
-   * @returns this instance for chaining
-   *
-   * @example
-   * systemContext.setMethod('validateUser');
-   */
-  public setMethod(method: string): this {
-    const parsed = ValidString.safeParse(method);
-    if (!parsed.success) {
-      throw new Error('Invalid method name');
-    }
-    this._method = method;
-    return this;
-  }
-
-  /**
-   * Gets the name of the originating method.
-   *
-   * @returns Name of the method
-   */
-  public get method(): string {
-    return this._method;
-  }
 
   /**
    * Gets the name of the originating method.
@@ -190,37 +130,6 @@ export class SystemContextEnhancer {
    */
   public refreshSystemInfo(): this {
     this._systemUptime = os.uptime();
-    return this;
-  }
-
-  // ====================================================================
-  // Private methods
-  // ====================================================================
-
-  /**
-   * Captures the originating module and method names from the call stack.
-   * This is a private method and is called in the constructor to capture
-   * the initial module and method context.
-   */
-  private captureModuleAndMethod(): this {
-    const errStack = new Error().stack;
-    if (!errStack) {
-      this._module = 'unknown';
-      this._method = 'unknown';
-      return this;
-    }
-
-    const stackList = errStack.split('\n').slice(3);
-    const stackReg = /at\s+(.*)\s+\((.*):(\d*):(\d*)\)/gi;
-    const stackReg2 = /at\s+()(.*):(\d*):(\d*)/gi;
-
-    const s = stackList[0] || stackList[1] || 'unknown';
-    const sp = stackReg.exec(s) || stackReg2.exec(s);
-
-    if (sp && sp.length === 5) {
-      this._method = sp[1];
-      this._module = path.basename(sp[2]);
-    }
     return this;
   }
 }
