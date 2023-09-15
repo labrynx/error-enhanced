@@ -32,7 +32,7 @@ All notable updates to the project will be documented in this file.
 
 ### Authors
 
-- Alessandro Barbagallo
+- alessbarb
 
 [Unreleased]: https://github.com/labrynx/error-enhanced/compare/previous-version...HEAD
 [Version 1.0.0]: https://github.com/labrynx/error-enhanced/releases/tag/version-1.0.0

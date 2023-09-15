@@ -7,9 +7,6 @@
  * 1. Enhancers: These modules add extra functionalities to errors.
  * 2. Helpers: These modules provide utility functions.
  * 3. Serializers: These modules are responsible for converting error objects to different formats.
- *
- * @author Alessandro Barbagallo
- * @version 1.0.0
  */
 
 // ============================================================================
