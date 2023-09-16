@@ -8,29 +8,29 @@ All notable updates to the project will be documented in this file.
 
 ### New Features
 
-New ErrorAnalysisEnhancer class for error stack analysis and extraction of file, line, column info etc.
-New SerializersUtility class to serialize errors to JSON, CSV, XML and YAML
-Added pattern to capture originating module and method context
+- New `ErrorAnalysisEnhancer` class for error stack analysis and extraction of file, line, column info etc.
+- New `SerializersUtility` class to serialize errors to JSON, CSV, XML and YAML
+- Added pattern to capture originating module and method context
 
 ### Enhancements
 
-Refactored validators into standalone files
-HttpStatusEnhancer now takes number instead of enum for status code
-IdentifiersEnhancer now takes strings instead of enums for severity and category
-Updated examples
+- Refactored validators into standalone files.
+- `HttpStatusEnhancer` now takes number instead of enum for status code
+- `IdentifiersEnhancer` now takes strings instead of enums for severity and category
+- Updated examples
 
 ### Bug Fixes
 
-Fixed issue capturing system context in SystemContextEnhancer
+- Fixed issue capturing system context in `SystemContextEnhancer`.
 
 ### Other changes
 
-Removed individual serializer classes in favor of SerializersUtility
-Removed FilterHelper in favor of FilterUtility
-Removed unused validators
-Improved package.json metadata
-Switched to ESM, added exports field
-Added JSDoc comments
+- Removed individual serializer classes in favor of `SerializersUtility`.
+- Removed FilterHelper in favor of `FilterUtility`.
+- Removed unused validators
+- Improved `package.json` metadata
+- Switched to ESM, added exports field
+- Added JSDoc comments
 
 ## [Version 1.0.0] - 2023-09-15
 
@@ -64,3 +64,4 @@ Added JSDoc comments
 
 [Unreleased]: https://github.com/labrynx/error-enhanced/compare/previous-version...HEAD
 [Version 1.0.0]: https://github.com/labrynx/error-enhanced/releases/tag/version-1.0.0
+[Version 1.1.0]: https://github.com/labrynx/error-enhanced/releases/tag/version-1.1.0
