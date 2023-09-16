@@ -1,69 +1,73 @@
+// Import required modules and classes
 import { Mixin } from 'ts-mixer';
-
 import {
   IdentifiersEnhancer,
   HttpStatusEnhancer,
   SystemContextEnhancer,
-  JsonSerializer,
-  XmlSerializer,
-  FilterHelper,
+  SerializersUtility,
+  FilterUtility,
   UserInfoEnhancer,
-  YamlSerializer,
-  CsvSerializer,
+  ErrorAnalysisEnhanced,
 } from '../src/';
 
+// Define the main ErrorEnhanced class by mixing in additional classes
+// to enrich it with various functionalities.
 class ErrorEnhanced extends Mixin(
-  Error, // <= Must!
+  Error, // Base class must be Error
   IdentifiersEnhancer,
   HttpStatusEnhancer,
   SystemContextEnhancer,
   UserInfoEnhancer,
-  FilterHelper,
-  JsonSerializer,
-  XmlSerializer,
-  YamlSerializer,
-  CsvSerializer,
+  FilterUtility,
+  ErrorAnalysisEnhanced,
+  SerializersUtility,
 ) {
   constructor() {
-    super();
+    super(); // Call the base constructor
     Object.setPrototypeOf(this, ErrorEnhanced.prototype);
   }
 }
 
+// Create an instance of ErrorEnhanced
 const error = new ErrorEnhanced();
 
-// Its a normal error, give it a name and error message
+// Basic error information
 error.name = 'UserNotAuthorizedError';
 error.message = 'User is not authorized';
 
-// Setting error code and its prefix
-error.setErrorCode(1234).setErrorCodePrefix('EE');
+// Associate the error with an original standard Error object
+const e: Error = new Error('This is an error');
+error.setOriginalError(e);
 
-// Setting error severity and category
+// Additional Error Metadata
+error.setErrorCode(5432).setErrorCodePrefix('EE');
+
+// Setting Severity and Category
 error
   .setSeverity(ErrorEnhanced.SeverityLevel.HIGH)
   .setCategory(ErrorEnhanced.Category.NETWORK);
 
-// Add some context
-error.setModule('AuthenticationModule').setMethod('validateUser');
+// HTTP Context
 error
-  .setHttpStatusCode(404)
+  .setHttpStatusCode(ErrorEnhanced.HttpStatusCodes.NOT_FOUND)
   .setUrl('https://api.example.com/user')
   .setHttpMethod(ErrorEnhanced.HttpMethods.GET);
 
+// User Information
+error.setUser('john_doe_123').setRoles(['admin', 'user']);
+
+// Serialize the error object into various formats after filtering unused properties
 const serializedErrorJSON = error.filterUnused().toJSON();
+const serializedErrorCSV = error.filterUnused().toCSV();
 const serializedErrorXML = error.filterUnused().toXML();
 const serializedErrorYAML = error.filterUnused().toYAML();
-const serializedErrorCSV = error.filterUnused().toCSV(';', true);
 
-console.log('Salida JSON: ');
+// Log the serialized errors
+console.log('\n---\nJSON export: ');
 console.log(serializedErrorJSON);
-console.log('---');
-console.log('Salida XML: ');
-console.log(serializedErrorXML);
-console.log('---');
-console.log('Salida YAML: ');
-console.log(serializedErrorYAML);
-console.log('---');
-console.log('Salida CSV: ');
+console.log('\n---\nCSV export: ');
 console.log(serializedErrorCSV);
+console.log('\n---\nXML export: ');
+console.log(serializedErrorXML);
+console.log('\n---\nYAML export: ');
+console.log(serializedErrorYAML);

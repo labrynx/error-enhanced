@@ -7,9 +7,6 @@
  * 1. Enhancers: These modules add extra functionalities to errors.
  * 2. Helpers: These modules provide utility functions.
  * 3. Serializers: These modules are responsible for converting error objects to different formats.
- *
- * @author Alessandro Barbagallo
- * @version 1.0.0
  */
 
 // ============================================================================
@@ -36,35 +33,21 @@ export * from './enhancers/system-context.enhancer';
  */
 export * from './enhancers/user-info.enhancer';
 
-// ============================================================================
-// Helpers
-// ============================================================================
-
 /**
- * FilterHelper: Provides utility methods to filter out unused properties from error objects.
+ * ErrorAnalysisEnhanced: Adds error stack analysis and extraction.
  */
-export * from './helpers/filter.helper';
+export * from './enhancers/error-analysis.enhancer';
 
 // ============================================================================
-// Serializers
+// Utilities
 // ============================================================================
 
 /**
- * JsonSerializer: Serializes the error object into a JSON string.
+ * FilterUtility: Provides utility methods to filter out unused properties from error objects.
  */
-export * from './serializers/json.serializer';
+export * from './utilities/filter.utility';
 
 /**
- * XmlSerializer: Serializes the error object into an XML string.
+ * SerializersUtility: Serializing class that transforms an object into JSON, CSV, XML and YAML strings.
  */
-export * from './serializers/xml.serializer';
-
-/**
- * YamlSerializer: Serializes the error object into a YAML string.
- */
-export * from './serializers/yaml.serializer';
-
-/**
- * CsvSerializer: Serializes the error object into a CSV string.
- */
-export * from './serializers/csv.serializer';
+export * from './utilities/serializers.utility';

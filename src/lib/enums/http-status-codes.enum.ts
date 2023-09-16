@@ -1,10 +1,6 @@
 /**
  * @fileoverview `HttpStatusCodes` enum provides a comprehensive list of HTTP status codes.
  *
- * @author Alessandro Barbagallo
- * @version 1.0.0
- *
- *
  * The enum is categorized as follows:
  * - 1XX: Informational Responses
  * - 2XX: Successful Responses
