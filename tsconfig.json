@@ -23,7 +23,7 @@
         "skipLibCheck": true,
         "declaration": true,
         "noImplicitAny": false,
-        "removeComments": false,
+        "removeComments": true,
         "types": [
             "node",
             "jest"
