@@ -1,9 +1,7 @@
-export enum HttpMethodsEnum {
+export enum HttpMethods {
   GET = 'get',
   POST = 'post',
   PATCH = 'patch',
   PUT = 'put',
   DELETE = 'delete',
 }
-
-export const HttpMethods = HttpMethodsEnum;

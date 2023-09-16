@@ -81,9 +81,9 @@ export * from './lib/tools';
 // Enumerators Export for Enriched Error Handling
 // ============================================================================
 /**
- * Re-exports all constant enumerators related to enriched error handling.
+ * Re-exports all enumerators related to enriched error handling.
  */
-export * from './lib/constants/category.const';
-export * from './lib/constants/http-methods.const';
-export * from './lib/constants/http-status-codes.const';
-export * from './lib/constants/severity.const';
+export * from './lib/enums/category.enum';
+export * from './lib/enums/http-methods.enum';
+export * from './lib/enums/http-status-codes.enum';
+export * from './lib/enums/severity.enum';
