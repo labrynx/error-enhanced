@@ -86,8 +86,8 @@ export class ErrorAnalysisEnhancer implements ErrorAnalysis {
    * Iterates through the stack trace to find the first relevant entry.
    */
   private _findFirstRelevantStack(stackList: string[]): any | null {
-    const stackReg = /at\s+(.*)\s+\((.*):(\d*):(\d*)\)/i;
-    const stackReg2 = /at\s+()(.*):(\d*):(\d*)/i;
+    const stackReg = /at\s+(.*)\s+\((.*):(\d+):(\d+)\)/i;
+    const stackReg2 = /at\s+(?:\()(.*?)(?:\)):(\d+):(\d+)/i;
 
     for (const s of stackList) {
       const sp = stackReg.exec(s) || stackReg2.exec(s);
