@@ -62,293 +62,13 @@ npm install error-enhanced
 
 Enhancers are classes that enrich the error object with additional information. Included enhancers are:
 
-- [IdentifiersEnhancer](#identifiersenhancer): Unique identifiers, error codes, severity, etc.
-- [SystemContextEnhancer](#systemcontextenhancer): System context information like module, environment, etc.
-- [UserInfoEnhancer](#userinfoenhancer): User related information like ID, roles, token, etc.  
-- [HttpStatusEnhancer](#httpstatusenhancer): HTTP request related information.
-- [ErrorAnalysisEnhancer](#erroranalysisenhancer): Detailed error analysis like file, line, column, etc.
-
-### IdentifiersEnhancer
-
-This class enriches errors with unique identifiers, error codes, and more.
-
-#### Properties
-
-- `_id`: Unique identifier (UUID) - Automatically generated
-- `_errorCode`: Custom error code (Number)
-- `_errorCodePrefix`: Prefix for error code (String)
-- `_errorDescription`: Description for error code (String)
-- `_timestamp`: Unix timestamp when the error was created (Number) - Automatically generated
-- `_highPrecisionTimestamp`: Stores the high-precision timestamp (nanoseconds) of when the error object was created.
- (String) - Automatically generated
-- `_severity`: Severity level of the error (Enum)
-- `_category`: Category to which the error belongs (Enum)
-
-#### Methods
-
-##### `setErrorCode(errorCode: number)`
-
-Sets the custom error code. Validates if it's a number.
-
-```typescript
-const error = new ErrorEnhanced();
-error.setErrorCode(400);
-```
-
-##### `setErrorCodePrefix(prefix: string)`
-
-Sets the error code prefix. Validates if it's a string.
-
-```typescript
-error.setErrorCodePrefix("ERR");
-```
-
-##### `setErrorDescription(description: string)`
-
-Sets the error description. Validates if it's a string.
-
-```typescript
-error.setErrorDescription("This is a description of an error");
-```
-
-##### `setSeverity(severity: SeverityLevel)`
-
-Sets the severity level. Validates against the `SeverityLevel` enum.
-
-```typescript
-error.setSeverity(SeverityLevel.HIGH);
-```
-
-##### `setCategory(category: Category)`
-
-Sets the error category. Validates against the `Category` enum.
-
-```typescript
-error.setCategory(Category.SYSTEM);
-```
-
-##### `getHash()`
-
-Calculates a hash value for the error.
-
-```typescript
-const hash = error.getHash();
-```
-
----
-
-### SystemContextEnhancer
-
-This class adds system-level context information to errors, such as the originating module, method, and various system details.
-
-#### Properties
-
-- `_module`: Module where the error originated (String)
-- `_method`: Method where the error originated (String)
-- `_environment`: Application environment (String)
-- `_nodeVersion`: Node.js version (String)
-- `_hostname`: System hostname (String)
-- `_cpuArch`: CPU architecture (String)
-- `_osType`: OS type (String)
-- `_osRelease`: OS release version (String)
-- `_systemUptime`: System uptime in seconds (Number)
-
-#### Methods
-
-##### `setModule(module: string)`
-
-Sets the originating module name. Validates if it's a string.
-
-```typescript
-const error = new ErrorEnhanced();
-error.setModule('myModule');
-```
-
-##### `setMethod(method: string)`
-
-Sets the originating method name. Validates if it's a string.
-
-```typescript
-error.setMethod('myMethod');
-```
-
-##### `setEnvironment(environment: string)`
-
-Sets the application environment. Validates if it's a string.
-
-```typescript
-error.setEnvironment('production');
-```
-
-### UserInfoEnhancer
-
-This class adds user-related context information to errors.
-
-#### Properties
-
-- `_user`: User ID or username related to the error (String)
-- `_sessionId`: User session ID (String)
-- `_roles`: User roles or permissions (Array)
-- `_authToken`: Authentication token (String)
-- `_ipAddress`: IP Address (String)
-- `_userAgent`: Browser and OS details (String)
-- `_actionHistory`: Previous user actions (Array)
-
-#### Methods
-
-##### `setUser(user: string)`
-
-Sets the user ID or username. Validates if it's a string.
-
-```typescript
-error.setUser('JohnDoe');
-```
-
-##### `setSessionId(sessionId: string)`
-
-Sets the user session ID. Validates if it's a string.
-
-```typescript
-error.setSessionId('sess_12345');
-```
-
-##### `setRoles(roles: string[])`
-
-Sets the user roles. Expects an array of strings.
-
-```typescript
-error.setRoles(['admin', 'user']);
-```
-
-##### `setAuthToken(token: string)`
-
-Sets the authentication token. Validates if it's a string.
-
-```typescript
-error.setAuthToken('some-token');
-```
-
-### HttpStatusEnhancer
-
-This class adds HTTP-specific context information to errors.
-
-#### Properties
-
-- `_httpStatusCode`: HTTP status code (Enum)
-- `_url`: URL (String)
-- `_httpMethod`: HTTP Method (Enum)
-- `_requestHeaders`: Request headers (Object)
-- `_responseHeaders`: Response headers (Object)
-- `_queryParams`: Query parameters (Object)
-- `_requestBody`: Request body (Any)
-- `_responseBody`: Response body (Any)
-- `_clientIp`: Client IP address (String)
-- `_latency`: Latency in milliseconds (Number)
-
-#### Methods
-
-##### `setHttpStatusCode(code: HttpStatusCodes)`
-
-Sets the HTTP status code. Validates against the `HttpStatusCodes` enum.
-
-```typescript
-error.setHttpStatusCode(HttpStatusCodes.FORBIDDEN);
-```
-
-##### `setUrl(url: string)`
-
-Sets the URL. Validates if it's a valid URL.
-
-```typescript
-error.setUrl('https://example.com');
-```
-
-##### `setHttpMethod(method: HttpMethods)`
-
-Sets the HTTP method. Validates against the `HttpMethods` enum.
-
-```typescript
-error.setHttpMethod(HttpMethods.GET);
-```
-
-##### `setRequestHeaders(headers: Object)`
-
-Sets the request headers. Validates if keys are non-empty strings.
-
-```typescript
-error.setRequestHeaders({'Content-Type': 'application/json'});
-```
-
-##### `setResponseHeaders(headers: Object)`
-
-Sets the response headers. Validates if keys are non-empty strings.
-
-```typescript
-error.setResponseHeaders({'Content-Type': 'application/json'});
-```
-
-### ErrorAnalysisEnhancer
-
-This class provides an extra layer of detailed error analysis to your error objects. It extracts information like the originating file, line number, column number, function name, type name, and method name where the error occurred. This can be especially useful for debugging and logging purposes.
-
-#### Properties
-
-- `_originalError`: The original Error object or `null`.
-- `_fileInfo`: The file where the error originated.
-- `_lineNumber`: The line number in the file where the error originated.
-- `_columnNumber`: The column number in the file where the error originated.
-- `_functionName`: The function name where the error originated.
-- `_typeName`: The type name (if applicable) where the error originated.
-- `_methodName`: The method name where the error originated.
-- `_fullStack`: The full stack trace of the original error.
-
-#### Methods
-
-##### `setOriginalError(originalError: Error)`
-
-Sets the original error object and triggers the extraction of additional error details.
-
-```typescript
-const error = new ErrorEnhanced();
-error.setOriginalError(new Error('Something went wrong'));
-```
-
-##### `extractErrorInfo()`
-
-Private method to extract detailed error information from the original error's stack trace. This method is automatically called when setting the original error using `setOriginalError`.
-
-##### `findFirstRelevantStack(stackList: string[])`
-
-Private method to find the first relevant stack trace entry that can be used to extract detailed error information.
-
-##### Getters
-
-The following getter methods are available to retrieve the extracted error details:
-
-- `fileInfo`: Gets the file information where the error originated.
-- `lineNumber`: Gets the line number where the error originated.
-- `columnNumber`: Gets the column number where the error originated.
-- `functionName`: Gets the function name where the error originated.
-- `typeName`: Gets the type name where the error originated.
-- `methodName`: Gets the method name where the error originated.
-- `fullStack`: Gets the full stack trace of the original error.
-
-#### Example Usage
-
-Here is how to use `ErrorAnalysisEnhanced` in your code:
-
-```typescript
-const error = new ErrorEnhanced();
-error.setOriginalError(new Error('Something bad happened'));
-
-console.log('File:', error.fileInfo);
-console.log('Line:', error.lineNumber);
-console.log('Column:', error.columnNumber);
-console.log('Function:', error.functionName);
-console.log('Type:', error.typeName);
-console.log('Method:', error.methodName);
-console.log('Full Stack:', error.fullStack);
-```
+| Enhancer                                    | Description                                                                                     |
+|:-------------------------------------------:|-------------------------------------------------------------------------------------------------|
+| [IdentifiersEnhancer](https://github.com/labrynx/error-enhanced/wiki/Enhancer:-IdentifiersEnhancer) | Enriches error objects with unique identifiers and other contextual information.                |
+| [SystemContextEnhancer](https://github.com/labrynx/error-enhanced/wiki/Enhancer:-SystemContextEnhancer) | Adds system-level context to error objects.                                                      |
+| [UserInfoEnhancer](https://github.com/labrynx/error-enhanced/wiki/Enhancer:-UserInfoEnhancer)       | Includes user-related information in error objects.                                              |
+| [HttpStatusEnhancer](https://github.com/labrynx/error-enhanced/wiki/Enhancer:-HttpStatusEnhancer)   | Incorporates HTTP request-related details to error objects.                                      |
+| [ErrorAnalysisEnhancer](https://github.com/labrynx/error-enhanced/wiki/Enhancer:-ErrorAnalysisEnhancer) | Offers a detailed analysis of error origins, like file, line, and column.                        |
 
 [Back to top](#top)
 
@@ -358,29 +78,23 @@ console.log('Full Stack:', error.fullStack);
 
 Utilities provide additional functionalities:
 
-- [FilterUtility](#filterutility): Filters unused properties.
-- [SerializersUtility](#serializersutility): Serializes object to JSON, CSV, XML and YAML.
+| Utility                                     | Description                                                                                     |
+|:-------------------------------------------:|-------------------------------------------------------------------------------------------------|
+| [FilterUtility](https://github.com/labrynx/error-enhanced/wiki/Utility:-FilterUtility)             | Filters out unused properties from the error object.                                             |
+| [SerializersUtility](https://github.com/labrynx/error-enhanced/wiki/Utility:-SerializersUtility)   | Provides methods to serialize error objects into various formats such as JSON, CSV, XML, and YAML.|
 
-### FilterUtility
+---
 
-- Utility to filter out unused properties.
+## Enums
 
-- **Methods:**
-  - `filterUnused()`: Removes all properties that are null, undefined, or empty.
+Enums in the `error-enhanced`` library offer a set of named constants that help standardize the categorization and handling of errors across your application. These include predefined constants for HTTP status codes, severity levels, categories, and HTTP methods. By using these enums, you ensure consistency and readability, making the error objects easier to interpret and manage.
 
-### SerializersUtility
-
-- Utility to serialize the object into a JSON, CSV, XML and YAML string.
-
-- **Methods:**
-  - `toJSON()`: Serializes the object to a JSON string.
-  - `toCSV()`: Serializes the object to a CSV string.
-  - `toXML()`: Serializes the object to a XML string.
-  - `toYAML()`: Serializes the object to a YAML string.
-
-> Note: If used combined FilterHelper and Serializers it filters out properties that are null, undefined, or empty and serializes to a new object.
-
-[Back to top](#top)
+| Enum                                                                 | Description                                                                                                                                                 |
+|:--------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Category](https://github.com/labrynx/error-enhanced/wiki/Enum:-Category)          | Enumerates different categories to which an error can belong. These categories help in sorting and managing errors more effectively. Examples include "NETWORK", "DATABASE", etc. |
+| [SeverityLevel](https://github.com/labrynx/error-enhanced/wiki/Enum:-SeverityLevel) | Specifies the severity of an error. It has levels like "LOW", "MEDIUM", "HIGH", and "CRITICAL", which help in understanding the urgency of an error and the kind of attention it demands. |
+| [HttpMethods](https://github.com/labrynx/error-enhanced/wiki/Enum:-HttpMethods)     | Lists the HTTP methods such as "GET", "POST", "PUT", etc. Useful for defining and checking the HTTP method used in API calls.                                 |
+| [HttpStatusCodes](https://github.com/labrynx/error-enhanced/wiki/Enum:-HttpStatusCodes) | Enumerates various HTTP status codes, categorized as "1XX", "2XX", "3XX", "4XX", and "5XX". This helps in setting or identifying the HTTP response status. |
 
 ---
 
