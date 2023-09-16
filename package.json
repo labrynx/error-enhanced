@@ -69,6 +69,7 @@
     "filtering"
   ],
   "dependencies": {
+    "error-stack-parser": "^2.1.4",
     "js-yaml": "^4.1.0",
     "json-stringify-safe": "^5.0.1",
     "papaparse": "^5.4.1",
