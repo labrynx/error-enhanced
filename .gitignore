@@ -131,8 +131,8 @@ dist
 .pnp.*
 
 # Other files
-tests
+.npmrc
+tsconfig.json
 npm-shrinkwrap.json
 tests/
-tsconfig.json
-.npmrc
+jest.config.ts
