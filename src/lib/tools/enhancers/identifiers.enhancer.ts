@@ -22,12 +22,13 @@ import { Identifiers } from '../interfaces/identifiers.interface';
  * const error = new IdentifiersEnhancer(404);
  * error.setErrorCode(500).setSeverity(SeverityLevel.HIGH);
  */
-export class IdentifiersEnhancer implements Identifiers{
+export class IdentifiersEnhancer implements Identifiers {
   private readonly _id: string = ''; // Unique identifier for the error
   private _errorCode: number = -1; // Custom error code, can be any type
   private _errorCodePrefix: string = ''; // Prefix for Error Code
   private _errorDescription: string = ''; // Description for Error Code
   private readonly _timestamp: number = -1; // Unix timestamp when the error was created
+  private readonly _highPrecisionTimestamp: bigint; // Stores the high-precision timestamp of when the error object was created.
   private _severity: string = ''; // Severity level of the error
   private _category: string = ''; // Category to which the error belongs
 
@@ -45,6 +46,7 @@ export class IdentifiersEnhancer implements Identifiers{
   constructor() {
     this._id = this._generateId(); // Generate a unique ID
     this._timestamp = Date.now(); // Record the current time
+    this._highPrecisionTimestamp = process.hrtime.bigint(); // Capture the current time using Node.js's process.hrtime.bigint() function.
     this._severity = SeverityLevel.MEDIUM; // Default severity level
     this._category = Category.UNKNOWN; // Default category
   }
@@ -80,13 +82,12 @@ export class IdentifiersEnhancer implements Identifiers{
 
   /**
    * Gets the full error code including the prefix.
-   * @returns {string} - Full error code.
+   * @returns {number} - Full error code.
    * @example
    * const code = error.errorCode;  // Output example: "ERR400"
    */
-  public get errorCode(): string {
-    const fullErrorCode = `${this._errorCodePrefix}${this._errorCode}`;
-    return fullErrorCode;
+  public get errorCode(): number {
+    return this._errorCode;
   }
 
   /**
@@ -150,6 +151,17 @@ export class IdentifiersEnhancer implements Identifiers{
    */
   public get timestamp(): number {
     return this._timestamp;
+  }
+
+  /**
+   * Gets the high-precision Unix timestamp of when the error object was created.
+   * The timestamp is represented as a bigint.
+   * @returns {string} - High-precision Unix timestamp as a string.
+   * @example
+   * const time = error.highPrecisionTimestamp;  // Output example: "1631232059000000000"
+   */
+  public get highPrecisionTimestamp(): string {
+    return this._highPrecisionTimestamp.toString();
   }
 
   /**

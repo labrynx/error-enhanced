@@ -1,9 +1,10 @@
 export interface Identifiers {
   readonly id: string;
-  readonly errorCode: string;
+  readonly errorCode: number;
   readonly errorCodePrefix: string;
   readonly errorDescription: string;
   readonly timestamp: number;
+  readonly highPrecisionTimestamp: string;
   readonly severity: string;
   readonly category: string;
 

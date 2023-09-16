@@ -79,6 +79,8 @@ This class enriches errors with unique identifiers, error codes, and more.
 - `_errorCodePrefix`: Prefix for error code (String)
 - `_errorDescription`: Description for error code (String)
 - `_timestamp`: Unix timestamp when the error was created (Number) - Automatically generated
+- `_highPrecisionTimestamp`: Stores the high-precision timestamp (nanoseconds) of when the error object was created.
+ (String) - Automatically generated
 - `_severity`: Severity level of the error (Enum)
 - `_category`: Category to which the error belongs (Enum)
 
@@ -546,7 +548,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 Please make sure to update tests as appropriate.
 
-For guidelines on how to contribute to this project, please see [CONTRIBUTING.md](CONTRIBUTING.md).
+For guidelines on how to contribute to this project, please see [CONTRIBUTING.md](docs/CONTRIBUTING.md).
 
 [Back to top](#top)
 
@@ -554,6 +556,6 @@ For guidelines on how to contribute to this project, please see [CONTRIBUTING.md
 
 ## Changelog
 
-For a detailed list of changes, please refer to the [CHANGELOG.md](CHANGELOG.md).
+For a detailed list of changes, please refer to the [CHANGELOG.md](docs/CHANGELOG.md).
 
 [Back to top](#top)
