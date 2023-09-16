@@ -30,7 +30,7 @@ export class SerializersUtility implements Serializers {
   toJSON(replacer?: (key: string, value: any) => any): string {
     try {
       // Initialize object with 'this'
-      const obj = this.applyObjectFilter();
+      const obj = this._applyObjectFilter();
 
       // Create a plain object to store the keys and values
       const plainObj: Record<string, any> = {};
@@ -57,7 +57,7 @@ export class SerializersUtility implements Serializers {
           }),
       );
     } catch (e) {
-      this.handleSerializationError(e as Error, 'JSON');
+      this._handleSerializationError(e as Error, 'JSON');
       return '';
     }
   }
@@ -73,7 +73,7 @@ export class SerializersUtility implements Serializers {
    */
   toXML(): string {
     try {
-      const obj = this.applyObjectFilter();
+      const obj = this._applyObjectFilter();
 
       const xml = create((this as any).name, {
         version: '1.0',
@@ -81,30 +81,12 @@ export class SerializersUtility implements Serializers {
       });
 
       Object.keys(obj).forEach(key => {
-        const value = obj[key];
-        if (key === '_fullStack' && Array.isArray(value)) {
-          // Handle _fullStack specially
-          const stackContainer = xml.ele('_fullStack');
-          value.forEach((item, index) => {
-            // Using nested elements with index as an attribute and CDATA section
-            const frame = stackContainer.ele('stackFrame', { index: index });
-            frame.dat(item); // CDATA section
-          });
-        } else if (Array.isArray(value)) {
-          // Generic handling for other arrays
-          const arrayElement = xml.ele(key);
-          value.forEach((item, index) => {
-            arrayElement.ele(`item_${index}`, {}, item);
-          });
-        } else {
-          // Standard handling for non-array elements
-          xml.ele(key, {}, value);
-        }
+        this._serializeToXmlElement(xml, key, obj[key]);
       });
 
       return xml.end({ pretty: true });
     } catch (e) {
-      this.handleSerializationError(e as Error, 'XML');
+      this._handleSerializationError(e as Error, 'XML');
       return '';
     }
   }
@@ -124,7 +106,7 @@ export class SerializersUtility implements Serializers {
   toCSV(delimiter: string = ',', quotes: boolean = true): string {
     try {
       // Initialize with 'this' object for serialization
-      const obj = this.applyObjectFilter();
+      const obj = this._applyObjectFilter();
 
       // Configure Papaparse settings
       const config: UnparseConfig = {
@@ -136,7 +118,20 @@ export class SerializersUtility implements Serializers {
       };
 
       // Put the object inside an array as Papaparse expects an array of objects
-      const dataArray = [obj];
+      const dataArray = [obj].map(record => {
+        const flatRecord: Record<string, any> = {};
+        Object.keys(record).forEach(key => {
+          const value = (record as any)[key];
+          if (value instanceof Error) {
+            flatRecord[key] = JSON.stringify(this._flattenErrorObject(value));
+          } else if (typeof value === 'object') {
+            flatRecord[key] = JSON.stringify(value);
+          } else {
+            flatRecord[key] = value;
+          }
+        });
+        return flatRecord;
+      });
 
       // Perform the actual serialization
       const csv = unparse(dataArray, config);
@@ -144,7 +139,7 @@ export class SerializersUtility implements Serializers {
       // Return the generated CSV string
       return csv;
     } catch (e) {
-      this.handleSerializationError(e as Error, 'CSV');
+      this._handleSerializationError(e as Error, 'CSV');
       return '';
     }
   }
@@ -160,13 +155,14 @@ export class SerializersUtility implements Serializers {
    */
   toYAML(): string {
     try {
-      const filteredObj = this.applyObjectFilter();
+      const filteredObj = this._applyObjectFilter();
       const objForYaml: Record<string, any> = {};
 
-      // Convertir BigInt a String antes de serializar
       Object.keys(filteredObj).forEach(key => {
         const value = (filteredObj as any)[key];
-        if (typeof value === 'bigint') {
+        if (value instanceof Error) {
+          objForYaml[key] = this._flattenErrorObject(value);
+        } else if (typeof value === 'bigint') {
           objForYaml[key] = value.toString();
         } else {
           objForYaml[key] = value;
@@ -175,23 +171,49 @@ export class SerializersUtility implements Serializers {
 
       return dump(objForYaml);
     } catch (e) {
-      this.handleSerializationError(e as Error, 'YAML');
+      this._handleSerializationError(e as Error, 'YAML');
       return '';
     }
   }
 
-  private applyObjectFilter(): any {
+  private _applyObjectFilter(): any {
     if ('applyFilter' in this && typeof this['applyFilter'] === 'function') {
       return this['applyFilter']();
     }
     return this;
   }
 
-  private handleSerializationError(e: Error, format: string) {
+  private _handleSerializationError(e: Error, format: string) {
     const errorMsg = `Failed to serialize to ${format}: ${
       e.message || 'Unknown error'
     }`;
     console.error(errorMsg);
     throw new Error(errorMsg);
+  }
+
+  private _serializeToXmlElement(xml: any, key: string, value: any) {
+    if (value instanceof Error) {
+      const errorElement = xml.ele(key);
+      const flatError = this._flattenErrorObject(value);
+      Object.keys(flatError).forEach(subKey => {
+        this._serializeToXmlElement(errorElement, subKey, flatError[subKey]);
+      });
+    } else if (Array.isArray(value)) {
+      // ... (tu código actual)
+    } else if (typeof value === 'object') {
+      // ... (tu código actual)
+    } else {
+      xml.ele(key, {}, value);
+    }
+  }
+
+  private _flattenErrorObject(error: Error): Record<string, any> {
+    const plainObject: Record<string, any> = {};
+
+    Object.getOwnPropertyNames(error).forEach(key => {
+      plainObject[key] = (error as any)[key];
+    });
+
+    return plainObject;
   }
 }

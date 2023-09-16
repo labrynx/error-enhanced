@@ -22,6 +22,7 @@ export class FilterUtility implements Filter {
   private static readonly _preservedProps: Set<string> = new Set([
     'name',
     'message',
+    '_originalError',
   ]);
 
   /**
