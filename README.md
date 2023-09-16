@@ -1,8 +1,16 @@
 # `error-enhanced` - Enhanced Error Handling with `ts-mixer`
 
 ## Table of Contents 
-[Overview](#overview) | [Installation](#installation) | [Features](#features) | [Classes](#classes) | [Helpers](#helpers) | [Example Usage](#example-usage) | [Full Example](#full-example) | [Contributing](#contributing) | [Changelog](#changelog) 
+[Overview](#overview) | [Installation](#installation) | [Features](#features) | [Enhancers](#enhancers) | [Utilities](#utilities) | [Example Usage](#example-usage) | [Full Example](#full-example) | [Contributing](#contributing) | [Changelog](#changelog) 
 
+### Enhancers
+
+[IdentifiersEnhancer](#identifiersenhancer) | [SystemContextEnhancer](#systemcontextenhancer) | [UserInfoEnhancer](#userinfoenhancer) | [HttpStatusEnhancer](#httpstatusenhancer) | [ErrorAnalysisEnhancer](#erroranalysisenhancer)
+
+### Utilities
+
+[FilterUtility](#filterutility) | [SerializersUtility](#serializersutility)
+ 
 ## Overview
 
 This TypeScript library supercharges error management in Node.js applications, offering an out-of-the-box, customizable solution that goes beyond stack traces. By leveraging the power of [ts-mixer](https://github.com/tannerntannern/ts-mixer), the library introduces a modular architecture that allows you to enrich error objects with a plethora of contextual information and metadata. Whether you're capturing system-level details, user interactions, or HTTP statuses, this library provides a holistic view of errors, facilitating debugging, logging, and ultimately, enhancing the robustness of your application.
@@ -45,11 +53,11 @@ For more details, visit tannerntannern's [ts-mixer](https://github.com/tannernta
 - Unused properties filtering to optimize the error object.
 - Multiple serialization formats for easy error object storage or sending to external services.
 
-> **Note**: Each feature is discussed in detail in the [Classes](#classes) and [Helpers](#helpers) sections.
+> **Note**: Each feature is discussed in detail in the [Enhancers](#enhancers) and [Helpers](#helpers) sections.
 
 ---
 
-## Classes
+## Enhancers
 
 ### IdentifiersEnhancer
 
@@ -268,18 +276,81 @@ Sets the response headers. Validates if keys are non-empty strings.
 error.setResponseHeaders({'Content-Type': 'application/json'});
 ```
 
+### ErrorAnalysisEnhancer
+
+This class provides an extra layer of detailed error analysis to your error objects. It extracts information like the originating file, line number, column number, function name, type name, and method name where the error occurred. This can be especially useful for debugging and logging purposes.
+
+#### Properties
+
+- `_originalError`: The original Error object or `null`.
+- `_fileInfo`: The file where the error originated.
+- `_lineNumber`: The line number in the file where the error originated.
+- `_columnNumber`: The column number in the file where the error originated.
+- `_functionName`: The function name where the error originated.
+- `_typeName`: The type name (if applicable) where the error originated.
+- `_methodName`: The method name where the error originated.
+- `_fullStack`: The full stack trace of the original error.
+
+#### Methods
+
+##### `setOriginalError(originalError: Error)`
+
+Sets the original error object and triggers the extraction of additional error details.
+
+```typescript
+const error = new ErrorEnhanced();
+error.setOriginalError(new Error('Something went wrong'));
+```
+
+##### `extractErrorInfo()`
+
+Private method to extract detailed error information from the original error's stack trace. This method is automatically called when setting the original error using `setOriginalError`.
+
+##### `findFirstRelevantStack(stackList: string[])`
+
+Private method to find the first relevant stack trace entry that can be used to extract detailed error information.
+
+##### Getters
+
+The following getter methods are available to retrieve the extracted error details:
+
+- `fileInfo`: Gets the file information where the error originated.
+- `lineNumber`: Gets the line number where the error originated.
+- `columnNumber`: Gets the column number where the error originated.
+- `functionName`: Gets the function name where the error originated.
+- `typeName`: Gets the type name where the error originated.
+- `methodName`: Gets the method name where the error originated.
+- `fullStack`: Gets the full stack trace of the original error.
+
+#### Example Usage
+
+Here is how to use `ErrorAnalysisEnhanced` in your code:
+
+```typescript
+const error = new ErrorEnhanced();
+error.setOriginalError(new Error('Something bad happened'));
+
+console.log('File:', error.fileInfo);
+console.log('Line:', error.lineNumber);
+console.log('Column:', error.columnNumber);
+console.log('Function:', error.functionName);
+console.log('Type:', error.typeName);
+console.log('Method:', error.methodName);
+console.log('Full Stack:', error.fullStack);
+```
+
 ---
 
-## Helpers
+## Utilities
 
-### FilterHelper
+### FilterUtility
 
 - Utility to filter out unused properties.
 
 - **Methods:**
   - `filterUnused()`: Removes all properties that are null, undefined, or empty.
 
-### Serializers
+### SerializersUtility
 
 - Utility to serialize the object into a JSON, CSV, XML and YAML string.
 
