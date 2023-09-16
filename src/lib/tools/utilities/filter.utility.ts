@@ -19,7 +19,7 @@ export class FilterUtility implements Filter {
    * @type {Set<string>}
    * A set of properties that should never be deleted.
    */
-  private static readonly preservedProps: Set<string> = new Set([
+  private static readonly _preservedProps: Set<string> = new Set([
     'name',
     'message',
   ]);
@@ -40,13 +40,13 @@ export class FilterUtility implements Filter {
 
     allProps.forEach(key => {
       // Ignore properties that should be preserved.
-      if (!FilterUtility.preservedProps.has(key)) {
+      if (!FilterUtility._preservedProps.has(key)) {
         const descriptor = Object.getOwnPropertyDescriptor(this, key);
         if (descriptor) {
           // Check if the property is a "value" (and not a getter/setter).
           if ('value' in descriptor) {
             // If the property value is considered "unused", we skip it.
-            if (this.isUnused(descriptor.value)) {
+            if (this._isUnused(descriptor.value)) {
               return;
             }
           }
@@ -72,7 +72,7 @@ export class FilterUtility implements Filter {
    *
    * Helper method to validate empty or unused values.
    */
-  private isUnused(value: unknown): boolean {
+  private _isUnused(value: unknown): boolean {
     if (typeof value === 'function') {
       return false;
     }
@@ -82,15 +82,15 @@ export class FilterUtility implements Filter {
       value === undefined ||
       value === '' ||
       value === -1 ||
-      (Array.isArray(value) && this.isEmptyArray(value)) ||
-      (this.isPlainObject(value) && this.isEmptyObject(value))
+      (Array.isArray(value) && this._isEmptyArray(value)) ||
+      (this._isPlainObject(value) && this._isEmptyObject(value))
     );
   }
 
   /**
    * Helper method to check if an object is empty.
    */
-  private isEmptyObject(obj: unknown): obj is Record<string, unknown> {
+  private _isEmptyObject(obj: unknown): obj is Record<string, unknown> {
     return (
       typeof obj === 'object' && obj !== null && Object.keys(obj).length === 0
     );
@@ -103,7 +103,7 @@ export class FilterUtility implements Filter {
    *
    * Helper method to check if an array is empty.
    */
-  private isEmptyArray(arr: unknown): arr is unknown[] {
+  private _isEmptyArray(arr: unknown): arr is unknown[] {
     return Array.isArray(arr) && arr.length === 0;
   }
 
@@ -114,7 +114,7 @@ export class FilterUtility implements Filter {
    *
    * Helper method to check if an object is empty.
    */
-  private isPlainObject(obj: unknown): obj is Record<string, unknown> {
+  private _isPlainObject(obj: unknown): obj is Record<string, unknown> {
     return (
       typeof obj === 'object' &&
       obj !== null &&
