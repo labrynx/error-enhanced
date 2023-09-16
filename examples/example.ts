@@ -61,11 +61,14 @@ error
   .setUrl('https://api.example.com/user')
   .setHttpMethod(HttpMethods.GET);
 
+// Sanitize unused variables
+const filteredError = error.filterUnused();
+
 // Serialize the error object into various formats after filtering unused properties
-const serializedErrorJSON = error.filterUnused().toJSON();
-const serializedErrorCSV = error.filterUnused().toCSV();
-const serializedErrorXML = error.filterUnused().toXML();
-const serializedErrorYAML = error.filterUnused().toYAML();
+const serializedErrorJSON = filteredError.toJSON();
+const serializedErrorCSV = filteredError.toCSV();
+const serializedErrorXML = filteredError.toXML();
+const serializedErrorYAML = filteredError.toYAML();
 
 // Log the serialized errors
 console.log('\n---\nJSON export: ');
