@@ -7,7 +7,7 @@ import {
   SerializersUtility,
   FilterUtility,
   UserInfoEnhancer,
-  ErrorAnalysisEnhanced,
+  ErrorAnalysisEnhancer,
 } from '../src/';
 
 // Define the main ErrorEnhanced class by mixing in additional classes
@@ -19,7 +19,7 @@ class ErrorEnhanced extends Mixin(
   SystemContextEnhancer,
   UserInfoEnhancer,
   FilterUtility,
-  ErrorAnalysisEnhanced,
+  ErrorAnalysisEnhancer,
   SerializersUtility,
 ) {
   constructor() {
