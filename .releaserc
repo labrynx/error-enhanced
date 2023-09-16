@@ -69,7 +69,12 @@
         "changelogFile": "docs/CHANGELOG.md"
       }
     ],
-    "@semantic-release/npm",
+    [
+      "@semantic-release/npm",
+      {
+        "pkgRoot": "./dist"
+      }
+    ],
     [
       "@semantic-release/git",
       {
@@ -77,8 +82,10 @@
           "docs/CHANGELOG.md",
           "docs/CONTRIBUTING.md",
           "package.json",
-          "npm-shrinkwrap.json"
-        ]
+          "npm-shrinkwrap.json",
+          "dist/**/*.{js}"
+        ],
+        "message": "chore: Release ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
     ]
   ]
