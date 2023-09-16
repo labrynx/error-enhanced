@@ -1,3 +1,5 @@
+import { Filter } from '../interfaces/filter.interface';
+
 /**
  * @class FilterUtility
  *
@@ -11,7 +13,7 @@
  * const filteredError = error.filterUnused();
  * // Now, filteredError only contains 'someOtherField' and other useful properties.
  */
-export class FilterUtility {
+export class FilterUtility implements Filter {
   /**
    * @static
    * @type {Set<string>}
@@ -30,14 +32,32 @@ export class FilterUtility {
    * except for properties listed in 'preservedProps'.
    */
   public filterUnused(): this {
+    // Create a new object with the same prototype as 'this'.
     const newObj = Object.create(Object.getPrototypeOf(this));
-    Object.assign(newObj, this);
 
-    Object.keys(newObj).forEach(key => {
+    // Get all the own properties of the object (this will include methods).
+    const allProps = Object.getOwnPropertyNames(this);
+
+    allProps.forEach(key => {
+      // Ignore properties that should be preserved.
       if (!FilterUtility.preservedProps.has(key)) {
-        const value = newObj[key];
-        if (this.isUnused(value)) {
-          delete newObj[key];
+        const descriptor = Object.getOwnPropertyDescriptor(this, key);
+        if (descriptor) {
+          // Check if the property is a "value" (and not a getter/setter).
+          if ('value' in descriptor) {
+            // If the property value is considered "unused", we skip it.
+            if (this.isUnused(descriptor.value)) {
+              return;
+            }
+          }
+          // If we get here, we copy the property to the new object.
+          Object.defineProperty(newObj, key, descriptor);
+        }
+      } else {
+        // If the property should be preserved, we copy it no matter its value.
+        const descriptor = Object.getOwnPropertyDescriptor(this, key);
+        if (descriptor) {
+          Object.defineProperty(newObj, key, descriptor);
         }
       }
     });
@@ -53,6 +73,10 @@ export class FilterUtility {
    * Helper method to validate empty or unused values.
    */
   private isUnused(value: unknown): boolean {
+    if (typeof value === 'function') {
+      return false;
+    }
+
     return (
       value === null ||
       value === undefined ||

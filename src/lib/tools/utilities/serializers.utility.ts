@@ -2,6 +2,7 @@ import stringifySafe from 'json-stringify-safe';
 import { create } from 'xmlbuilder';
 import { unparse, UnparseConfig } from 'papaparse';
 import { dump } from 'js-yaml';
+import { Serializers } from '../interfaces/serializers.interface';
 
 /**
  * @class Serializers
@@ -15,7 +16,7 @@ import { dump } from 'js-yaml';
  * const xmlString = serializer.toXML();
  * const yamlString = serializer.toYAML();
  */
-export class SerializersUtility {
+export class SerializersUtility implements Serializers {
   /**
    * toJSON
    *

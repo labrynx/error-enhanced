@@ -2,26 +2,24 @@
  * @file index.ts
  *
  * @overview
- * Entry point for the `error-enhanced` library. This file serves as a centralized
- * hub that re-exports all the essential modules, classes, and functionalities related to
- * enriched error handling in Node.js applications.
+ * This file acts as the primary entry point for the `error-enhanced` library. It serves as a hub
+ * that re-exports all the core modules, classes, and utilities to provide enriched error-handling
+ * functionalities for Node.js applications.
  *
  * @description
- * The `error-enhanced` library aims to provide a robust, extensible, and comprehensive
- * error-handling mechanism. By re-exporting all the key features from this entry point,
- * it simplifies the import process and usage of the library, making it easier for developers
- * to integrate enriched error-handling capabilities in their applications.
+ * The `error-enhanced` library aims to offer a comprehensive error-handling mechanism that is
+ * robust, extensible, and developer-friendly. By consolidating all key features and re-exporting
+ * them from this entry point, the library simplifies the import process and facilitates easy
+ * integration into various types of applications.
  *
  * @module error-enhanced
  *
  * @author alessbarb
  * @version 1.0.0
- *
- * @see {@link https://github.com/labrynx/error-enhanced Here} for the GitHub repository,
- * project details, and complete documentation.
+ * @see {@link https://github.com/labrynx/error-enhanced GitHub Repository} for complete project details and documentation.
  *
  * @example
- * // Import required modules and classes
+ * // Import necessary modules and classes
  * import { Mixin } from 'ts-mixer';
  * import {
  *   IdentifiersEnhancer,
@@ -29,8 +27,7 @@
  *   ErrorAnalysisEnhanced,
  * } from 'error-enhanced';
  *
- * // Define the main ErrorEnhanced class by mixing in additional classes
- * // to enrich it with various functionalities.
+ * // Create the main ErrorEnhanced class by mixing additional functionalities into it.
  * class ErrorEnhanced extends Mixin(
  *   Error, // Base class must be Error
  *   IdentifiersEnhancer,
@@ -38,46 +35,62 @@
  *   SerializersUtility,
  * ) {
  *   constructor() {
- *     super(); // Call the base constructor
+ *     super();
  *     Object.setPrototypeOf(this, ErrorEnhanced.prototype);
  *   }
  * }
  *
- * // Create an instance of ErrorEnhanced
+ * // Instantiate ErrorEnhanced and populate it with data
  * const error = new ErrorEnhanced();
- *
- * // Basic error information
  * error.name = 'UserNotAuthorizedError';
  * error.message = 'User is not authorized';
  *
- * // Setting Severity and Category
- * error
- *   .setSeverity(ErrorEnhanced.SeverityLevel.HIGH)
- *   .setCategory(ErrorEnhanced.Category.NETWORK);
+ * // Apply severity and category
+ * error.setSeverity(ErrorEnhanced.SeverityLevel.HIGH)
+ *      .setCategory(ErrorEnhanced.Category.NETWORK);
  *
- * // Serialize the error object into various formats after filtering unused properties
+ * // Serialize the error object after filtering out unused properties
  * const serializedErrorJSON = error.filterUnused().toJSON();
  *
- * // Log the serialized errors
+ * // Log the serialized error
  * console.log(serializedErrorJSON);
  *
  * @exports
- * All essential classes, utilities, and enums for enriched error handling.
+ * The library exports all crucial classes, utilities, and enums required for enriched error handling.
  *
  * @requires
- * Node.js and TypeScript environment.
+ * Node.js >= 14.x and TypeScript >= 4.x are required to use this library.
  *
  * @license
- * MIT
+ * Licensed under the MIT License.
  */
 
+// Core Export for Enriched Error Handling
 // ============================================================================
-// Re-export Essential Tools for Enriched Error Handling
-// ============================================================================
-
 /**
- * Re-exports all modules, classes, and functionalities related to enriched error handling
- * from the `./lib/tools` directory. This enables streamlined imports from the library's root,
- * making it easier for developers to leverage the library's extensive error-handling features.
+ * Exports the primary core functionalities.
+ */
+export * from './lib/error-enhanced';
+
+// Essential Tools Re-export for Enriched Error Handling
+// ============================================================================
+/**
+ * Re-exports all modules, classes, and utilities associated with enriched error handling from
+ * the `./lib/tools` directory. This makes it convenient for developers to import all the error-handling
+ * features directly from the library root.
  */
 export * from './lib/tools';
+
+// Helpers for Enriched Error Handling
+// ============================================================================
+import { SeverityLevel } from './lib/enums/severity.enum';
+export { SeverityLevel };
+
+import { Category } from './lib/enums/category.enum';
+export { Category };
+
+import { HttpMethods } from './lib/enums/http-methods.enum';
+export { HttpMethods };
+
+import { HttpStatusCodes } from './lib/enums/http-status-codes.enum';
+export { HttpStatusCodes };

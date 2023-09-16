@@ -21,7 +21,7 @@
  * - https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
  * - https://www.restapitutorial.com/httpstatuscodes.html
  */
-export enum HttpStatusCodes {
+export enum HttpStatusCodesEnum {
   // 1XX - HTTP - Informational Response
   CONTINUE = 100, // The client should continue with its request
   SWITCHING_PROTOCOLS = 101, // Server switching protocols as requested
@@ -96,3 +96,5 @@ export enum HttpStatusCodes {
   NETWORK_READ_TIMEOUT_ERROR = 598, // Indicates that the server timed out while waiting for the client to send a request.
   NETWORK_CONNECT_TIMEOUT_ERROR = 599, // Indicates that the server timed out while trying to establish a connection or the client timed out while waiting for a server response.
 }
+
+export const HttpStatusCodes = HttpStatusCodesEnum;

@@ -8,6 +8,7 @@ import {
 } from '../../validators/validators';
 import { HttpStatusCodes } from '../../enums/http-status-codes.enum';
 import { HttpMethods } from '../../enums/http-methods.enum';
+import { HttpStatus } from '../interfaces/http-status.interface';
 
 /**
  * @class HttpStatusEnhancer
@@ -19,7 +20,7 @@ import { HttpMethods } from '../../enums/http-methods.enum';
  * const httpStatus = new HttpStatusEnhancer(HttpStatusCodes.OK);
  * httpStatus.setUrl("https://example.com").setLatency(120);
  */
-export class HttpStatusEnhancer {
+export class HttpStatusEnhancer implements HttpStatus {
   private _httpStatusCode: number = -1; // HTTP Status Code
   private _url: string = ''; // The URL where the error occurred.
   private _httpMethod: string = ''; // The HTTP method (GET, POST, etc.) for the request that caused the error.
@@ -41,9 +42,7 @@ export class HttpStatusEnhancer {
    *
    * @param httpStatusCode - The initial HTTP status code for the error object.
    */
-  constructor(httpStatusCode: number) {
-    this._httpStatusCode = httpStatusCode;
-  }
+  constructor() {}
 
   /**
    * httpStatusCode

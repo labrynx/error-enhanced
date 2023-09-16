@@ -1,4 +1,5 @@
 import { ValidString } from '../../validators/validators';
+import { UserInfo } from '../interfaces/user-info.interface';
 
 /**
  * @class UserInfoEnhancer
@@ -10,7 +11,7 @@ import { ValidString } from '../../validators/validators';
  * const errorInfo = new UserInfoEnhancer();
  * errorInfo.setUser("JohnDoe").setRoles(["admin", "user"]);
  */
-export class UserInfoEnhancer {
+export class UserInfoEnhancer implements UserInfo {
   private _user: string = ''; // User ID or username related to the error
   private _sessionId: string = ''; // User session ID
   private _roles: string[] = []; // User roles or permissions

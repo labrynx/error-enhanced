@@ -1,5 +1,6 @@
 import os from 'os';
 import { ValidString } from '../../validators/validators';
+import { SystemContext } from '../interfaces/system-context.interface';
 
 /**
  * @class SystemContextEnhancer
@@ -11,7 +12,7 @@ import { ValidString } from '../../validators/validators';
  * const systemContext = new SystemContextEnhancer();
  * systemContext.setEnvironment('production').refreshSystemInfo();
  */
-export class SystemContextEnhancer {
+export class SystemContextEnhancer implements SystemContext{
   private _environment: string = ''; // Application environment (e.g., "production", "development")
   private _nodeVersion: string = ''; // Node.js version
   private _hostname: string = ''; // System hostname

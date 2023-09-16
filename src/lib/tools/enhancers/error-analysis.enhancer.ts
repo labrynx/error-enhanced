@@ -1,4 +1,5 @@
 import path from 'path';
+import { ErrorAnalysis } from '../interfaces/error-analysis.interface';
 
 /**
  * @class ErrorAnalysisEnhancer
@@ -6,7 +7,7 @@ import path from 'path';
  * The ErrorAnalysisEnhancer class enhances an error object with details
  * like file information, line number, column number, etc.
  */
-export class ErrorAnalysisEnhancer {
+export class ErrorAnalysisEnhancer implements ErrorAnalysis {
   private _originalError: Error | null = null;
   private _fileInfo: string = '';
   private _lineNumber: number = -1;
@@ -28,7 +29,7 @@ export class ErrorAnalysisEnhancer {
    */
   public setOriginalError(originalError: Error): this {
     this._originalError = originalError;
-    this.extractErrorInfo();
+    this._extractErrorInfo();
     return this;
   }
 
@@ -48,7 +49,7 @@ export class ErrorAnalysisEnhancer {
    *
    * Extracts detailed error information from the stack trace.
    */
-  private extractErrorInfo(): this {
+  private _extractErrorInfo(): this {
     // Check if _originalError is available and get its stack trace
     const errStack = this._originalError
       ? this._originalError.stack ?? 'unknown'
@@ -64,7 +65,7 @@ export class ErrorAnalysisEnhancer {
     this._fullStack = stackList;
 
     // Find the first relevant stack entry and populate other fields
-    const firstRelevantStack = this.findFirstRelevantStack(stackList);
+    const firstRelevantStack = this._findFirstRelevantStack(stackList);
     if (firstRelevantStack) {
       this._fileInfo = path.basename(firstRelevantStack.file);
       this._lineNumber = firstRelevantStack.line;
@@ -84,7 +85,7 @@ export class ErrorAnalysisEnhancer {
    *
    * Iterates through the stack trace to find the first relevant entry.
    */
-  private findFirstRelevantStack(stackList: string[]): any | null {
+  private _findFirstRelevantStack(stackList: string[]): any | null {
     const stackReg = /at\s+(.*)\s+\((.*):(\d*):(\d*)\)/i;
     const stackReg2 = /at\s+()(.*):(\d*):(\d*)/i;
 

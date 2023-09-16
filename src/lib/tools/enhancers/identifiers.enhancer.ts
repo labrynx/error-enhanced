@@ -10,6 +10,7 @@ import {
   ValidString,
   ValidStringWithEmpty,
 } from '../../validators/validators';
+import { Identifiers } from '../interfaces/identifiers.interface';
 
 /**
  * @class IdentifiersEnhancer
@@ -21,7 +22,7 @@ import {
  * const error = new IdentifiersEnhancer(404);
  * error.setErrorCode(500).setSeverity(SeverityLevel.HIGH);
  */
-export class IdentifiersEnhancer {
+export class IdentifiersEnhancer implements Identifiers{
   private readonly _id: string = ''; // Unique identifier for the error
   private _errorCode: number = -1; // Custom error code, can be any type
   private _errorCodePrefix: string = ''; // Prefix for Error Code
@@ -41,9 +42,8 @@ export class IdentifiersEnhancer {
    *
    * @param errorCode - Initial error code for the error object
    */
-  constructor(errorCode: number) {
-    this._id = this.generateId(); // Generate a unique ID
-    this._errorCode = errorCode; // Set error code if provided
+  constructor() {
+    this._id = this._generateId(); // Generate a unique ID
     this._timestamp = Date.now(); // Record the current time
     this._severity = SeverityLevel.MEDIUM; // Default severity level
     this._category = Category.UNKNOWN; // Default category
@@ -160,7 +160,7 @@ export class IdentifiersEnhancer {
    * const hash = error.getHash();  // Output example: "a4f777d58b7e6c918f45b940a877e37d"
    */
   public getHash(): string {
-    return this.generateHash();
+    return this._generateHash();
   }
 
   /**
@@ -238,7 +238,7 @@ export class IdentifiersEnhancer {
    * @private
    * @returns {string} - A unique identifier.
    */
-  private generateId(): string {
+  private _generateId(): string {
     return uuidv4();
   }
 
@@ -249,7 +249,7 @@ export class IdentifiersEnhancer {
    * @example
    * const hashValue = error.getHash();
    */
-  private generateHash(): string {
+  private _generateHash(): string {
     const str = JSON.stringify(this);
     return crypto.createHash('md5').update(str).digest('hex');
   }

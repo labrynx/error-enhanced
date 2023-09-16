@@ -34,7 +34,7 @@
 /**
  * Enum to represent the different categories an error can belong to.
  */
-export enum Category {
+export enum CategoryEnum {
   /**
    * Errors related to network operations.
    */
@@ -105,3 +105,5 @@ export enum Category {
    */
   UNKNOWN = 'unknown',
 }
+
+export const Category = CategoryEnum;

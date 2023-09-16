@@ -1,7 +1,7 @@
 /**
  * Enum to represent the severity level of an error.
  */
-export enum SeverityLevel {
+export enum SeverityLevelEnum {
   /**
    * Indicates a low-impact error that generally doesn't affect the system's functionality.
    */
@@ -22,3 +22,5 @@ export enum SeverityLevel {
    */
   CRITICAL = 'critical',
 }
+
+export const SeverityLevel = SeverityLevelEnum;

@@ -1,57 +1,62 @@
-// Import required modules and classes
-import { Mixin } from 'ts-mixer';
 import {
-  IdentifiersEnhancer,
-  HttpStatusEnhancer,
-  SystemContextEnhancer,
-  SerializersUtility,
-  FilterUtility,
-  UserInfoEnhancer,
+  ErrorEnhanced,
   ErrorAnalysisEnhancer,
-} from '../src/';
-
-// Define the main ErrorEnhanced class by mixing in additional classes
-// to enrich it with various functionalities.
-class ErrorEnhanced extends Mixin(
-  Error, // Base class must be Error
-  IdentifiersEnhancer,
   HttpStatusEnhancer,
+  IdentifiersEnhancer,
   SystemContextEnhancer,
   UserInfoEnhancer,
   FilterUtility,
-  ErrorAnalysisEnhancer,
   SerializersUtility,
-) {
-  constructor() {
-    super(); // Call the base constructor
-    Object.setPrototypeOf(this, ErrorEnhanced.prototype);
-  }
-}
+  ErrorAnalysis,
+  HttpStatus,
+  Identifiers,
+  SystemContext,
+  UserInfo,
+  Filter,
+  Serializers,
+  SeverityLevel,
+  Category,
+  HttpStatusCodes,
+  HttpMethods,
+} from '../src';
 
-// Create an instance of ErrorEnhanced
-const error = new ErrorEnhanced();
+type ErrorEnhancedType = Error &
+  Identifiers &
+  HttpStatus &
+  SystemContext &
+  UserInfo &
+  ErrorAnalysis &
+  Filter &
+  Serializers;
+
+const error = new ErrorEnhanced([
+  new IdentifiersEnhancer(),
+  new HttpStatusEnhancer(),
+  new SystemContextEnhancer(),
+  new UserInfoEnhancer(),
+  new FilterUtility(),
+  new ErrorAnalysisEnhancer(),
+  new SerializersUtility(),
+]) as ErrorEnhancedType;
 
 // Basic error information
 error.name = 'UserNotAuthorizedError';
 error.message = 'User is not authorized';
 
 // Associate the error with an original standard Error object
-const e: Error = new Error('This is an error');
-error.setOriginalError(e);
+error.setOriginalError(new Error('This is an error'));
 
 // Additional Error Metadata
 error.setErrorCode(5432).setErrorCodePrefix('EE');
 
 // Setting Severity and Category
-error
-  .setSeverity(ErrorEnhanced.SeverityLevel.HIGH)
-  .setCategory(ErrorEnhanced.Category.NETWORK);
+error.setSeverity(SeverityLevel.HIGH).setCategory(Category.NETWORK);
 
 // HTTP Context
 error
-  .setHttpStatusCode(ErrorEnhanced.HttpStatusCodes.NOT_FOUND)
+  .setHttpStatusCode(HttpStatusCodes.NOT_FOUND)
   .setUrl('https://api.example.com/user')
-  .setHttpMethod(ErrorEnhanced.HttpMethods.GET);
+  .setHttpMethod(HttpMethods.GET);
 
 // User Information
 error.setUser('john_doe_123').setRoles(['admin', 'user']);
