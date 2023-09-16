@@ -43,6 +43,9 @@ const error = new ErrorEnhanced([
 error.name = 'UserNotAuthorizedError';
 error.message = 'User is not authorized';
 
+// User Information
+error.setUser('john_doe_123').setRoles(['admin', 'user']);
+
 // Associate the error with an original standard Error object
 error.setOriginalError(new Error('This is an error'));
 
@@ -57,9 +60,6 @@ error
   .setHttpStatusCode(HttpStatusCodes.NOT_FOUND)
   .setUrl('https://api.example.com/user')
   .setHttpMethod(HttpMethods.GET);
-
-// User Information
-error.setUser('john_doe_123').setRoles(['admin', 'user']);
 
 // Serialize the error object into various formats after filtering unused properties
 const serializedErrorJSON = error.filterUnused().toJSON();
