@@ -5,12 +5,6 @@
 
 * **package:** bug in package.json config ([dbeb25e](https://github.com/labrynx/error-enhanced/commit/dbeb25ec9ed892b3282927a23627ca4e694c476e))
 
-# Change Log
-
-All notable updates to the project will be documented in this file.
-
-## [Unreleased]
-
 ## [Version 2.0.1] - 2023-09-18
 
 ### Added
@@ -95,7 +89,6 @@ All notable updates to the project will be documented in this file.
 
 - alessbarb
 
-[Unreleased]: https://github.com/labrynx/error-enhanced/compare/previous-version...HEAD
 [Version 1.0.0]: https://github.com/labrynx/error-enhanced/releases/tag/v1.0.0
 [Version 1.1.0]: https://github.com/labrynx/error-enhanced/releases/tag/v1.1.0
 [Version 2.0.0]: https://github.com/labrynx/error-enhanced/releases/tag/v2.0.0

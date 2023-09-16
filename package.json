@@ -42,7 +42,7 @@
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
     "test": "jest --runInBand --config=jest.config.ts",
     "test:watch": "jest --watch",
-    "release": "npm run build && npm publish"
+    "release": "npm run build && npx semantic-release"
   },
   "commitizen": {
     "path": "./node_modules/cz-conventional-changelog"

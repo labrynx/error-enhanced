@@ -72,7 +72,13 @@
     [
       "@semantic-release/npm",
       {
-        "pkgRoot": "./dist"
+        "npmPublish": false
+      }
+    ],
+    [
+      "@semantic-release/npm",
+      {
+        "npmPublish": true
       }
     ],
     [
