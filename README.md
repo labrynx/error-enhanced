@@ -1,3 +1,5 @@
+[![Node.js CI/CD](https://github.com/labrynx/error-enhanced/actions/workflows/nodejs.yml/badge.svg?branch=main)](https://github.com/labrynx/error-enhanced/actions/workflows/nodejs.yml)
+
 # `error-enhanced` - Enhanced Error Handling with `ts-mixer`
 
 ## Table of Contents 
