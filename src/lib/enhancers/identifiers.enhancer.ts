@@ -3,11 +3,13 @@ import * as crypto from 'crypto';
 
 import { Identifiers } from '../interfaces';
 import { Category, SeverityLevel } from '../enums';
-import { ValidNumber } from '../validators/number.validator';
-import { ValidStringWithEmpty } from '../validators/ValidStringWithEmpty';
-import { ValidString } from '../validators/string.validator';
-import { ValidSeverityLevel } from '../validators/severity.validator';
-import { ValidCategory } from '../validators/category.validator';
+import {
+  ValidNumber,
+  ValidStringWithEmpty,
+  ValidString,
+  ValidSeverityLevel,
+  ValidCategory,
+} from '../validators';
 
 /**
  * @class IdentifiersEnhancer
