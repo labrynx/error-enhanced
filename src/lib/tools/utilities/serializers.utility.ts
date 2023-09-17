@@ -176,6 +176,14 @@ export class SerializersUtility implements Serializers {
     }
   }
 
+  /**
+   * @private
+   * @method _applyObjectFilter
+   *
+   * Applies object filter if the 'applyFilter' method is defined in the instance.
+   *
+   * @returns {any} - The filtered or original object.
+   */
   private _applyObjectFilter(): any {
     if ('applyFilter' in this && typeof this['applyFilter'] === 'function') {
       return this['applyFilter']();
@@ -183,6 +191,16 @@ export class SerializersUtility implements Serializers {
     return this;
   }
 
+  /**
+   * @private
+   * @method _handleSerializationError
+   *
+   * Handles serialization errors, logging them to the console and throwing a new Error.
+   *
+   * @param {Error} e - The error object.
+   * @param {string} format - The serialization format in which the error occurred.
+   * @throws {Error} - Throws a new Error with the formatted message.
+   */
   private _handleSerializationError(e: Error, format: string) {
     const errorMsg = `Failed to serialize to ${format}: ${
       e.message || 'Unknown error'
@@ -191,6 +209,16 @@ export class SerializersUtility implements Serializers {
     throw new Error(errorMsg);
   }
 
+  /**
+   * @private
+   * @method _serializeToXmlElement
+   *
+   * Helper function for serializing individual properties to XML elements.
+   *
+   * @param {any} xml - The xmlbuilder element.
+   * @param {string} key - The object key.
+   * @param {any} value - The object value.
+   */
   private _serializeToXmlElement(xml: any, key: string, value: any) {
     if (value instanceof Error) {
       const errorElement = xml.ele(key);
@@ -199,14 +227,29 @@ export class SerializersUtility implements Serializers {
         this._serializeToXmlElement(errorElement, subKey, flatError[subKey]);
       });
     } else if (Array.isArray(value)) {
-      // ... (tu código actual)
+      const arrayElement = xml.ele(key);
+      value.forEach((item, index) => {
+        this._serializeToXmlElement(arrayElement, `item_${index}`, item);
+      });
     } else if (typeof value === 'object') {
-      // ... (tu código actual)
+      const objElement = xml.ele(key);
+      Object.keys(value).forEach(subKey => {
+        this._serializeToXmlElement(objElement, subKey, value[subKey]);
+      });
     } else {
       xml.ele(key, {}, value);
     }
   }
 
+  /**
+   * @private
+   * @method _flattenErrorObject
+   *
+   * Flattens an Error object into a plain object for easier serialization.
+   *
+   * @param {Error} error - The Error object.
+   * @returns {Record<string, any>} - The flattened Error object.
+   */
   private _flattenErrorObject(error: Error): Record<string, any> {
     const plainObject: Record<string, any> = {};
 

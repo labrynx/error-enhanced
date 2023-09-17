@@ -12,14 +12,55 @@ import { SystemContext } from '../interfaces/system-context.interface';
  * const systemContext = new SystemContextEnhancer();
  * systemContext.setEnvironment('production').refreshSystemInfo();
  */
-export class SystemContextEnhancer implements SystemContext{
-  private _environment: string = ''; // Application environment (e.g., "production", "development")
-  private _nodeVersion: string = ''; // Node.js version
-  private _hostname: string = ''; // System hostname
-  private _cpuArch: string = ''; // CPU architecture
-  private _osType: string = ''; // OS type
-  private _osRelease: string = ''; // OS release version
-  private _systemUptime: number = -1; // System uptime in seconds
+export class SystemContextEnhancer implements SystemContext {
+  /**
+   * @private
+   * @type {string}
+   * The application's current environment (e.g., "production", "development").
+   */
+  private _environment: string = '';
+
+  /**
+   * @private
+   * @type {string}
+   * The version of Node.js in use.
+   */
+  private _nodeVersion: string = '';
+
+  /**
+   * @private
+   * @type {string}
+   * The system's hostname.
+   */
+  private _hostname: string = '';
+
+  /**
+   * @private
+   * @type {string}
+   * The CPU architecture of the system.
+   */
+  private _cpuArch: string = '';
+
+  /**
+   * @private
+   * @type {string}
+   * The type of the operating system.
+   */
+  private _osType: string = '';
+
+  /**
+   * @private
+   * @type {string}
+   * The release version of the operating system.
+   */
+  private _osRelease: string = '';
+
+  /**
+   * @private
+   * @type {number}
+   * The system's uptime in seconds.
+   */
+  private _systemUptime: number = -1;
 
   /**
    * @constructor
@@ -41,9 +82,13 @@ export class SystemContextEnhancer implements SystemContext{
   // ====================================================================
 
   /**
-   * Gets the name of the originating method.
+   * @public
+   * @method setEnvironment
+   * @param {string} environment - The application environment to set (e.g., "production", "development").
+   * @returns {SystemContextEnhancer} - The instance of the class, useful for chaining.
+   * @throws Will throw an error if the environment string is invalid.
    *
-   * @returns Name of the method
+   * Sets the application environment.
    */
   public setEnvironment(environment: string): this {
     const parsed = ValidString.safeParse(environment);
@@ -122,12 +167,13 @@ export class SystemContextEnhancer implements SystemContext{
   // ====================================================================
 
   /**
-   * Refreshes the system uptime information.
+   * @public
+   * @method refreshSystemInfo
+   * @returns {SystemContextEnhancer} - The instance of the class, useful for chaining.
+   * @throws None.
    *
-   * @returns this instance for chaining
-   *
-   * @example
-   * systemContext.refreshSystemInfo();
+   * Refreshes the system uptime information. This method can be used to update the system uptime without
+   * having to create a new instance of the class.
    */
   public refreshSystemInfo(): this {
     this._systemUptime = os.uptime();

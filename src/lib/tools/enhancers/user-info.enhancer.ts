@@ -12,13 +12,54 @@ import { UserInfo } from '../interfaces/user-info.interface';
  * errorInfo.setUser("JohnDoe").setRoles(["admin", "user"]);
  */
 export class UserInfoEnhancer implements UserInfo {
-  private _user: string = ''; // User ID or username related to the error
-  private _sessionId: string = ''; // User session ID
-  private _roles: string[] = []; // User roles or permissions
-  private _authToken: string = ''; // Authentication token
-  private _ipAddress: string = ''; // IP Address
-  private _userAgent: string = ''; // Browser and OS details
-  private _actionHistory: string[] = []; // Previous user actions
+  /**
+   * @private
+   * @type {string}
+   * User ID or username related to the error.
+   */
+  private _user: string = '';
+
+  /**
+   * @private
+   * @type {string}
+   * User session ID.
+   */
+  private _sessionId: string = '';
+
+  /**
+   * @private
+   * @type {string[]}
+   * User roles or permissions.
+   */
+  private _roles: string[] = [];
+
+  /**
+   * @private
+   * @type {string}
+   * Authentication token.
+   */
+  private _authToken: string = '';
+
+  /**
+   * @private
+   * @type {string}
+   * IP Address.
+   */
+  private _ipAddress: string = '';
+
+  /**
+   * @private
+   * @type {string}
+   * Browser and OS details.
+   */
+  private _userAgent: string = '';
+
+  /**
+   * @private
+   * @type {string[]}
+   * Previous user actions.
+   */
+  private _actionHistory: string[] = [];
 
   /**
    * @constructor
@@ -65,6 +106,13 @@ export class UserInfoEnhancer implements UserInfo {
     return this;
   }
 
+  /**
+   * @public
+   * @method sessionId
+   * @returns {string} The current session ID related to the error.
+   *
+   * Getter method for retrieving the session ID associated with the error.
+   */
   public get sessionId(): string {
     return this._sessionId;
   }
@@ -81,6 +129,13 @@ export class UserInfoEnhancer implements UserInfo {
     return this;
   }
 
+  /**
+   * @public
+   * @method roles
+   * @returns {string[]} The current roles or permissions related to the error.
+   *
+   * Getter method for retrieving the roles or permissions associated with the error.
+   */
   public get roles(): string[] {
     return this._roles;
   }
@@ -102,6 +157,13 @@ export class UserInfoEnhancer implements UserInfo {
     return this;
   }
 
+  /**
+   * @public
+   * @method authToken
+   * @returns {string} The current authentication token related to the error.
+   *
+   * Getter method for retrieving the authentication token associated with the error.
+   */
   public get authToken(): string {
     return this._authToken;
   }
@@ -123,6 +185,13 @@ export class UserInfoEnhancer implements UserInfo {
     return this;
   }
 
+  /**
+   * @public
+   * @method ipAddress
+   * @returns {string} The current IP address related to the error.
+   *
+   * Getter method for retrieving the IP address associated with the error.
+   */
   public get ipAddress(): string {
     return this._ipAddress;
   }
@@ -144,6 +213,13 @@ export class UserInfoEnhancer implements UserInfo {
     return this;
   }
 
+  /**
+   * @public
+   * @method userAgent
+   * @returns {string} The current user agent string related to the error.
+   *
+   * Getter method for retrieving the user agent string associated with the error.
+   */
   public get userAgent(): string {
     return this._userAgent;
   }
@@ -165,6 +241,13 @@ export class UserInfoEnhancer implements UserInfo {
     return this;
   }
 
+  /**
+   * @public
+   * @method actionHistory
+   * @returns {string[]} The action history related to the error.
+   *
+   * Getter method for retrieving the action history associated with the error.
+   */
   public get actionHistory(): string[] {
     return this._actionHistory;
   }

@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import * as crypto from 'crypto';
 
+import { Identifiers } from '../interfaces/identifiers.interface';
 import { Category } from '../../enums/category.enum';
 import { SeverityLevel } from '../../enums/severity.enum';
 import {
@@ -10,7 +11,6 @@ import {
   ValidString,
   ValidStringWithEmpty,
 } from '../../validators/validators';
-import { Identifiers } from '../interfaces/identifiers.interface';
 
 /**
  * @class IdentifiersEnhancer
@@ -23,17 +23,69 @@ import { Identifiers } from '../interfaces/identifiers.interface';
  * error.setErrorCode(500).setSeverity(SeverityLevel.HIGH);
  */
 export class IdentifiersEnhancer implements Identifiers {
-  private readonly _id: string = ''; // Unique identifier for the error
-  private _errorCode: number = -1; // Custom error code, can be any type
-  private _errorCodePrefix: string = ''; // Prefix for Error Code
-  private _errorDescription: string = ''; // Description for Error Code
-  private readonly _timestamp: number = -1; // Unix timestamp when the error was created
-  private readonly _highPrecisionTimestamp: bigint; // Stores the high-precision timestamp of when the error object was created.
-  private _severity: string = ''; // Severity level of the error
-  private _category: string = ''; // Category to which the error belongs
+  /**
+   * @private
+   * @type {string}
+   *
+   * Unique identifier for the error.
+   */
+  private readonly _id: string = '';
 
-  public static SeverityLevel = SeverityLevel; // Expose enum for external use
-  public static Category = Category; // Expose enum for external use
+  /**
+   * @private
+   * @type {number}
+   *
+   * Custom error code, can be any type.
+   */
+  private _errorCode: number = -1;
+
+  /**
+   * @private
+   * @type {string}
+   *
+   * Prefix for Error Code.
+   */
+  private _errorCodePrefix: string = '';
+
+  /**
+   * @private
+   * @type {string}
+   *
+   * Description for Error Code.
+   */
+  private _errorDescription: string = '';
+
+  /**
+   * @private
+   * @type {number}
+   *
+   * Unix timestamp when the error was created.
+   */
+  private readonly _timestamp: number = -1;
+
+  /**
+   * @private
+   * @type {bigint}
+   *
+   * Stores the high-precision timestamp of when the error object was created.
+   */
+  private readonly _highPrecisionTimestamp: bigint;
+
+  /**
+   * @private
+   * @type {string}
+   *
+   * Severity level of the error.
+   */
+  private _severity: string = '';
+
+  /**
+   * @private
+   * @type {string}
+   *
+   * Category to which the error belongs.
+   */
+  private _category: string = '';
 
   /**
    * @constructor
@@ -44,7 +96,7 @@ export class IdentifiersEnhancer implements Identifiers {
    * @param errorCode - Initial error code for the error object
    */
   constructor() {
-    this._id = this._generateId(); // Generate a unique ID
+    this._id = this._generateUUIDv4(); // Generate a unique ID
     this._timestamp = Date.now(); // Record the current time
     this._highPrecisionTimestamp = process.hrtime.bigint(); // Capture the current time using Node.js's process.hrtime.bigint() function.
     this._severity = SeverityLevel.MEDIUM; // Default severity level
@@ -109,7 +161,14 @@ export class IdentifiersEnhancer implements Identifiers {
     return this;
   }
 
-  // Get custom error code prefix
+  /**
+   * @public
+   * @method errorCodePrefix
+   * @returns {string} - The custom prefix for the error code.
+   * @throws None.
+   *
+   * Gets the custom prefix set for the error code.
+   */
   public get errorCodePrefix(): string {
     return this._errorCodePrefix;
   }
@@ -165,11 +224,12 @@ export class IdentifiersEnhancer implements Identifiers {
   }
 
   /**
-   * Generates a hash value for the error object.
-   * This can be useful for deduplication or quick comparisons.
-   * @returns {string} - A hash value.
-   * @example
-   * const hash = error.getHash();  // Output example: "a4f777d58b7e6c918f45b940a877e37d"
+   * @public
+   * @method getHash
+   * @returns {string} - The hash value representing the error object.
+   * @throws None.
+   *
+   * Generates a hash value for the error object. This can be useful for deduplication or quick comparisons.
    */
   public getHash(): string {
     return this._generateHash();
@@ -246,20 +306,24 @@ export class IdentifiersEnhancer implements Identifiers {
   // ====================================================================
 
   /**
-   * Generates a unique identifier using UUID.
    * @private
-   * @returns {string} - A unique identifier.
+   * @method _generateUUIDv4
+   * @returns {string} - A unique identifier generated using UUID.
+   * @throws None.
+   *
+   * Generates a unique identifier for the error object using the UUID library.
    */
-  private _generateId(): string {
+  private _generateUUIDv4(): string {
     return uuidv4();
   }
 
   /**
-   * Generates a hash value based on the properties of the error object.
    * @private
-   * @returns {string} - The hash value.
-   * @example
-   * const hashValue = error.getHash();
+   * @method _generateHash
+   * @returns {string} - The hash value calculated from the object's properties.
+   * @throws None.
+   *
+   * Generates a hash value based on the properties of the error object using the MD5 hashing algorithm.
    */
   private _generateHash(): string {
     const str = JSON.stringify(this);

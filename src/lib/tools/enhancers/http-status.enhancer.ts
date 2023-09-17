@@ -9,6 +9,7 @@ import {
 import { HttpStatusCodes } from '../../enums/http-status-codes.enum';
 import { HttpMethods } from '../../enums/http-methods.enum';
 import { HttpStatus } from '../interfaces/http-status.interface';
+import { HttpHeaders, QueryParams, HttpBody } from '../../types';
 
 /**
  * @class HttpStatusEnhancer
@@ -21,69 +22,145 @@ import { HttpStatus } from '../interfaces/http-status.interface';
  * httpStatus.setUrl("https://example.com").setLatency(120);
  */
 export class HttpStatusEnhancer implements HttpStatus {
+  /**
+   * @private
+   * @type {number}
+   *
+   * Holds the HTTP status code.
+   */
   private _httpStatusCode: number = -1; // HTTP Status Code
-  private _url: string = ''; // The URL where the error occurred.
-  private _httpMethod: string = ''; // The HTTP method (GET, POST, etc.) for the request that caused the error.
-  private _requestHeaders: { [key: string]: any } = {}; // The headers of the HTTP request.
-  private _responseHeaders: { [key: string]: any } = {}; // The headers in the HTTP response.
-  private _queryParams: { [key: string]: any } = {}; // Query parameters in the URL.
-  private _requestBody: any = null; // The body of the HTTP request.
-  private _responseBody: any = null; // The body of the HTTP response.
-  private _clientIp: string = ''; // The IP address of the client that made the request.
-  private _latency: number = -1; // The time taken for the request to complete.
 
-  public static HttpStatusCodes = HttpStatusCodes; // Expose HttpStatusCodes enum for external use
-  public static HttpMethods = HttpMethods; // Expose HttpMethods enum for external use
+  /**
+   * @private
+   * @type {string}
+   *
+   * Holds the URL where the error occurred.
+   */
+  private _url: string = '';
+
+  /**
+   * @private
+   * @type {string}
+   *
+   * Holds the HTTP method (GET, POST, etc.) for the request that caused the error..
+   */
+  private _httpMethod: string = '';
+
+  /**
+   * @private
+   * @type {HttpHeaders}
+   *
+   * Holds the headers of the HTTP request.
+   */
+  private _requestHeaders: HttpHeaders = {
+    key: '',
+    value: undefined,
+  };
+
+  /**
+   * @private
+   * @type {HttpHeaders}
+   *
+   * Holds the headers in the HTTP response.
+   */
+  private _responseHeaders: HttpHeaders = {
+    key: '',
+    value: undefined,
+  };
+
+  /**
+   * @private
+   * @type {QueryParams}
+   *
+   * Holds the query parameters in the URL.
+   */
+  private _queryParams: QueryParams = {
+    key: '',
+    value: undefined,
+  };
+
+  /**
+   * @private
+   * @type {HttpBody}
+   *
+   * Holds the body of the HTTP request.
+   */
+  private _requestBody: HttpBody = null;
+
+  /**
+   * @private
+   * @type {HttpBody}
+   *
+   * Holds the body of the HTTP response.
+   */
+  private _responseBody: HttpBody = null;
+
+  /**
+   * @private
+   * @type {string}
+   *
+   * Holds the IP address of the client that made the request.
+   */
+  private _clientIp: string = '';
+
+  /**
+   * @private
+   * @type {number}
+   *
+   * Holds the time taken for the request to complete.
+   */
+  private _latency: number = -1;
 
   /**
    * @constructor
    *
-   * Constructs a new HttpStatusEnhancer object and sets the initial HTTP status code.
-   *
-   * @param httpStatusCode - The initial HTTP status code for the error object.
+   * Constructs a new HttpStatusEnhancer object.
    */
   constructor() {}
 
   /**
-   * httpStatusCode
+   * @public
+   * @type {number}
+   * @returns The HTTP status code related to the error.
    *
    * Getter method for the HTTP status code.
-   *
-   * @returns The HTTP status code related to the error.
    */
   public get httpStatusCode(): number {
     return this._httpStatusCode;
   }
 
   /**
-   * httpStatusCode
+   * @public
+   * @type {string}
+   * @returns The HTTP status code related to the error.
    *
    * Getter method for the HTTP status code.
-   *
-   * @returns The HTTP status code related to the error.
    */
   public get url(): string {
     return this._url;
   }
 
   /**
-   * httpMethod
-   *
-   * Getter method for the HTTP method.
-   *
+   * @public
+   * @type {string}
    * @returns The HTTP method related to the error.
+   *
+   * Getter method for retrieving the HTTP method associated with the error.
    */
   public get httpMethod(): string {
     return this._httpMethod;
   }
 
   /**
-   * setHttpStatusCode
+   * @public
+   * @method setHttpStatusCode
+   * @param {number} httpStatusCode - The HTTP status code. Should be one of the values from the HttpStatusCodes enum.
+   * @returns {this}
+   * @throws Will throw an error if the provided status code is not a valid HTTP status code as per the HttpStatusCodes enum.
    *
-   * Sets the HTTP status code related to the error.
+   * Sets the HTTP status code related to the error. It's recommended to use values from the HttpStatusCodes enum for better consistency and readability.
    *
-   * @param httpStatusCode - The HTTP status code.
-   * @throws Will throw an error if the provided status code is not a valid HTTP status code.
+   * @see {@link HttpStatusCodes} for the available status codes.
    */
   public setHttpStatusCode(httpStatusCode: number): this {
     const parsed = ValidHttpStatusCodes.safeParse(httpStatusCode);
@@ -99,12 +176,13 @@ export class HttpStatusEnhancer implements HttpStatus {
   }
 
   /**
-   * setUrl
+   * @public
+   * @method setUrl
+   * @param {string} url - The URL string.
+   * @returns {this}
+   * @throws Will throw an error if the URL is not valid.
    *
    * Sets the URL where the error occurred.
-   *
-   * @param url - The URL string.
-   * @throws Will throw an error if the URL is not valid.
    */
   public setUrl(url: string): this {
     const parsed = ValidURL.safeParse(url);
@@ -116,12 +194,13 @@ export class HttpStatusEnhancer implements HttpStatus {
   }
 
   /**
-   * setHttpMethod
+   * @public
+   * @method setHttpMethod
+   * @param {string} httpMethod - The HTTP method (GET, POST, etc.)
+   * @returns {this}
+   * @throws Will throw an error if the method is not a valid HTTP method.
    *
    * Sets the HTTP method for the request that caused the error.
-   *
-   * @param httpMethod - The HTTP method (GET, POST, etc.)
-   * @throws Will throw an error if the method is not a valid HTTP method.
    */
   public setHttpMethod(httpMethod: string): this {
     const parsed = ValidHttpMethods.safeParse(httpMethod);
@@ -137,14 +216,15 @@ export class HttpStatusEnhancer implements HttpStatus {
   }
 
   /**
-   * setRequestHeaders
+   * @public
+   * @method setRequestHeaders
+   * @param {HttpHeaders} headers - The headers object to set.
+   * @returns {this}
+   * @throws Will throw an error if the headers object contains invalid keys.
    *
    * Sets the HTTP request headers.
-   *
-   * @param headers - The headers object.
-   * @throws Will throw an error if the headers object contains invalid keys.
    */
-  public setRequestHeaders(headers: { [key: string]: any }): this {
+  public setRequestHeaders(headers: HttpHeaders): this {
     const parsed = ValidKeyedObject.safeParse(headers);
     if (!parsed.success) {
       throw new Error(
@@ -156,14 +236,15 @@ export class HttpStatusEnhancer implements HttpStatus {
   }
 
   /**
-   * setResponseHeaders
+   * @public
+   * @method setResponseHeaders
+   * @param {HttpHeaders} headers - The headers object.
+   * @returns {this}
+   * @throws Will throw an error if the headers object contains invalid keys.
    *
    * Sets the HTTP response headers.
-   *
-   * @param headers - The headers object.
-   * @throws Will throw an error if the headers object contains invalid keys.
    */
-  public setResponseHeaders(headers: { [key: string]: any }): this {
+  public setResponseHeaders(headers: HttpHeaders): this {
     const parsed = ValidKeyedObject.safeParse(headers);
     if (!parsed.success) {
       throw new Error(
@@ -175,14 +256,15 @@ export class HttpStatusEnhancer implements HttpStatus {
   }
 
   /**
-   * setQueryParams
+   * @public
+   * @method setQueryParams
+   * @param {QueryParams} params - The query parameters object to set.
+   * @returns {this}
+   * @throws Will throw an error if any key is not a valid non-empty string.
    *
    * Sets the query parameters for the URL where the error occurred.
-   *
-   * @param params - The query parameters object.
-   * @throws Will throw an error if the query parameters object contains invalid keys.
    */
-  public setQueryParams(params: { [key: string]: any }): this {
+  public setQueryParams(params: QueryParams): this {
     const parsed = ValidKeyedObject.safeParse(params);
     if (!parsed.success) {
       throw new Error(
@@ -194,14 +276,15 @@ export class HttpStatusEnhancer implements HttpStatus {
   }
 
   /**
-   * setRequestBody
-   *
-   * Sets the body of the HTTP request.
-   *
-   * @param body - The request body.
+   * @public
+   * @method setRequestBody
+   * @param {HttpBody} body - The request body to set.
+   * @returns {this}
    * @throws Will throw an error if the body is null or undefined.
+   *
+   * Sets the body of the HTTP request. Accepts various data types except null or undefined.
    */
-  public setRequestBody(body: any): this {
+  public setRequestBody(body: HttpBody): this {
     if (body == null) {
       throw new Error('Request body cannot be null or undefined');
     }
@@ -210,14 +293,15 @@ export class HttpStatusEnhancer implements HttpStatus {
   }
 
   /**
-   * setResponseBody
+   * @public
+   * @method setResponseBody
+   * @param {HttpBody} body - The response body.
+   * @returns {this}
+   * @throws Will throw an error if the body is null or undefined.
    *
    * Sets the body of the HTTP response.
-   *
-   * @param body - The response body.
-   * @throws Will throw an error if the body is null or undefined.
    */
-  public setResponseBody(body: any): this {
+  public setResponseBody(body: HttpBody): this {
     if (body == null) {
       throw new Error('Response body cannot be null or undefined');
     }
@@ -226,12 +310,13 @@ export class HttpStatusEnhancer implements HttpStatus {
   }
 
   /**
-   * setClientIp
+   * @public
+   * @method setClientIp
+   * @param {string} ip - The IP address.
+   * @returns {this}
+   * @throws Will throw an error if the IP address is not valid.
    *
    * Sets the IP address of the client that made the request.
-   *
-   * @param ip - The IP address.
-   * @throws Will throw an error if the IP address is not valid.
    */
   public setClientIp(ip: string): this {
     const parsed = ValidIP.safeParse(ip);
@@ -243,12 +328,13 @@ export class HttpStatusEnhancer implements HttpStatus {
   }
 
   /**
-   * setLatency
+   * @public
+   * @method setLatency
+   * @param {number} latency - The latency in milliseconds.
+   * @returns {this}
+   * @throws Will throw an error if the latency is not a valid number.
    *
    * Sets the latency of the request in milliseconds.
-   *
-   * @param latency - The latency in milliseconds.
-   * @throws Will throw an error if the latency is not a valid number.
    */
   public setLatency(latency: number): this {
     const parsed = ValidNumber.safeParse(latency);

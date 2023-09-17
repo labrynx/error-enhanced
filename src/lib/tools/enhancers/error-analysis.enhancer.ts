@@ -1,7 +1,7 @@
 import ErrorStackParser from 'error-stack-parser';
 
 import { ErrorAnalysis } from '../interfaces/error-analysis.interface';
-import { StackFrame } from '../interfaces/stack-frame.interface';
+import { StackFrame } from '../../types';
 
 /**
  * @class ErrorAnalysisEnhancer
@@ -10,9 +10,27 @@ import { StackFrame } from '../interfaces/stack-frame.interface';
  * like file information, line number, column number, etc.
  */
 export class ErrorAnalysisEnhancer implements ErrorAnalysis {
+  /**
+   * @private
+   * @type {Error | null}
+   *
+   * Holds the original error object.
+   */
   private _originalError: Error | null = null;
+
+  /**
+   * @private
+   * @type {Array<StackFrame>}
+   *
+   * Holds the parsed stack trace details.
+   */
   private _parsedStack: Array<StackFrame> = [];
 
+  /**
+   * @constructor
+   *
+   * Initializes a new instance of the ErrorAnalysisEnhancer class.
+   */
   constructor() {}
 
   /**
@@ -40,7 +58,7 @@ export class ErrorAnalysisEnhancer implements ErrorAnalysis {
 
   /**
    * @private
-   * @method extractErrorInfo
+   * @method _extractErrorInfo
    * @returns {this} - Returns the instance for chaining.
    *
    * Extracts detailed error information from the stack trace.
@@ -70,7 +88,13 @@ export class ErrorAnalysisEnhancer implements ErrorAnalysis {
     return this;
   }
 
-  // Getter methods to access the private fields
+  /**
+   * @public
+   * @method parsedStack
+   * @returns {Array<StackFrame>} - Returns the parsed stack trace details.
+   *
+   * Getter for the parsed stack trace details.
+   */
   public get parsedStack(): Array<StackFrame> {
     return this._parsedStack;
   }

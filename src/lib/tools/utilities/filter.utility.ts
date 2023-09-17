@@ -68,10 +68,12 @@ export class FilterUtility implements Filter {
 
   /**
    * @private
-   * @param {unknown} value - The value to check.
-   * @returns {boolean} - Whether the value is considered unused.
+   * @method _isUnused
    *
-   * Helper method to validate empty or unused values.
+   * Determines if the given value is considered "unused" based on the specified criteria.
+   *
+   * @param {unknown} value - The value to check.
+   * @returns {boolean} - Returns true if the value is considered unused, otherwise false.
    */
   private _isUnused(value: unknown): boolean {
     if (typeof value === 'function') {
@@ -89,7 +91,13 @@ export class FilterUtility implements Filter {
   }
 
   /**
-   * Helper method to check if an object is empty.
+   * @private
+   * @method _isEmptyObject
+   *
+   * Checks if a given object is an empty object.
+   *
+   * @param {unknown} obj - The object to check.
+   * @returns {boolean} - Returns true if the object is empty, otherwise false.
    */
   private _isEmptyObject(obj: unknown): obj is Record<string, unknown> {
     return (
@@ -99,10 +107,12 @@ export class FilterUtility implements Filter {
 
   /**
    * @private
-   * @param {unknown} arr - The array to check.
-   * @returns {boolean} - Whether the array is empty.
+   * @method _isEmptyArray
    *
-   * Helper method to check if an array is empty.
+   * Checks if a given array is empty.
+   *
+   * @param {unknown} arr - The array to check.
+   * @returns {boolean} - Returns true if the array is empty, otherwise false.
    */
   private _isEmptyArray(arr: unknown): arr is unknown[] {
     return Array.isArray(arr) && arr.length === 0;
@@ -110,10 +120,12 @@ export class FilterUtility implements Filter {
 
   /**
    * @private
-   * @param {unknown} obj - The object to check.
-   * @returns {boolean} - Whether the object is empty.
+   * @method _isPlainObject
    *
-   * Helper method to check if an object is empty.
+   * Checks if a given object is a plain object.
+   *
+   * @param {unknown} obj - The object to check.
+   * @returns {boolean} - Returns true if the object is a plain object, otherwise false.
    */
   private _isPlainObject(obj: unknown): obj is Record<string, unknown> {
     return (
