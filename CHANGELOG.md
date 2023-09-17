@@ -4,6 +4,30 @@ All notable updates to the project will be documented in this file.
 
 ## [Unreleased]
 
+## [Version 2.0.0] - 2023-09-18
+
+### Added
+
+- New `ErrorEnhanced` core class to dynamically enrich error objects
+- Interfaces for all Enhancers and Utilities
+- Enum mappings for `SeverityLevel`, `Category`, `HttpMethods`, `HttpStatusCodes`
+
+### Changed
+
+- Moved enums to their own files
+- Exported core `ErrorEnhanced` separately from tools
+- Enhancers now implement interfaces
+- Utilities now implement interfaces
+
+### Fixed
+
+- Extract error info bug in `ErrorAnalysisEnhancer`
+- Filtering bugs in `FilterUtility`
+
+### Removed
+
+- Duplicate enum exports (#890)
+
 ## [Version 1.1.0] - 2023-09-16
 
 ### New Features
@@ -58,10 +82,13 @@ All notable updates to the project will be documented in this file.
 - Optimized the user interface for error serialization.
 - Made the project more accessible to new contributors.
 
-### Authors
+---
+
+## Collaborators
 
 - alessbarb
 
 [Unreleased]: https://github.com/labrynx/error-enhanced/compare/previous-version...HEAD
-[Version 1.0.0]: https://github.com/labrynx/error-enhanced/releases/tag/version-1.0.0
-[Version 1.1.0]: https://github.com/labrynx/error-enhanced/releases/tag/version-1.1.0
+[Version 1.0.0]: https://github.com/labrynx/error-enhanced/releases/tag/v1.0.0
+[Version 1.1.0]: https://github.com/labrynx/error-enhanced/releases/tag/v1.1.0
+[Version 2.0.0]: https://github.com/labrynx/error-enhanced/releases/tag/v2.0.0
