@@ -17,6 +17,7 @@ import { Serializers } from '../interfaces/serializers.interface';
  * const yamlString = serializer.toYAML();
  */
 export class SerializersUtility implements Serializers {
+  private _serializableCache: Record<string, any> | null = null;
   /**
    * toJSON
    *
@@ -29,24 +30,12 @@ export class SerializersUtility implements Serializers {
    */
   toJSON(replacer?: (key: string, value: any) => any): string {
     try {
-      // Initialize object with 'this'
-      const obj = this._applyObjectFilter();
-
-      // Create a plain object to store the keys and values
-      const plainObj: Record<string, any> = {};
-      Object.keys(obj).forEach(key => {
-        // Copy each property to the plain object
-        const value = (obj as any)[key];
-        if (typeof value === 'bigint') {
-          plainObj[key] = value.toString(); // Convert BigInt to String
-        } else {
-          plainObj[key] = value;
-        }
-      });
+      // Obtener el objeto serializable desde el cache o generarlo si necesario
+      const serializableObj = this._serializableObject();
 
       // Serialize to JSON, applying the replacer function if provided
       return stringifySafe(
-        plainObj,
+        serializableObj,
         replacer ||
           ((key: string, value: any) => {
             // Exclude null, undefined, and empty string values
@@ -73,7 +62,7 @@ export class SerializersUtility implements Serializers {
    */
   toXML(): string {
     try {
-      const obj = this._applyObjectFilter();
+      const obj = this._serializableObject();
 
       const xml = create((this as any).name, {
         version: '1.0',
@@ -105,20 +94,19 @@ export class SerializersUtility implements Serializers {
    */
   toCSV(delimiter: string = ',', quotes: boolean = true): string {
     try {
-      // Initialize with 'this' object for serialization
-      const obj = this._applyObjectFilter();
+      // Utilizar el objeto serializable desde el caché o generarlo
+      const serializableObj = this._serializableObject();
 
-      // Configure Papaparse settings
+      // Configurar las opciones de Papaparse
       const config: UnparseConfig = {
         delimiter: delimiter,
         quotes: (value, _columnIndex) => {
-          // Quote strings if the 'quotes' parameter is true
           return typeof value === 'string' ? quotes : false;
         },
       };
 
-      // Put the object inside an array as Papaparse expects an array of objects
-      const dataArray = [obj].map(record => {
+      // Colocar el objeto serializable dentro de un array, como lo espera Papaparse
+      const dataArray = [serializableObj].map(record => {
         const flatRecord: Record<string, any> = {};
         Object.keys(record).forEach(key => {
           const value = (record as any)[key];
@@ -133,10 +121,10 @@ export class SerializersUtility implements Serializers {
         return flatRecord;
       });
 
-      // Perform the actual serialization
+      // Realizar la serialización real
       const csv = unparse(dataArray, config);
 
-      // Return the generated CSV string
+      // Devolver la cadena CSV generada
       return csv;
     } catch (e) {
       this._handleSerializationError(e as Error, 'CSV');
@@ -155,19 +143,8 @@ export class SerializersUtility implements Serializers {
    */
   toYAML(): string {
     try {
-      const filteredObj = this._applyObjectFilter();
-      const objForYaml: Record<string, any> = {};
-
-      Object.keys(filteredObj).forEach(key => {
-        const value = (filteredObj as any)[key];
-        if (value instanceof Error) {
-          objForYaml[key] = this._flattenErrorObject(value);
-        } else if (typeof value === 'bigint') {
-          objForYaml[key] = value.toString();
-        } else {
-          objForYaml[key] = value;
-        }
-      });
+      // Utilizamos el objeto serializable en lugar de crear uno desde cero.
+      const objForYaml = this._serializableObject();
 
       return dump(objForYaml);
     } catch (e) {
@@ -258,5 +235,28 @@ export class SerializersUtility implements Serializers {
     });
 
     return plainObject;
+  }
+
+  private _serializableObject(): Record<string, any> {
+    if (this._serializableCache) {
+      return this._serializableCache;
+    }
+
+    const obj = this._applyObjectFilter();
+    const serializableObj: Record<string, any> = {};
+
+    Object.keys(obj).forEach(key => {
+      const value = (obj as any)[key];
+      if (value instanceof Error) {
+        serializableObj[key] = this._flattenErrorObject(value);
+      } else if (typeof value === 'bigint') {
+        serializableObj[key] = value.toString();
+      } else {
+        serializableObj[key] = value;
+      }
+    });
+
+    this._serializableCache = serializableObj;
+    return serializableObj;
   }
 }
