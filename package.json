@@ -1,5 +1,5 @@
 {
-  "name": "error-enhanced",
+  "name": "@labrynx/error-enhanced",
   "version": "2.2.4",
   "description": "Supercharge your Node.js error handling with this TypeScript library. Leverage modular architecture to enrich error objects with identifiers, system context, user info, and HTTP statuses. Perfect for debugging, logging, and boosting application robustness.",
   "author": "alessbarb",
@@ -77,6 +77,9 @@
     "uuid": "^9.0.0",
     "xmlbuilder": "^15.1.1",
     "zod": "^3.22.2"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",
