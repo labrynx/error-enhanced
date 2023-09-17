@@ -1,6 +1,7 @@
 [![Node.js CI/CD](https://github.com/labrynx/error-enhanced/actions/workflows/nodejs.yml/badge.svg?branch=main)](https://github.com/labrynx/error-enhanced/actions/workflows/nodejs.yml)
 
-# `error-enhanced` - Enhanced Error Handling with `ts-mixer`
+<a name="top"></a>
+# `error-enhanced` - Enhanced Error Handling
 
 ## Table of Contents 
 [Overview](#overview) | [Installation](#installation) | [Features](#features) | [Enhancers](#enhancers) | [Utilities](#utilities) | [Example Usage](#example-usage) | [Full Example](#full-example) | [Contributing](#contributing) | [Changelog](#changelog) 
@@ -12,16 +13,20 @@
 ### Utilities
 
 [FilterUtility](#filterutility) | [SerializersUtility](#serializersutility)
- 
+
 ## Overview
 
-This TypeScript library supercharges error management in Node.js applications, offering an out-of-the-box, customizable solution that goes beyond stack traces. By leveraging the power of [ts-mixer](https://github.com/tannerntannern/ts-mixer), the library introduces a modular architecture that allows you to enrich error objects with a plethora of contextual information and metadata. Whether you're capturing system-level details, user interactions, or HTTP statuses, this library provides a holistic view of errors, facilitating debugging, logging, and ultimately, enhancing the robustness of your application.
+error-enhanced is a TypeScript library that enhances error handling in Node.js applications. It offers an out-of-the-box, customizable solution that goes beyond stack traces. 
+
+The library introduces a modular architecture that allows enriching error objects with plenty of contextual information and metadata. Whether you are capturing system-level details, user interactions, or HTTP statuses, this library provides a holistic view of errors, facilitating debugging, logging, and ultimately, improving the robustness of your application.
 
 **Quick Example**:
 ```typescript
-const error = new ErrorEnhanced();
+const error = new ErrorEnhanced([new IdentifiersEnhanced()]);
 error.setErrorCode(400).setSeverity(ErrorEnhanced.SeverityLevel.HIGH);
 ```
+
+[Back to top](#top)
 
 ---
 
@@ -35,31 +40,33 @@ To install the library, run the following command:
 npm install error-enhanced
 ```
 
-### Peer Dependencies
-
-This library is designed to be used with `ts-mixer`. If you haven't already installed it, you can add it by running:
-
-```bash
-npm install ts-mixer
-```
-
-For more details, visit tannerntannern's [ts-mixer](https://github.com/tannerntannern/ts-mixer) project.
+[Back to top](#top)
 
 ---
 
 ## Features
 
 - Enriches error objects with multiple layers of metadata, providing a comprehensive view for debugging and logging.
-- Modular architecture allows customization to fit diverse error-handling needs.
+- Modular architecture allows customization to fit diverse error handling needs.
 - Validation methods to ensure data integrity.
-- Unused properties filtering to optimize the error object.
+- Unused properties filtering to optimize the error object. 
 - Multiple serialization formats for easy error object storage or sending to external services.
 
-> **Note**: Each feature is discussed in detail in the [Enhancers](#enhancers) and [Helpers](#helpers) sections.
+> **Note**: Each feature is discussed in detail in the [Enhancers](#enhancers) and [Utilities](#utilities) sections.
+
+[Back to top](#top)
 
 ---
 
 ## Enhancers
+
+Enhancers are classes that enrich the error object with additional information. Included enhancers are:
+
+- [IdentifiersEnhancer](#identifiersenhancer): Unique identifiers, error codes, severity, etc.
+- [SystemContextEnhancer](#systemcontextenhancer): System context information like module, environment, etc.
+- [UserInfoEnhancer](#userinfoenhancer): User related information like ID, roles, token, etc.  
+- [HttpStatusEnhancer](#httpstatusenhancer): HTTP request related information.
+- [ErrorAnalysisEnhancer](#erroranalysisenhancer): Detailed error analysis like file, line, column, etc.
 
 ### IdentifiersEnhancer
 
@@ -107,7 +114,7 @@ error.setErrorDescription("This is a description of an error");
 Sets the severity level. Validates against the `SeverityLevel` enum.
 
 ```typescript
-error.setSeverity(ErrorEnhanced.SeverityLevel.HIGH);
+error.setSeverity(SeverityLevel.HIGH);
 ```
 
 ##### `setCategory(category: Category)`
@@ -115,7 +122,7 @@ error.setSeverity(ErrorEnhanced.SeverityLevel.HIGH);
 Sets the error category. Validates against the `Category` enum.
 
 ```typescript
-error.setCategory(ErrorEnhanced.Category.SYSTEM);
+error.setCategory(Category.SYSTEM);
 ```
 
 ##### `getHash()`
@@ -243,7 +250,7 @@ This class adds HTTP-specific context information to errors.
 Sets the HTTP status code. Validates against the `HttpStatusCodes` enum.
 
 ```typescript
-error.setHttpStatusCode(ErrorEnhanced.HttpStatusCodes.FORBIDDEN);
+error.setHttpStatusCode(HttpStatusCodes.FORBIDDEN);
 ```
 
 ##### `setUrl(url: string)`
@@ -259,7 +266,7 @@ error.setUrl('https://example.com');
 Sets the HTTP method. Validates against the `HttpMethods` enum.
 
 ```typescript
-error.setHttpMethod(ErrorEnhanced.HttpMethods.GET);
+error.setHttpMethod(HttpMethods.GET);
 ```
 
 ##### `setRequestHeaders(headers: Object)`
@@ -341,9 +348,16 @@ console.log('Method:', error.methodName);
 console.log('Full Stack:', error.fullStack);
 ```
 
+[Back to top](#top)
+
 ---
 
 ## Utilities
+
+Utilities provide additional functionalities:
+
+- [FilterUtility](#filterutility): Filters unused properties.
+- [SerializersUtility](#serializersutility): Serializes object to JSON, CSV, XML and YAML.
 
 ### FilterUtility
 
@@ -364,6 +378,8 @@ console.log('Full Stack:', error.fullStack);
 
 > Note: If used combined FilterHelper and Serializers it filters out properties that are null, undefined, or empty and serializes to a new object.
 
+[Back to top](#top)
+
 ---
 
 ## Example Usage
@@ -372,23 +388,57 @@ Below is a step-by-step guide to create an enriched error object.
 
 ### Basic Example
 
-Firstly, create a new error using Mixin from `ts-mixer`.
+Firstly, import all needed enhancers, utilities, interfaces and enumerators.
 
 ```typescript
-class ErrorEnhanced extends Mixin(
-  Error, // <= Must!
-  IdentifiersEnhancer,
+import {
+  ErrorEnhanced,
+  ErrorAnalysisEnhancer,
   HttpStatusEnhancer,
+  IdentifiersEnhancer,
   SystemContextEnhancer,
   UserInfoEnhancer,
-  FilterHelper,
-  JsonSerializer,
-) {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, ErrorEnhanced.prototype);
-  }
-}
+  FilterUtility,
+  SerializersUtility,
+  ErrorAnalysis,
+  HttpStatus,
+  Identifiers,
+  SystemContext,
+  UserInfo,
+  Filter,
+  Serializers,
+  SeverityLevel,
+  Category,
+  HttpStatusCodes,
+  HttpMethods,
+} from 'error-enhanced';
+```
+
+Create a new type to help view all properties and methods, use the interfaces.
+
+```typescript
+type ErrorEnhancedType = Error &
+  Identifiers &
+  HttpStatus &
+  SystemContext &
+  UserInfo &
+  ErrorAnalysis &
+  Filter &
+  Serializers;
+```
+
+Then assign to a new objet the ErrorEnhanced class enriched with the enhancers and utilities
+
+```typescript
+const error = new ErrorEnhanced([
+  new IdentifiersEnhancer(),
+  new HttpStatusEnhancer(),
+  new SystemContextEnhancer(),
+  new UserInfoEnhancer(),
+  new FilterUtility(),
+  new ErrorAnalysisEnhancer(),
+  new SerializersUtility(),
+]) as ErrorEnhancedType;
 ```
 
 ### Setting Error Properties
@@ -396,21 +446,27 @@ class ErrorEnhanced extends Mixin(
 You can set various properties to provide more context to the error.
 
 ```typescript
-// Setting error code and its prefix
-error.setErrorCode(123).setErrorCodePrefix('EE');
+// Basic error information
+error.name = 'UserNotAuthorizedError';
+error.message = 'User is not authorized';
 
-// Setting error severity and category
-error.setSeverity(ErrorEnhanced.SeverityLevel.HIGH)
-     .setCategory(ErrorEnhanced.Category.SYSTEM);
+// User Information
+error.setUser('john_doe_123').setRoles(['admin', 'user']);
+
+// Additional Error Metadata
+error.setErrorCode(5432).setErrorCodePrefix('EE');
+
+// Setting Severity and Category
+error.setSeverity(SeverityLevel.HIGH).setCategory(Category.NETWORK);
 ```
 
-### Adding System Context
+### Adding Stack Context
 
-Add system-level details for more insightful debugging.
+Associate the new error with an original standard Error object for stack automatic analysis.
 
 ```typescript
-error.setModule('AuthenticationModule')
-     .setMethod('validateUser');
+// Associate the error with an original standard Error object
+error.setOriginalError(new Error('This is an error'));
 ```
 
 ### Adding HTTP Context
@@ -418,9 +474,11 @@ error.setModule('AuthenticationModule')
 If the error is related to an HTTP request, you can attach relevant details.
 
 ```typescript
-error.setHttpStatusCode(404)
-     .setUrl('https://api.example.com/user')
-     .setHttpMethod('GET');
+// HTTP Context
+error
+  .setHttpStatusCode(HttpStatusCodes.NOT_FOUND)
+  .setUrl('https://api.example.com/user')
+  .setHttpMethod(HttpMethods.GET);
 ```
 
 ### Serialization
@@ -428,8 +486,8 @@ error.setHttpStatusCode(404)
 Finally, serialize the enriched error object into a JSON string.
 
 ```typescript
-const serializedError = error.filterUnused().toJson();
-console.log(serializedError);
+const serializedErrorJSON = error.filterUnused().toJSON();
+console.log(serializedErrorJSON);
 ```
 
 This will output a JSON string containing all the set properties, filtered to remove any that are unused.
@@ -438,103 +496,64 @@ The resulting JSON can then be used for logging, debugging, or reporting purpose
 
 ```json
 {
-  "_errorCodePrefix": "EE",
-  "_id": "51cbe61a-fc93-4413-b7cd-3b65f93c0cd4",
-  "_errorCode": 123,
-  "_timestamp": 1694770264690,
-  "_severity": "high",
-  "_category": "network",
-  "_url": "https://api.example.com/user",
-  "_httpMethod": "GET",
-  "_latency": 150,
-  "_httpStatusCode": 404,
-  "_module": "AuthenticationModule",
-  "_method": "validateUser",
+  "_id": "123abc45-6789-de01-2345-fghi6789jklm",
+  "_errorCode": 9876,
+  "_errorCodePrefix": "CE",
+  "_timestamp": 1699999999999,
+  "_severity": "medium",
+  "_category": "authentication",
+  "_httpStatusCode": 401,
+  "_url": "https://api.fake-example.com/login",
+  "_httpMethod": "post",
   "_environment": "production",
-  "_nodeVersion": "v14.17.3",
-  "_hostname": "prod-server-01",
+  "_nodeVersion": "v16.13.0",
+  "_hostname": "PROD-SERVER-001",
   "_cpuArch": "x64",
-  "_osType": "Linux",
-  "_osRelease": "Ubuntu 20.04",
-  "_systemUptime": 745632,
-  "_user": "john_doe",
-  "_sessionId": "sess_876ASDGH123",
-  "_authToken": "jh12GHD83kSHD92k",
-  "_ipAddress": "192.168.1.2",
-  "_userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.3",
-  "name": "UserNotAuthorizedError",
-  "message": "User is not authorized"
+  "_osType": "Ubuntu",
+  "_osRelease": "20.04.3 LTS",
+  "_systemUptime": 100000,
+  "_user": "jane_doe_789",
+  "_roles": ["user"],
+  "_fullStack": [
+    "at Object.<anonymous> (/home/jane/projects/fake-project/example.js:40:12)",
+    "at Module._compile (internal/modules/cjs/loader.js:1138:30)",
+    "at Object.Module._extensions..js (internal/modules/cjs/loader.js:1158:10)",
+    "at Module.load (internal/modules/cjs/loader.js:986:32)",
+    "at Function.Module._load (internal/modules/cjs/loader.js:879:14)",
+    "at Function.executeUserEntryPoint [as runMain] (internal/modules/run_main.js:71:12)",
+    "at internal/main/run_main_module.js:17:47"
+  ],
+  "name": "AuthenticationFailedError",
+  "message": "Invalid username or password"
 }
 ```
+
+[Back to top](#top)
+
+---
 
 ## Full example
 
-And here is the full example.
+For a full example please check the [examples](examples/) folder.
 
-```typescript
-import { Mixin } from 'ts-mixer';
-
-import {
-  IdentifiersEnhancer,
-  HttpStatusEnhancer,
-  SystemContextEnhancer,
-  JsonSerializer,
-  FilterHelper,
-  UserInfoEnhancer,
-} from './tools';
-
-class ErrorEnhanced extends Mixin(
-  Error, // <= Must!
-  IdentifiersEnhancer,
-  HttpStatusEnhancer,
-  SystemContextEnhancer,
-  UserInfoEnhancer,
-  FilterHelper,
-  JsonSerializer,
-) {
-  constructor() {
-    super();
-    Object.setPrototypeOf(this, ErrorEnhanced.prototype);
-  }
-}
-
-const error = new ErrorEnhanced();
-
-// Its a normal error, give it a name and error message
-error.name = 'UserNotAuthorizedError';
-error.message = 'User is not authorized';
-
-// Setting error code and its prefix
-error.setErrorCode(123).setErrorCodePrefix('EE');
-
-// Setting error severity and category
-error
-  .setSeverity(ErrorEnhanced.SeverityLevel.HIGH)
-  .setCategory(ErrorEnhanced.Category.NETWORK);
-
-// Add some context
-error.setModule('AuthenticationModule').setMethod('validateUser');
-error
-  .setHttpStatusCode(404)
-  .setUrl('https://api.example.com/user')
-  .setHttpMethod(ErrorEnhanced.HttpMethods.GET);
-
-const serializedErrorJSON = error.filterUnused().toJSON();
-const serializedErrorCSV = error.filterUnused().toCSV();
-const serializedErrorXML = error.filterUnused().toXML();
-const serializedErrorYAML = error.filterUnused().toYAML();
-```
-
-This will create an `ErrorEnhanced` object, set some properties, filter out the unused ones, and serialize it to a any string.
+[Back to top](#top)
 
 ---
 
 ## Contributing
 
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
 For guidelines on how to contribute to this project, please see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+[Back to top](#top)
 
 --- 
 
 ## Changelog
 
 For a detailed list of changes, please refer to the [CHANGELOG.md](CHANGELOG.md).
+
+[Back to top](#top)
