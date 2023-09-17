@@ -1,6 +1,6 @@
 {
   "branches": [
-    "main"
+    "development"
   ],
   "plugins": [
     [
@@ -73,12 +73,6 @@
       "@semantic-release/npm",
       {
         "npmPublish": false
-      }
-    ],
-    [
-      "@semantic-release/npm",
-      {
-        "npmPublish": true
       }
     ],
     [
