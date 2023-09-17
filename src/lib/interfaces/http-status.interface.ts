@@ -1,4 +1,4 @@
-import { HttpBody, HttpHeaders, QueryParams } from '../../types';
+import { HttpBody, HttpHeaders, QueryParams } from '../types';
 
 /**
  * @interface HttpStatus

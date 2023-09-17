@@ -12,8 +12,8 @@
  *
  * @module error-enhanced
  *
- * @author alessbarb
- * @version 1.0.0
+ * @author Alessandro Barbagallo
+ * @version 2.2.7
  * @see {@link https://github.com/labrynx/error-enhanced GitHub Repository} for complete project details and documentation.
  *
  * @example
@@ -68,22 +68,25 @@
 /**
  * Exports the primary core functionalities required for enriched error handling.
  */
-export * from './lib/error-enhanced';
-
-// Essential Tool Re-exports for Enriched Error Handling
-// ============================================================================
-/**
- * Re-exports all modules, classes, and utilities for enriched error handling from the `./lib/tools` directory.
- * This allows developers to conveniently import all error-handling functionalities directly from the root of the library.
- */
-export * from './lib/tools';
+export * from './lib/core/error-enhanced';
 
 // Enumerators Export for Enriched Error Handling
 // ============================================================================
 /**
  * Re-exports all enumerators related to enriched error handling.
  */
-export * from './lib/enums/category.enum';
-export * from './lib/enums/http-methods.enum';
-export * from './lib/enums/http-status-codes.enum';
-export * from './lib/enums/severity.enum';
+export * from './lib/enums';
+
+// Types Export for Enriched Error Handling
+// ============================================================================
+/**
+ * Re-exports all types related to enriched error handling.
+ */
+export * from './lib/types';
+
+// Interfaces Export for Enriched Error Handling
+// ============================================================================
+/**
+ * Re-exports all types related to enriched error handling.
+ */
+export * from './lib/interfaces';

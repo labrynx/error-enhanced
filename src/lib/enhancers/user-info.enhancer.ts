@@ -1,5 +1,5 @@
-import { ValidString } from '../../validators/validators';
-import { UserInfo } from '../interfaces/user-info.interface';
+import { ValidString } from '../validators/string.validator';
+import { UserInfo } from '../interfaces';
 
 /**
  * @class UserInfoEnhancer

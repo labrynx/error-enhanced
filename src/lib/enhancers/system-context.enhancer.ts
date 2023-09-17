@@ -1,6 +1,6 @@
 import os from 'os';
-import { ValidString } from '../../validators/validators';
-import { SystemContext } from '../interfaces/system-context.interface';
+import { ValidString } from '../validators/string.validator';
+import { SystemContext } from '../interfaces';
 
 /**
  * @class SystemContextEnhancer

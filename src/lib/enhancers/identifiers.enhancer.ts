@@ -1,16 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
 import * as crypto from 'crypto';
 
-import { Identifiers } from '../interfaces/identifiers.interface';
-import { Category } from '../../enums/category.enum';
-import { SeverityLevel } from '../../enums/severity.enum';
-import {
-  ValidCategory,
-  ValidNumber,
-  ValidSeverityLevel,
-  ValidString,
-  ValidStringWithEmpty,
-} from '../../validators/validators';
+import { Identifiers } from '../interfaces';
+import { Category, SeverityLevel } from '../enums';
+import { ValidNumber } from '../validators/number.validator';
+import { ValidStringWithEmpty } from '../validators/ValidStringWithEmpty';
+import { ValidString } from '../validators/string.validator';
+import { ValidSeverityLevel } from '../validators/severity.validator';
+import { ValidCategory } from '../validators/category.validator';
 
 /**
  * @class IdentifiersEnhancer

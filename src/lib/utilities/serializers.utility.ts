@@ -2,7 +2,8 @@ import stringifySafe from 'json-stringify-safe';
 import { create } from 'xmlbuilder';
 import { unparse, UnparseConfig } from 'papaparse';
 import { dump } from 'js-yaml';
-import { Serializers } from '../interfaces/serializers.interface';
+
+import { Serializers } from '../interfaces';
 
 /**
  * @class Serializers

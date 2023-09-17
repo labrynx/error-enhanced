@@ -1,4 +1,4 @@
-import { Filter } from '../interfaces/filter.interface';
+import { Filter } from '../interfaces';
 
 /**
  * @class FilterUtility
