@@ -1,54 +1,57 @@
-name: Node.js CI/CD
+name: Node.js CI/CD  
 
 on:
   push:
     branches:
-      - main
+      - main  # Trigger the workflow on push to the 'main' branch
 
 jobs:
   build-and-release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Run the job on the latest Ubuntu image
+    strategy:
+      matrix:
+        node: [ 14, 16, 18 ]  # Test against Node.js v14, v16, and v18
     permissions:
       contents: write
       pull-requests: read
 
     steps:
-      - name: Checkout code
+      - name: Checkout code  # Checkout the code from the repository
         uses: actions/checkout@v3
 
-      - name: Cache Node.js modules
-        uses: actions/cache@v2
+      - name: Cache Node.js modules  # Cache dependencies to speed up future runs
+        uses: actions/cache@v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - name: Setup Node.js  # Setup Node.js environment
+        uses: actions/setup-node@v3
         with:
-          node-version: '18.x'  # Updated to Node.js v18.x
+          node-version: ${{ matrix.node }}
 
-      - name: Install dependencies
+      - name: Install dependencies  # Install NPM dependencies
         run: npm install
 
-      - name: Show Git logs  # Added step to show Git logs for debugging
+      - name: Show Git logs  # Debug: Show last 5 Git logs
         run: git log --oneline -n 5
 
-      - name: Configure Git
+      - name: Configure Git  # Configure Git for commits
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-      - name: List current directory
+      - name: Build project  # Build the project and create 'dist' folder
+        run: npm run build
+
+      - name: List current directory  # Debug: List the files to check if 'dist' folder is created
         run: ls -al
 
-      - name: Build project
-        run: npm run build  # Asumiendo que tienes un script de construcción en tu package.json
-
-      - name: Semantic Release
+      - name: Semantic Release  # Run Semantic Release for automated versioning and publishing
         run: npx semantic-release
         env:
-          DEBUG: semantic-release:*  # Added Debugging for Semantic Release
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          DEBUG: semantic-release:*  # Enable debugging for Semantic Release
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub Token for authentication
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}  # NPM Token for publishing
