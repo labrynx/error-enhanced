@@ -40,6 +40,9 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
+      - name: List current directory
+        run: ls -al
+
       - name: Semantic Release
         run: npx semantic-release
         env:
