@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest  # Run the job on the latest Ubuntu image
     strategy:
       matrix:
-        node: [ 18, 20 ]  # Test against Node.js v18 and v20
+        node: [ 20 ]  # Test against Node.js v20
     permissions:
       contents: write
       pull-requests: read
