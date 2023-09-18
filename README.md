@@ -1,5 +1,4 @@
-![npm](https://img.shields.io/npm/v/error-enhanced)
-[![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/labrynx/error-enhanced/nodejs.yml)](https://github.com/labrynx/error-enhanced/actions/workflows/nodejs.yml)
+![npm](https://img.shields.io/npm/v/error-enhanced?style=for-the-badge&logo=npm&logoColor=white&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Ferror-enhanced)
 
 <a name="top"></a>
 
