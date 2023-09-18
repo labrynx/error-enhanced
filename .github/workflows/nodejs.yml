@@ -43,6 +43,9 @@ jobs:
       - name: List current directory
         run: ls -al
 
+      - name: Build project
+        run: npm run build  # Asumiendo que tienes un script de construcción en tu package.json
+
       - name: Semantic Release
         run: npx semantic-release
         env:
