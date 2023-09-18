@@ -1,6 +1,6 @@
 {
   "name": "error-enhanced",
-  "version": "1.1.0",
+  "version": "2.0.1",
   "description": "Supercharge your Node.js error handling with this TypeScript library. Leverage modular architecture to enrich error objects with identifiers, system context, user info, and HTTP statuses. Perfect for debugging, logging, and boosting application robustness.",
   "author": "alessbarb",
   "license": "MIT",
@@ -77,6 +77,11 @@
     "@commitlint/cli": "^17.7.1",
     "@commitlint/config-conventional": "^17.7.0",
     "@jest/types": "^29.6.3",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^11.0.0-beta.4",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/npm": "^11.0.0",
+    "@semantic-release/release-notes-generator": "^12.0.0-beta.3",
     "@types/jest": "^29.5.4",
     "@types/js-yaml": "^4.0.5",
     "@types/node": "^20.6.0",
@@ -95,10 +100,5 @@
     "ts-node": "^10.9.1",
     "tslib": "^2.6.2",
     "typescript": "^5.2.2"
-  },
-  "release": {
-    "branches": [
-      "main"
-    ]
   }
 }
