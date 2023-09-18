@@ -1,3 +1,10 @@
+## [2.2.3](https://github.com/labrynx/error-enhanced/compare/v2.2.2...v2.2.3) (2023-09-18)
+
+
+### Bug Fixes
+
+* **security:** fix security issue on uncontrolled data ([862c830](https://github.com/labrynx/error-enhanced/commit/862c8309a79b1be902fad0073d692503cd3afe4a)), closes [#6](https://github.com/labrynx/error-enhanced/issues/6)
+
 ## [2.2.2](https://github.com/labrynx/error-enhanced/compare/v2.2.1...v2.2.2) (2023-09-18)
 
 
