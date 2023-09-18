@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/labrynx/error-enhanced/compare/v2.0.2...v2.1.0) (2023-09-18)
+
+
+### Features
+
+* **IdentifiersEnhancer:** Added High Precision Timestamp ([0f5cf0c](https://github.com/labrynx/error-enhanced/commit/0f5cf0ca823a3e952d4141291828eb0035cff86c))
+
 ## [2.0.2](https://github.com/labrynx/error-enhanced/compare/v2.0.1...v2.0.2) (2023-09-18)
 
 
