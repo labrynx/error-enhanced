@@ -1,4 +1,6 @@
-[![Node.js CI/CD](https://github.com/labrynx/error-enhanced/actions/workflows/nodejs.yml/badge.svg?branch=main)](https://github.com/labrynx/error-enhanced/actions/workflows/nodejs.yml)
+![npm](https://img.shields.io/npm/v/error-enhanced)
+[![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/labrynx/error-enhanced/nodejs.yml)
+](https://github.com/labrynx/error-enhanced/actions/workflows/nodejs.yml)
 
 <a name="top"></a>
 # `error-enhanced` - Enhanced Error Handling
