@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/labrynx/error-enhanced/compare/v2.1.0...v2.2.0) (2023-09-18)
+
+
+### Features
+
+* **Constant Enumerators:** Updated constant enumerators ([9bc81e1](https://github.com/labrynx/error-enhanced/commit/9bc81e1c405b9216b240696b46b66cb14e861351))
+
 # [2.1.0](https://github.com/labrynx/error-enhanced/compare/v2.0.2...v2.1.0) (2023-09-18)
 
 
