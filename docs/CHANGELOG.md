@@ -1,3 +1,10 @@
+## [2.2.2](https://github.com/labrynx/error-enhanced/compare/v2.2.1...v2.2.2) (2023-09-18)
+
+
+### Bug Fixes
+
+* **Polynomial regular expression:** Fix code scanning alert ([0272e4c](https://github.com/labrynx/error-enhanced/commit/0272e4cbe7c01c90b2ba8fc06b3a6d70e3300a1d)), closes [#6](https://github.com/labrynx/error-enhanced/issues/6)
+
 ## [2.2.1](https://github.com/labrynx/error-enhanced/compare/v2.2.0...v2.2.1) (2023-09-18)
 
 # [2.2.0](https://github.com/labrynx/error-enhanced/compare/v2.1.0...v2.2.0) (2023-09-18)
