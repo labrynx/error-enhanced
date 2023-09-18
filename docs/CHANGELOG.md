@@ -1,3 +1,10 @@
+## [2.2.4](https://github.com/labrynx/error-enhanced/compare/v2.2.3...v2.2.4) (2023-09-18)
+
+
+### Bug Fixes
+
+* **serializers:** bug serializing error object ([07a69ca](https://github.com/labrynx/error-enhanced/commit/07a69ca831e8770a8aca96aa946ff2c1073109ec))
+
 ## [2.2.3](https://github.com/labrynx/error-enhanced/compare/v2.2.2...v2.2.3) (2023-09-18)
 
 
