@@ -1,4 +1,4 @@
-import { ValidString } from '../validators/string.validator';
+import { ValidString } from '../validators';
 import { UserInfo } from '../interfaces';
 
 /**

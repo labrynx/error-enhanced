@@ -1,5 +1,5 @@
 import os from 'os';
-import { ValidString } from '../validators/string.validator';
+import { ValidString } from '../validators';
 import { SystemContext } from '../interfaces';
 
 /**

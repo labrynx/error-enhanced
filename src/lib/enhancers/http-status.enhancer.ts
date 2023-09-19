@@ -1,9 +1,11 @@
-import { ValidKeyedObject } from '../validators/keyed-objects.validator';
-import { ValidIP } from '../validators/ip.validator';
-import { ValidURL } from '../validators/ValidURL';
-import { ValidNumber } from '../validators/number.validator';
-import { ValidHttpStatusCodes } from '../validators/http-status-codes.validator';
-import { ValidHttpMethods } from '../validators/http-methods.validator';
+import {
+  ValidKeyedObject,
+  ValidIP,
+  ValidURL,
+  ValidNumber,
+  ValidHttpStatusCodes,
+  ValidHttpMethods,
+} from '../validators';
 import { HttpStatusCodes, HttpMethods } from '../enums';
 import { HttpStatus } from '../interfaces';
 import { HttpHeaders, QueryParams, HttpBody } from '../types';
