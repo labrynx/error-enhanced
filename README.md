@@ -35,7 +35,7 @@ For more examples and advanced usage, please refer to the [Wiki](https://github.
 To install the package, use the following npm command:
 
 ```bash
-npm install error-enhanced
+npm install @labrynx/error-enhanced
 ```
 
 [Back to top](#top)
