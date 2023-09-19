@@ -1,3 +1,10 @@
+## [2.2.7](https://github.com/labrynx/error-enhanced/compare/v2.2.6...v2.2.7) (2023-09-19)
+
+
+### Bug Fixes
+
+* **Validators:** Corrected imports in Enhancers ([808289c](https://github.com/labrynx/error-enhanced/commit/808289cb3bfc944ed29bb97404710afda3e7dc51))
+
 ## [2.2.6](https://github.com/labrynx/error-enhanced/compare/v2.2.5...v2.2.6) (2023-09-19)
 
 
