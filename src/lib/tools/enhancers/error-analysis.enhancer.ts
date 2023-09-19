@@ -26,6 +26,8 @@ export class ErrorAnalysisEnhancer implements ErrorAnalysis {
    */
   private _parsedStack: Array<StackFrame> = [];
 
+  private static _stackCache: Map<Error, Array<StackFrame>> = new Map();
+
   /**
    * @constructor
    *
@@ -64,27 +66,31 @@ export class ErrorAnalysisEnhancer implements ErrorAnalysis {
    * Extracts detailed error information from the stack trace.
    */
   private _extractErrorInfo(): this {
-    // Check if _originalError is available and get its stack trace
+    if (ErrorAnalysisEnhancer._stackCache.has(this._originalError!)) {
+      this._parsedStack = ErrorAnalysisEnhancer._stackCache.get(
+        this._originalError!,
+      )!;
+      return this;
+    }
+
     const errStack = this._originalError?.stack ?? 'unknown';
 
-    // If no stack trace, return the instance as is
     if (errStack === 'unknown') {
       return this;
     }
 
-    // Parse stack trace and populate _parsedStack
     const stackFrames = ErrorStackParser.parse(this._originalError!);
-    this._parsedStack = stackFrames.map(frame => {
-      const parts = frame.functionName?.split('.') || [];
-      const typeName = parts.length > 1 ? parts[0] : 'unknown';
-      return {
-        functionName: frame.functionName || 'unknown',
-        fileName: frame.fileName || 'unknown',
-        lineNumber: frame.lineNumber || -1,
-        columnNumber: frame.columnNumber || -1,
-        typeName,
-      };
-    });
+
+    this._parsedStack = stackFrames.map(
+      ({ functionName, fileName, lineNumber, columnNumber }) => ({
+        functionName: functionName || 'unknown',
+        fileName: fileName || 'unknown',
+        lineNumber: lineNumber ?? -1,
+        columnNumber: columnNumber ?? -1,
+        typeName: functionName?.split('.')[0] ?? 'unknown',
+      }),
+    );
+
     return this;
   }
 
@@ -96,6 +102,9 @@ export class ErrorAnalysisEnhancer implements ErrorAnalysis {
    * Getter for the parsed stack trace details.
    */
   public get parsedStack(): Array<StackFrame> {
-    return this._parsedStack;
+    if (this._parsedStack === null) {
+      this._extractErrorInfo();
+    }
+    return this._parsedStack!;
   }
 }

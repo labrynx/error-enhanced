@@ -4,7 +4,7 @@
  * of the error handling system.
  */
 
-import { z } from 'zod';
+import z from 'zod';
 
 import { Category } from '../enums/category.enum';
 import { SeverityLevel } from '../enums/severity.enum';
