@@ -1,3 +1,10 @@
+## [2.2.6](https://github.com/labrynx/error-enhanced/compare/v2.2.5...v2.2.6) (2023-09-19)
+
+
+### Performance Improvements
+
+* **General:** Increased 20% performance ([7b4e0b6](https://github.com/labrynx/error-enhanced/commit/7b4e0b6da329edf091b3f6b56da3188e0bd77344))
+
 ## [2.2.5](https://github.com/labrynx/error-enhanced/compare/v2.2.4...v2.2.5) (2023-09-19)
 
 ## [2.2.4](https://github.com/labrynx/error-enhanced/compare/v2.2.3...v2.2.4) (2023-09-18)
