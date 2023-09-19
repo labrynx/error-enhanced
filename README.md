@@ -1,4 +1,4 @@
-[![npm](https://img.shields.io/npm/v/error-enhanced?style=for-the-badge&logo=npm&logoColor=white&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Ferror-enhanced)](https://www.npmjs.com/package/error-enhanced)
+[![npm](https://img.shields.io/npm/v/@labrynx/error-enhanced?style=for-the-badge&logo=npm&logoColor=white&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Ferror-enhanced)](https://www.npmjs.com/package/error-enhanced)
 
 <a name="top"></a>
 
