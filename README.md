@@ -2,7 +2,7 @@
 
 <a name="top"></a>
 
-# `@labrynx/error-enhanced` - Enhanced Error Handling for Node.js
+# Enhanced Error Enrichment for Node.js
 
 ## Table of Contents 
 - [Quick Start](#quick-start)
