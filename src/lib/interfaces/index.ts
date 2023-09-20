@@ -1,3 +1,4 @@
+export * from './application-state.interface';
 export * from './error-analysis.interface';
 export * from './http-status.interface';
 export * from './identifiers.interface';

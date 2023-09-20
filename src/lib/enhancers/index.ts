@@ -1,3 +1,4 @@
+export * from './application-state.enhancer';
 export * from './error-analysis.enhancer';
 export * from './http-status.enhancer';
 export * from './identifiers.enhancer';
