@@ -12,11 +12,11 @@ import { StackFrame } from '../types';
 export class ErrorAnalysisEnhancer implements ErrorAnalysis {
   /**
    * @private
-   * @type {Error | null}
+   * @type {Error | undefined }
    *
    * Holds the original error object.
    */
-  private _originalError: Error | null = null;
+  private _originalError: Error | undefined = undefined;
 
   /**
    * @private
@@ -52,9 +52,9 @@ export class ErrorAnalysisEnhancer implements ErrorAnalysis {
   /**
    * @public
    * @method originalError
-   * @returns {Error | null} - Returns the original error object.
+   * @returns {Error | undefined } - Returns the original error object.
    */
-  public get originalError(): Error | null {
+  public get originalError(): Error | undefined {
     return this._originalError;
   }
 
