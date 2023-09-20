@@ -3,23 +3,24 @@ name: Node.js CI/CD
 on:
   push:
     branches:
-      - main  # Trigger the workflow on push to the 'main' branch
+      - main
+      - development
 
 jobs:
-  build-and-release:
-    runs-on: ubuntu-latest  # Run the job on the latest Ubuntu image
+  build-and-test:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [ 20 ]  # Test against Node.js v20
+        node: [ 20 ]
     permissions:
       contents: write
       pull-requests: read
 
     steps:
-      - name: Checkout code  # Checkout the code from the repository
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Cache Node.js modules  # Cache dependencies to speed up future runs
+      - name: Cache Node.js modules
         uses: actions/cache@v3
         with:
           path: ~/.npm
@@ -27,31 +28,51 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Setup Node.js  # Setup Node.js environment
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
 
-      - name: Install dependencies  # Install NPM dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: Show Git logs  # Debug: Show last 5 Git logs
+      - name: Show Git logs
         run: git log --oneline -n 5
 
-      - name: Configure Git  # Configure Git for commits
+      - name: Build project
+        run: npm run build
+
+      - name: Test project
+        run: npm run test  # Assuming you have a 'test' script in your package.json
+
+      - name: List current directory
+        run: ls -al
+
+  release:
+    needs: build-and-test  # This job needs the build-and-test job to complete successfully before it can run
+    if: github.ref == 'refs/heads/main'  # This ensures the job only runs for pushes to the 'main' branch
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Configure Git
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-      - name: Build project  # Build the project and create 'dist' folder
-        run: npm run build
-
-      - name: List current directory  # Debug: List the files to check if 'dist' folder is created
-        run: ls -al
-
-      - name: Semantic Release  # Run Semantic Release for automated versioning and publishing
+      - name: Semantic Release
         run: npx semantic-release
         env:
-          DEBUG: semantic-release:*  # Enable debugging for Semantic Release
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub Token for authentication
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}  # NPM Token for publishing
+          DEBUG: semantic-release:*
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
