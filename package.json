@@ -1,18 +1,24 @@
 {
   "name": "@labrynx/error-enhanced",
   "version": "2.2.7",
-  "description": "Supercharge your Node.js error handling with this TypeScript library. Leverage modular architecture to enrich error objects with identifiers, system context, user info, and HTTP statuses. Perfect for debugging, logging, and boosting application robustness.",
   "author": "alessbarb",
+  "description": "Supercharge your Node.js error handling with this TypeScript library. Leverage modular architecture to enrich error objects with identifiers, system context, user info, and HTTP statuses. Perfect for debugging, logging, and boosting application robustness.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/labrynx/error-enhanced"
+  },
   "license": "MIT",
   "private": false,
   "homepage": "https://github.com/labrynx/error-enhanced#readme",
-  "bugs": "https://github.com/labrynx/error-enhanced/issues",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/labrynx/error-enhanced.git"
+  "bugs": {
+    "url": "https://github.com/labrynx/error-enhanced/issues"
   },
   "exports": {
-    ".": "./dist/index.js",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
     "./package.json": "./package.json"
   },
   "main": "./dist/index.js",
@@ -25,7 +31,7 @@
     }
   },
   "files": [
-    "dist"
+    "/dist"
   ],
   "sideEffects": false,
   "engines": {
