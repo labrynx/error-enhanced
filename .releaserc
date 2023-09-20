@@ -1,96 +1,97 @@
 {
-  "branches": [
-    "main"
-  ],
-  "plugins": [
-    [
-      "@semantic-release/commit-analyzer",
-      {
-        "preset": "angular",
-        "releaseRules": [
-          {
-            "type": "docs",
-            "scope": "api",
-            "release": "minor"
-          },
-          {
-            "type": "feat",
-            "scope": "ui",
-            "release": "minor"
-          },
-          {
-            "type": "fix",
-            "scope": "backend",
-            "release": "patch"
-          },
-          {
-            "type": "docs",
-            "scope": "README",
-            "release": "patch"
-          },
-          {
-            "type": "refactor",
-            "scope": "core-*",
-            "release": "minor"
-          },
-          {
-            "type": "refactor",
-            "release": "patch"
-          },
-          {
-            "scope": "no-release",
-            "release": false
-          }
-        ]
-      }
-    ],
-    [
-      "@semantic-release/release-notes-generator",
-      {
-        "preset": "angular",
-        "parserOpts": {
-          "noteKeywords": [
-            "BREAKING CHANGE",
-            "BREAKING CHANGES",
-            "BREAKING"
-          ]
-        },
-        "writerOpts": {
-          "commitsSort": [
-            "subject",
-            "scope"
-          ]
-        }
-      }
-    ],
-    [
-      "@semantic-release/changelog",
-      {
-        "changelogFile": "docs/CHANGELOG.md"
-      }
-    ],
-    [
-      "@semantic-release/npm",
-      {
-        "npmPublish": false
-      }
-    ],
-    [
-      "@semantic-release/npm",
-      {
-        "npmPublish": true
-      }
-    ],
-    [
-      "@semantic-release/git",
-      {
-        "assets": [
-          "./package.json",
-          "./npm-shrinkwrap.json",
-          "./dist/**/*.{js}"
-        ],
-        "message": "chore: Release ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
-      }
-    ]
-  ]
+	"branches": [
+		"main"
+	],
+	"plugins": [
+		[
+			"@semantic-release/commit-analyzer",
+			{
+				"preset": "angular",
+				"releaseRules": [{
+						"type": "docs",
+						"scope": "README",
+						"release": "patch"
+					},
+					{
+						"type": "style",
+						"scope": "ui",
+						"release": "patch"
+					},
+					{
+						"type": "feat",
+						"scope": "app",
+						"release": "minor"
+					},
+					{
+						"type": "fix",
+						"scope": "app",
+						"release": "patch"
+					},
+					{
+						"type": "refactor",
+						"scope": "core",
+						"release": "minor"
+					},
+					{
+						"type": "test",
+						"scope": "test",
+						"release": "patch"
+					},
+					{
+						"type": "chore",
+						"scope": "deps",
+						"release": "patch"
+					}
+				]
+			}
+		],
+		[
+			"@semantic-release/release-notes-generator",
+			{
+				"preset": "angular",
+				"parserOpts": {
+					"noteKeywords": [
+						"BREAKING CHANGE",
+						"BREAKING CHANGES",
+						"BREAKING"
+					]
+				},
+				"writerOpts": {
+					"commitsSort": [
+						"subject",
+						"scope"
+					]
+				}
+			}
+		],
+		[
+			"@semantic-release/changelog",
+			{
+				"changelogFile": "docs/CHANGELOG.md"
+			}
+		],
+		[
+			"@semantic-release/npm",
+			{
+				"npmPublish": false
+			}
+		],
+		[
+			"@semantic-release/npm",
+			{
+				"npmPublish": true
+			}
+		],
+		[
+			"@semantic-release/git",
+			{
+				"assets": [
+					"./package.json",
+					"./npm-shrinkwrap.json",
+					"./dist/**/*.{js}"
+				],
+				"message": "chore: Release ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+			}
+		]
+	]
 }
