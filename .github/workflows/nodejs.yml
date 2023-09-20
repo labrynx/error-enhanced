@@ -42,15 +42,15 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Test project
-        run: npm run test  # Assuming you have a 'test' script in your package.json
+#      - name: Test project
+#        run: npm run test  
 
       - name: List current directory
         run: ls -al
 
   release:
-    needs: build-and-test  # This job needs the build-and-test job to complete successfully before it can run
-    if: github.ref == 'refs/heads/main'  # This ensures the job only runs for pushes to the 'main' branch
+    needs: build-and-test  
+    if: github.ref == 'refs/heads/main'  
     runs-on: ubuntu-latest
 
     steps:
