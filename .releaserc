@@ -1,6 +1,6 @@
 {
   "branches": [
-    "main"
+    "development"
   ],
   "plugins": [
     [
@@ -76,19 +76,12 @@
       }
     ],
     [
-      "@semantic-release/npm",
-      {
-        "npmPublish": true
-      }
-    ],
-    [
       "@semantic-release/git",
       {
         "assets": [
           "./package.json",
           "./npm-shrinkwrap.json",
-          "./dist/**/*.{js}",
-          "./docs/**"
+          "./dist/**/*.{js}"
         ],
         "message": "chore: Release ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }

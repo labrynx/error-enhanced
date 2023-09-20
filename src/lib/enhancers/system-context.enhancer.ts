@@ -1,5 +1,5 @@
 import os from 'os';
-import { ValidString } from '../validators';
+
 import { SystemContext } from '../interfaces';
 
 /**
@@ -10,23 +10,9 @@ import { SystemContext } from '../interfaces';
  *
  * @example
  * const systemContext = new SystemContextEnhancer();
- * systemContext.setEnvironment('production').refreshSystemInfo();
+ * systemContext.refreshSystemInfo();
  */
 export class SystemContextEnhancer implements SystemContext {
-  /**
-   * @private
-   * @type {string}
-   * The application's current environment (e.g., "production", "development").
-   */
-  private _environment: string = '';
-
-  /**
-   * @private
-   * @type {string}
-   * The version of Node.js in use.
-   */
-  private _nodeVersion: string = '';
-
   /**
    * @private
    * @type {string}
@@ -68,8 +54,6 @@ export class SystemContextEnhancer implements SystemContext {
    * Constructs a new SystemContextEnhancer object and initializes it with system context.
    */
   constructor() {
-    this._environment = process.env.NODE_ENV || 'unknown';
-    this._nodeVersion = process.version;
     this._hostname = os.hostname();
     this._cpuArch = os.arch();
     this._osType = os.type();
@@ -80,42 +64,6 @@ export class SystemContextEnhancer implements SystemContext {
   // ====================================================================
   // Getters & Setters
   // ====================================================================
-
-  /**
-   * @public
-   * @method setEnvironment
-   * @param {string} environment - The application environment to set (e.g., "production", "development").
-   * @returns {SystemContextEnhancer} - The instance of the class, useful for chaining.
-   * @throws Will throw an error if the environment string is invalid.
-   *
-   * Sets the application environment.
-   */
-  public setEnvironment(environment: string): this {
-    const parsed = ValidString.safeParse(environment);
-    if (!parsed.success) {
-      throw new Error('Invalid environment');
-    }
-    this._environment = environment;
-    return this;
-  }
-
-  /**
-   * Gets the application environment.
-   *
-   * @returns Name of the environment
-   */
-  public get environment(): string {
-    return this._environment;
-  }
-
-  /**
-   * Gets the Node.js version.
-   *
-   * @returns Node.js version
-   */
-  public get nodeVersion(): string {
-    return this._nodeVersion;
-  }
 
   /**
    * Gets the system hostname.

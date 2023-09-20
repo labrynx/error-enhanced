@@ -7,7 +7,7 @@ import { StackFrame } from '../types';
  * enhance and analyze error objects. Implementing classes should provide details
  * such as the original error object and a parsed stack trace.
  *
- * @property {Error | null} originalError
+ * @property {Error | undefined } originalError
  * A readonly property that should return the original error object. If no error
  * has been set, it should return null.
  *
@@ -22,7 +22,7 @@ import { StackFrame } from '../types';
  * Should return the instance for chaining.
  */
 export interface ErrorAnalysis {
-  readonly originalError: Error | null;
+  readonly originalError: Error | undefined;
   readonly parsedStack: Array<StackFrame>;
 
   setOriginalError(originalError: Error): this;
