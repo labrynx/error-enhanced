@@ -81,8 +81,7 @@
         "assets": [
           "./package.json",
           "./npm-shrinkwrap.json",
-          "./dist/**/*.{js}",
-          "./docs/**"
+          "./dist/**/*.{js}"
         ],
         "message": "chore: Release ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
