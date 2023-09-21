@@ -37,3 +37,14 @@
 * [SeverityLevel](enums/severitylevel.md)
 * [HttpStatusCodes](enums/httpstatuscodes.md)
 * [HttpMethods](enums/httpmethods.md)
+
+## Interfaces
+
+* [ApplicationState](interfaces/applicationstate.md)
+* [ErrorAnalysis](interfaces/erroranalysis.md)
+* [Filter](interfaces/filter.md)
+* [HttpStatus](interfaces/httpstatus.md)
+* [Identifiers](interfaces/identifiers.md)
+* [Serializers](interfaces/serializers.md)
+* [SystemContext](interfaces/systemcontext.md)
+* [UserInfo](interfaces/userinfo.md)
