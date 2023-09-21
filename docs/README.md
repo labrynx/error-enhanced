@@ -2,7 +2,7 @@
 
 ### Introduction
 
-Welcome to the official wiki for the `error-enhanced` library. This comprehensive guide is intended to serve as the central resource for developers looking to implement or understand the library's capabilities for advanced error management. Whether you're a novice trying to get started or an experienced developer looking for in-depth information, this wiki has you covered.
+Welcome to the official documentation for the `error-enhanced` library. This comprehensive guide is intended to serve as the central resource for developers looking to implement or understand the library's capabilities for advanced error management. Whether you're a novice trying to get started or an experienced developer looking for in-depth information, this documentation has you covered.
 
 ### What is `error-enhanced`?
 
