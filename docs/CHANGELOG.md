@@ -1,5 +1,7 @@
 # Changelog
 
+## [Unreleased](https://github.com/labrynx/error-enhanced/compare/v2.3.0...main)
+
 ## [2.3.0](https://github.com/labrynx/error-enhanced/compare/v2.0.1...v2.3.0) (2023-09-21)
 
 ### Features
