@@ -1,6 +1,6 @@
 # Basic Usage
 
-### Creating an Enhanced Error Object
+## Creating an Enhanced Error Object
 
 Here's a simple example demonstrating how to create an enhanced error object:
 
@@ -13,7 +13,7 @@ const error = new ErrorEnhanced([
 ]);
 ```
 
-### Setting Properties
+## Setting Properties
 
 You can set various properties like the error code and severity level:
 
@@ -23,7 +23,7 @@ error
   .setSeverity(SeverityLevel.HIGH);
 ```
 
-### Accessing Properties
+## Accessing Properties
 
 You can easily retrieve the properties you've set:
 
