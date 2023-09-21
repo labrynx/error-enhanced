@@ -52,6 +52,9 @@ jobs:
     needs: build-and-test  
     if: github.ref == 'refs/heads/main'  
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
 
     steps:
       - name: Checkout code
