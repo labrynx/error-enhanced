@@ -12,13 +12,13 @@ Enhancers are classes that implement specific interfaces to extend an Error obje
 
 These are the available enhancers in `error-enhanced`:
 
-| Enhancer                | Description                                                                                                                        |
-| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| `ErrorAnalysisEnhancer` | Analyzes the error and categorizes it based on predefined conditions, such as severity level and category.                         |
-| `HttpStatusEnhancer`    | Augments the Error object with HTTP status information, such as HTTP status codes and methods.                                     |
-| `IdentifiersEnhancer`   | Adds unique identifiers, like a UUID, to the Error object for better tracking and debugging.                                       |
-| `SystemContextEnhancer` | Provides system-related information where the error occurred, such as operating system, CPU architecture, and more.                |
-| `UserInfoEnhancer`      | Adds user information to the Error object, which can be helpful for debugging issues related to specific user actions or accounts. |
+| Enhancer                                                         | Description                                                                                                                        |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| [`ErrorAnalysisEnhancer`](../enhancers/erroranalysisenhancer.md) | Analyzes the error and categorizes it based on predefined conditions, such as severity level and category.                         |
+| [`HttpStatusEnhancer`](../enhancers/httpstatusenhancer.md)       | Augments the Error object with HTTP status information, such as HTTP status codes and methods.                                     |
+| [`IdentifiersEnhancer`](../enhancers/identifiersenhancer.md)     | Adds unique identifiers, like a UUID, to the Error object for better tracking and debugging.                                       |
+| [`SystemContextEnhancer`](../enhancers/systemcontextenhancer.md) | Provides system-related information where the error occurred, such as operating system, CPU architecture, and more.                |
+| [`UserInfoEnhancer`](../enhancers/userinfoenhancer.md)           | Adds user information to the Error object, which can be helpful for debugging issues related to specific user actions or accounts. |
 
 ### Usage Example
 
