@@ -7,7 +7,8 @@
 			"@semantic-release/commit-analyzer",
 			{
 				"preset": "angular",
-				"releaseRules": [{
+				"releaseRules": [
+					{
 						"type": "docs",
 						"scope": "README",
 						"release": "patch"
@@ -74,12 +75,6 @@
 			"@semantic-release/npm",
 			{
 				"npmPublish": false
-			}
-		],
-		[
-			"@semantic-release/npm",
-			{
-				"npmPublish": true
 			}
 		],
 		[
