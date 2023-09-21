@@ -12,10 +12,10 @@ In the `error-enhanced` ecosystem, Utilities function as supportive components t
 
 The `error-enhanced` library brings several utility classes to the table, each addressing a specific need:
 
-| Utility                                                                                              | Description                                                                                                                                                                                                   |
-| ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`FilterUtility`](https://github.com/labrynx/error-enhanced/wiki/Utilities:-FilterUtility)           | This utility class offers methods to sanitize error objects by filtering out sensitive or extraneous data. It comes in handy when you're logging errors or transmitting them to external monitoring services. |
-| [`SerializersUtility`](https://github.com/labrynx/error-enhanced/wiki/Utilities:-SerializersUtility) | This utility focuses on serialization and deserialization of enhanced error objects. This becomes crucial when you're storing, transmitting, or logging errors in formats like JSON.                          |
+| Utility              | Description                                                                                                                                                                                                   |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `FilterUtility`      | This utility class offers methods to sanitize error objects by filtering out sensitive or extraneous data. It comes in handy when you're logging errors or transmitting them to external monitoring services. |
+| `SerializersUtility` | This utility focuses on serialization and deserialization of enhanced error objects. This becomes crucial when you're storing, transmitting, or logging errors in formats like JSON.                          |
 
 ### Practical Example
 
