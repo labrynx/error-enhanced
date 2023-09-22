@@ -1,4 +1,4 @@
-import { StackFrame } from './stack-frame.type';
+import { StackFrame } from '@shared/types';
 
 /**
  * @interface ErrorAnalysisInterface
