@@ -1,41 +1,41 @@
 /* Visit https://aka.ms/tsconfig.json to read more about this file */
 {
-    "compileOnSave": false,
-    "compilerOptions": {
-        "target": "es2015",
-        "module": "commonjs",
-        "rootDir": "src",
-        "outDir": "dist/",
-        "sourceMap": true,
-        "moduleResolution": "node",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "importHelpers": true,
-        "lib": [
-            "es2020",
-            "dom"
-        ],
-        "skipDefaultLibCheck": true,
-        "baseUrl": ".",
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
-        "strict": true,
-        "skipLibCheck": true,
-        "declaration": true,
-        "noImplicitAny": false,
-        "removeComments": true,
-        "types": [
-            "node",
-            "jest"
-        ]
-    },
-    "include": [
-        "src/**/*.ts",
-        "src/**/*.test.ts",
-        "src/**/*.spec.ts"
+  "compileOnSave": false,
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "commonjs",
+    "rootDir": "src",
+    "outDir": "dist/",
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "lib": [
+      "es2020",
+      "dom"
     ],
-    "exclude": [
-        "node_modules",
-        "tmp"
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "types": [
+      "node",
+      "jest"
     ]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.test.ts",
+    "src/**/*.spec.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }
