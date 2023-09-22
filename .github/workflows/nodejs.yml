@@ -12,11 +12,9 @@ jobs:
     strategy:
       matrix:
         node: [20]
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
       - name: Cache Node.js modules
         uses: actions/cache@v3
         with:
@@ -24,24 +22,18 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-
       - name: Install dependencies
         run: npm install
-
       - name: Show Git logs
         run: git log --oneline -n 5
-
       - name: Build project
         run: npm run build
-
-      #      - name: Test project
-      #        run: npm run test
-
+      # - name: Test project
+      #   run: npm run test
       - name: List current directory
         run: ls -al
 
@@ -55,40 +47,26 @@ jobs:
     permissions:
       contents: write
       pull-requests: read
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-
       - name: Install dependencies
         run: npm install
-
-      - name: Import GPG key
-        run: |
-          echo "$SEMREL_GPG_SIGNKEY" | gpg --batch --import
-          git config --global commit.gpgsign true
-          git config --global user.signingkey $(gpg --list-secret-keys --keyid-format LONG --with-colons | grep sec | awk -F: '{print $5}')
+      - name: Setup GPG
+        run: ./setup-gpg.sh
         env:
-          GPG_TTY: $(tty)
-          GPG_PRIVATE_KEY: ${{ secrets.SEMREL_GPG_SIGNKEY }}
-
-      - name: Configure Git for GPG
-        run: |
-          git config --local commit.gpgsign true
-          git config --local user.signingkey $(gpg --list-secret-keys --keyid-format LONG --with-colons | grep sec | awk -F: '{print $5}')
-
+          GPG_BASE64: ${{ secrets.SEMREL_GPG_SIGNKEY }}
       - name: Semantic Release
         run: npx semantic-release
         env:
           DEBUG: semantic-release:*
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GIT_COMMITTER_NAME: "GitHub Action"
-          GIT_COMMITTER_EMAIL: "action@github.com"
-          GIT_AUTHOR_NAME: "GitHub Action"
-          GIT_AUTHOR_EMAIL: "action@github.com"
+          GIT_COMMITTER_NAME: 'GitHub Action'
+          GIT_COMMITTER_EMAIL: 'action@github.com'
+          GIT_AUTHOR_NAME: 'GitHub Action'
+          GIT_AUTHOR_EMAIL: 'action@github.com'
