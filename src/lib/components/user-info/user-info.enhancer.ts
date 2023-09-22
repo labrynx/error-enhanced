@@ -1,5 +1,6 @@
-import { ValidString } from '../validators';
-import { UserInfo } from '../interfaces';
+import { ValidString } from '../../validators';
+
+import { UserInfoInterface } from './user-info.interface';
 
 /**
  * @class UserInfoEnhancer
@@ -11,7 +12,7 @@ import { UserInfo } from '../interfaces';
  * const errorInfo = new UserInfoEnhancer();
  * errorInfo.setUser("JohnDoe").setRoles(["admin", "user"]);
  */
-export class UserInfoEnhancer implements UserInfo {
+export class UserInfoEnhancer implements UserInfoInterface {
   /**
    * @private
    * @type {string}

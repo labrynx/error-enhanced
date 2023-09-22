@@ -1,6 +1,6 @@
-import { JsonReplacer } from '../types';
+import { JsonReplacer } from './json-replacer.type';
 
-export interface Serializers {
+export interface SerializersInterface {
   toJSON(replacer?: JsonReplacer): string;
   toXML(): string;
   toCSV(delimiter?: string, quotes?: boolean): string;

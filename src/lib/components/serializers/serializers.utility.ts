@@ -3,7 +3,8 @@ import { create } from 'xmlbuilder';
 import { unparse, UnparseConfig } from 'papaparse';
 import { dump } from 'js-yaml';
 
-import { Serializers } from '../interfaces';
+import { SerializersInterface } from './serializers.interface';
+import { JsonReplacer } from './json-replacer.type';
 
 /**
  * @class Serializers
@@ -17,7 +18,7 @@ import { Serializers } from '../interfaces';
  * const xmlString = serializer.toXML();
  * const yamlString = serializer.toYAML();
  */
-export class SerializersUtility implements Serializers {
+export class SerializersUtility implements SerializersInterface {
   private _serializableCache: Record<string, any> | null = null;
   /**
    * toJSON
@@ -29,7 +30,7 @@ export class SerializersUtility implements Serializers {
    * @returns {string} The serialized JSON string.
    * @throws Will throw an error if serialization fails.
    */
-  toJSON(replacer?: (key: string, value: any) => any): string {
+  toJSON(replacer?: JsonReplacer): string {
     try {
       // Obtener el objeto serializable desde el cache o generarlo si necesario
       const serializableObj = this._serializableObject();
@@ -198,7 +199,9 @@ export class SerializersUtility implements Serializers {
    * @param {any} value - The object value.
    */
   private _serializeToXmlElement(xml: any, key: string, value: any) {
-    if (value instanceof Error) {
+    if (value === null || value === undefined) {
+      xml.ele(key, {}, ''); // Asignar un valor vacío si el valor es null o undefined
+    } else if (value instanceof Error) {
       const errorElement = xml.ele(key);
       const flatError = this._flattenErrorObject(value);
       Object.keys(flatError).forEach(subKey => {

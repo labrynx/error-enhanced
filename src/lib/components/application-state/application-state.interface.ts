@@ -1,4 +1,4 @@
-export interface ApplicationState {
+export interface ApplicationStateInterface {
   readonly environment: string;
   readonly nodeVersion: string;
   readonly stateSnapshot: Record<string, any>;

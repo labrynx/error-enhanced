@@ -1,7 +1,9 @@
-import { HttpBody, HttpHeaders, QueryParams } from '../types';
+import { HttpBody } from './http-body.type';
+import { HttpHeaders } from './http-headers.type';
+import { QueryParams } from './query-params.type';
 
 /**
- * @interface HttpStatus
+ * @interface HttpStatusInterface
  *
  * The HttpStatus interface defines the contract for classes that aim to
  * enrich error objects with HTTP-related information. This includes the HTTP status
@@ -46,7 +48,7 @@ import { HttpBody, HttpHeaders, QueryParams } from '../types';
  * @method setLatency(latency: number): this
  * A method to set the latency of the request in milliseconds. Should throw an error if the latency is not a valid number.
  */
-export interface HttpStatus {
+export interface HttpStatusInterface {
   readonly httpStatusCode: number;
   readonly url: string;
   readonly httpMethod: string;

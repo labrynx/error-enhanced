@@ -1,5 +1,5 @@
 /**
- * @interface Identifiers
+ * @interface IdentifiersInterface
  *
  * The Identifiers interface defines the contract for classes that enrich
  * error objects with unique identifiers, error codes, and metadata.
@@ -46,7 +46,7 @@
  * @method setCategory(category: string): this
  * Sets the category for the error. Should throw an error if the category is not in the Category enum.
  */
-export interface Identifiers {
+export interface IdentifiersInterface {
   readonly id: string;
   readonly errorCode: number;
   readonly errorCodePrefix: string;

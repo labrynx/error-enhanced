@@ -1,5 +1,5 @@
 /**
- * @interface SystemContext
+ * @interface SystemContextInterface
  *
  * The SystemContext interface defines the contract for classes that enrich
  * error objects with system-level context, such as the originating module
@@ -33,7 +33,7 @@
  * @method refreshSystemInfo(): this
  * Refreshes the system uptime information. Useful for updating the system uptime without creating a new instance.
  */
-export interface SystemContext {
+export interface SystemContextInterface {
   readonly hostname: string;
   readonly cpuArch: string;
   readonly osType: string;

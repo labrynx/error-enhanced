@@ -1,15 +1,17 @@
 import { v4 as uuidv4 } from 'uuid';
 import * as crypto from 'crypto';
 
-import { Identifiers } from '../interfaces';
-import { Category, SeverityLevel } from '../enums';
 import {
   ValidNumber,
   ValidStringWithEmpty,
   ValidString,
   ValidSeverityLevel,
   ValidCategory,
-} from '../validators';
+} from '../../validators';
+
+import { Category } from './category.enum';
+import { IdentifiersInterface } from './identifiers.interface';
+import { SeverityLevel } from './severity.enum';
 
 /**
  * @class IdentifiersEnhancer
@@ -21,7 +23,7 @@ import {
  * const error = new IdentifiersEnhancer(404);
  * error.setErrorCode(500).setSeverity(SeverityLevel.HIGH);
  */
-export class IdentifiersEnhancer implements Identifiers {
+export class IdentifiersEnhancer implements IdentifiersInterface {
   /**
    * @private
    * @type {string}

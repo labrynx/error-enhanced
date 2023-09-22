@@ -5,10 +5,14 @@ import {
   ValidNumber,
   ValidHttpStatusCodes,
   ValidHttpMethods,
-} from '../validators';
-import { HttpStatusCodes, HttpMethods } from '../enums';
-import { HttpStatus } from '../interfaces';
-import { HttpHeaders, QueryParams, HttpBody } from '../types';
+} from '../../validators';
+
+import { HttpBody } from './http-body.type';
+import { HttpHeaders } from './http-headers.type';
+import { HttpMethods } from './http-methods.enum';
+import { HttpStatusCodes } from './http-status-codes.enum';
+import { HttpStatusInterface } from './http-status.interface';
+import { QueryParams } from './query-params.type';
 
 /**
  * @class HttpStatusEnhancer
@@ -20,7 +24,7 @@ import { HttpHeaders, QueryParams, HttpBody } from '../types';
  * const httpStatus = new HttpStatusEnhancer(HttpStatusCodes.OK);
  * httpStatus.setUrl("https://example.com").setLatency(120);
  */
-export class HttpStatusEnhancer implements HttpStatus {
+export class HttpStatusEnhancer implements HttpStatusInterface {
   /**
    * @private
    * @type {number}

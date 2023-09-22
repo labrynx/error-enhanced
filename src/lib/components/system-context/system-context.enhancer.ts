@@ -1,6 +1,6 @@
 import os from 'os';
 
-import { SystemContext } from '../interfaces';
+import { SystemContextInterface } from './system-context.interface';
 
 /**
  * @class SystemContextEnhancer
@@ -12,7 +12,7 @@ import { SystemContext } from '../interfaces';
  * const systemContext = new SystemContextEnhancer();
  * systemContext.refreshSystemInfo();
  */
-export class SystemContextEnhancer implements SystemContext {
+export class SystemContextEnhancer implements SystemContextInterface {
   /**
    * @private
    * @type {string}

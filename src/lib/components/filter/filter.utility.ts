@@ -1,4 +1,4 @@
-import { Filter } from '../interfaces';
+import { FilterInterface } from './filter.interface';
 
 /**
  * @class FilterUtility
@@ -13,7 +13,7 @@ import { Filter } from '../interfaces';
  * const filteredError = error.filterUnused();
  * // Now, filteredError only contains 'someOtherField' and other useful properties.
  */
-export class FilterUtility implements Filter {
+export class FilterUtility implements FilterInterface {
   /**
    * @static
    * @type {Set<string>}

@@ -1,5 +1,5 @@
 /**
- * @interface UserInfo
+ * @interface UserInfoInterface
  *
  * The UserInfo interface defines the contract for classes that enrich
  * error objects with user-related information. This includes the
@@ -44,7 +44,7 @@
  * @method addActionToHistory(action: string): this
  * Adds an action to the action history of the user related to the error. Should throw an error if the action string is invalid.
  */
-export interface UserInfo {
+export interface UserInfoInterface {
   readonly sessionId: string;
   readonly roles: string[];
   readonly authToken: string;

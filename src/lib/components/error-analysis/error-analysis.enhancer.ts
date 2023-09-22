@@ -1,7 +1,7 @@
 import ErrorStackParser from 'error-stack-parser';
 
-import { ErrorAnalysis } from '../interfaces';
-import { StackFrame } from '../types';
+import { ErrorAnalysisInterface } from './error-analysis.interface';
+import { StackFrame } from './stack-frame.type';
 
 /**
  * @class ErrorAnalysisEnhancer
@@ -9,7 +9,7 @@ import { StackFrame } from '../types';
  * The ErrorAnalysisEnhancer class enhances an error object with details
  * like file information, line number, column number, etc.
  */
-export class ErrorAnalysisEnhancer implements ErrorAnalysis {
+export class ErrorAnalysisEnhancer implements ErrorAnalysisInterface {
   /**
    * @private
    * @type {Error | undefined }

@@ -1,7 +1,7 @@
 import { execSync } from 'child_process';
 
-import { ApplicationState } from '../interfaces';
-import { ValidString } from '../validators';
+import { ApplicationStateInterface } from './application-state.interface';
+import { ValidString } from '../../validators';
 
 /**
  * @class ApplicationStateEnhancer
@@ -16,7 +16,7 @@ import { ValidString } from '../validators';
  * errorInfo.setConfigurations({ apiEndpoint: "https://api.example.com" });
  * ```
  */
-export class ApplicationStateEnhancer implements ApplicationState {
+export class ApplicationStateEnhancer implements ApplicationStateInterface {
   /**
    * @private
    * @type {string}

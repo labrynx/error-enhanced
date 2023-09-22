@@ -1,7 +1,7 @@
-import { StackFrame } from '../types';
+import { StackFrame } from './stack-frame.type';
 
 /**
- * @interface ErrorAnalysis
+ * @interface ErrorAnalysisInterface
  *
  * The ErrorAnalysis interface defines the contract for classes that aim to
  * enhance and analyze error objects. Implementing classes should provide details
@@ -21,7 +21,7 @@ import { StackFrame } from '../types';
  * internal mechanisms to extract and store details from the error object.
  * Should return the instance for chaining.
  */
-export interface ErrorAnalysis {
+export interface ErrorAnalysisInterface {
   readonly originalError: Error | undefined;
   readonly parsedStack: Array<StackFrame>;
 
