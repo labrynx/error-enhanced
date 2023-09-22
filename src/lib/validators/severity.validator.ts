@@ -1,5 +1,5 @@
 import z from 'zod';
-import { SeverityLevel } from '../enums';
+import { SeverityLevel } from '../components/identifiers';
 
 /**
  * Validator for SeverityLevel Enum.

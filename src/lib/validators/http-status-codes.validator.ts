@@ -1,5 +1,5 @@
 import z from 'zod';
-import { HttpStatusCodes } from '../enums';
+import { HttpStatusCodes } from '../components/http-status';
 
 /**
  * Validator for HttpStatusCodes Enum.

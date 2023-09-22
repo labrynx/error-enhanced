@@ -1,5 +1,5 @@
 import z from 'zod';
-import { HttpMethods } from '../enums';
+import { HttpMethods } from '../components/http-status';
 
 /**
  * Validator for HttpMethods Enum.
