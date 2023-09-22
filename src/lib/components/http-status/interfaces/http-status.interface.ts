@@ -1,6 +1,4 @@
-import { HttpBody } from './http-body.type';
-import { HttpHeaders } from './http-headers.type';
-import { QueryParams } from './query-params.type';
+import { HttpBody , HttpHeaders , QueryParams } from '@shared/types';
 
 /**
  * @interface HttpStatusInterface

@@ -1,18 +1,17 @@
+import { HttpStatusInterface } from '../interfaces/http-status.interface';
+
+import { HttpBody, HttpHeaders, QueryParams } from '@shared/types';
 import {
   ValidKeyedObject,
+  ValidNumber,
+  ValidHttpMethods,
+  ValidHttpStatusCodes,
   ValidIP,
   ValidURL,
-  ValidNumber,
-  ValidHttpStatusCodes,
-  ValidHttpMethods,
-} from '../../validators';
+} from '@shared/validators';
 
-import { HttpBody } from './http-body.type';
-import { HttpHeaders } from './http-headers.type';
-import { HttpMethods } from './http-methods.enum';
-import { HttpStatusCodes } from './http-status-codes.enum';
-import { HttpStatusInterface } from './http-status.interface';
-import { QueryParams } from './query-params.type';
+import { HttpMethods } from '../enums/http-methods.enum';
+import { HttpStatusCodes } from '../enums/http-status-codes.enum';
 
 /**
  * @class HttpStatusEnhancer
