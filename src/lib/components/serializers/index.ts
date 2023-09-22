@@ -1,3 +1,3 @@
-export * from './json-replacer.type';
-export * from './serializers.interface';
-export * from './serializers.utility';
+export * from '../../shared/types/json-replacer.type';
+export * from './interfaces/serializers.interface';
+export * from './utilities/serializers.utility';

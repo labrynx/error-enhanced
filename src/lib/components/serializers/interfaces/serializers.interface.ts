@@ -1,4 +1,4 @@
-import { JsonReplacer } from './json-replacer.type';
+import { JsonReplacer } from '@shared/types';
 
 export interface SerializersInterface {
   toJSON(replacer?: JsonReplacer): string;

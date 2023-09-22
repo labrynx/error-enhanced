@@ -3,8 +3,9 @@ import { create } from 'xmlbuilder';
 import { unparse, UnparseConfig } from 'papaparse';
 import { dump } from 'js-yaml';
 
-import { SerializersInterface } from './serializers.interface';
-import { JsonReplacer } from './json-replacer.type';
+import { JsonReplacer } from '@shared/types';
+
+import { SerializersInterface } from '../interfaces/serializers.interface';
 
 /**
  * @class Serializers
