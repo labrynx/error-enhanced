@@ -1,3 +1,3 @@
-export * from './application-state.enhancer';
-export * from './application-state.interface';
-export * from './environment.enum';
+export * from './enhancers/application-state.enhancer';
+export * from './interfaces/application-state.interface';
+export * from './enums/environment.enum';

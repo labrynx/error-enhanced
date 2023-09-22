@@ -1,7 +1,8 @@
 import { execSync } from 'child_process';
 
-import { ApplicationStateInterface } from './application-state.interface';
-import { ValidString } from '../../validators';
+import { ValidString } from '@shared/validators';
+
+import { ApplicationStateInterface } from '../interfaces/application-state.interface';
 
 /**
  * @class ApplicationStateEnhancer
