@@ -29,7 +29,7 @@
 ## Enums
 
 * [Category](enums/category.md)
-* [SeverityLevel](enums/severitylevel.md)
+* [Severity](enums/severity.md)
 * [HttpStatusCodes](enums/httpstatuscodes.md)
 * [HttpMethods](enums/httpmethods.md)
 

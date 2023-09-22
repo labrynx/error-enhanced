@@ -11,7 +11,7 @@ Enumerations (Enums) are a critical aspect of the `error-enhanced` library. Enum
 | Enum                                                                                       | Description                                                                                                                                                                                                    |
 | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [`Category`](https://github.com/labrynx/error-enhanced/wiki/Enums:-Category)               | This enum allows you to categorize errors into various types, such as network-related, database-related, validation errors, and more. Categorizing errors enables easier debugging and better error reporting. |
-| [`SeverityLevel`](https://github.com/labrynx/error-enhanced/wiki/Enums:-SeverityLevel)     | Defines the impact of an error on the system. Severity levels range from low to critical, giving you more control over how errors are managed and escalated within your application.                           |
+| [`Severity`](https://github.com/labrynx/error-enhanced/wiki/Enums:-Severity)     | Defines the impact of an error on the system. Severity levels range from low to critical, giving you more control over how errors are managed and escalated within your application.                           |
 | [`HttpMethods`](https://github.com/labrynx/error-enhanced/wiki/Enums:-HttpMethods)         | Lists the HTTP methods (`GET`, `POST`, `PATCH`, etc.) that can be associated with an error. This is particularly useful for categorizing errors in web applications and APIs.                                  |
 | [`HttpStatusCodes`](https://github.com/labrynx/error-enhanced/wiki/Enums:-HttpStatusCodes) | Provides a comprehensive list of HTTP status codes to be associated with an error. This enum covers everything from informational responses to client and server errors.                                       |
 
@@ -20,7 +20,7 @@ Enumerations (Enums) are a critical aspect of the `error-enhanced` library. Enum
 Here's how you can use enums in your code:
 
 ```typescript
-import { ErrorEnhanced, IdentifiersEnhancer, HttpStatusEnhancer, Category, SeverityLevel, HttpMethods, HttpStatusCodes } from 'error-enhanced';
+import { ErrorEnhanced, IdentifiersEnhancer, HttpStatusEnhancer, Category, Severity, HttpMethods, HttpStatusCodes } from 'error-enhanced';
 
 const error = new ErrorEnhanced([
   new IdentifiersEnhancer(),
@@ -30,7 +30,7 @@ const error = new ErrorEnhanced([
 // Using Enums to set properties
 error
   .setCategory(Category.NETWORK)
-  .setSeverity(SeverityLevel.HIGH)
+  .setSeverity(Severity.HIGH)
   .setHttpMethod(HttpMethods.GET)
   .setHttpStatusCode(HttpStatusCodes.NOT_FOUND);
 ```

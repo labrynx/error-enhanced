@@ -1,2 +1,2 @@
-export * from './filter.interface';
-export * from './filter.utility';
+export * from './interfaces/filter.interface';
+export * from './utilities/filter.utility';
