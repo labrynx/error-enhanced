@@ -73,12 +73,12 @@ jobs:
 
       - name: Import GPG key
         run: |
-          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+          echo "$SEMREL_GPG_SIGNKEY" | gpg --batch --import
           git config --global commit.gpgsign true
           git config --global user.signingkey $(gpg --list-secret-keys --keyid-format LONG --with-colons | grep sec | awk -F: '{print $5}')
         env:
           GPG_TTY: $(tty)
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PRIVATE_KEY: ${{ secrets.SEMREL_GPG_SIGNKEY }}
 
       - name: Configure Git for GPG
         run: |
