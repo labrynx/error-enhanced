@@ -1,6 +1,6 @@
 import os from 'os';
 
-import { SystemContextInterface } from './system-context.interface';
+import { SystemContextInterface } from '../interfaces/system-context.interface';
 
 /**
  * @class SystemContextEnhancer
