@@ -44,7 +44,7 @@
  * error.message = 'User is not authorized';
  *
  * // Setting the severity and category
- * error.setSeverity(ErrorEnhanced.SeverityLevel.HIGH)
+ * error.setSeverity(ErrorEnhanced.Severity.HIGH)
  *      .setCategory(ErrorEnhanced.Category.NETWORK);
  *
  * // Serialize the enriched error object after filtering unused properties
