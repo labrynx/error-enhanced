@@ -1,6 +1,6 @@
-import { ValidString } from '../../validators';
+import { ValidString } from '@shared/validators';
 
-import { UserInfoInterface } from './user-info.interface';
+import { UserInfoInterface } from '../interfaces/user-info.interface';
 
 /**
  * @class UserInfoEnhancer
