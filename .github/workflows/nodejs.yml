@@ -12,9 +12,6 @@ jobs:
     strategy:
       matrix:
         node: [20]
-    permissions:
-      contents: write
-      pull-requests: read
 
     steps:
       - name: Checkout code
