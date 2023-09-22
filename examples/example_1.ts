@@ -7,27 +7,27 @@ import {
   UserInfoEnhancer,
   FilterUtility,
   SerializersUtility,
-  ErrorAnalysis,
-  HttpStatus,
-  Identifiers,
-  SystemContext,
-  UserInfo,
-  Filter,
-  Serializers,
-  SeverityLevel,
+  ErrorAnalysisInterface,
+  HttpStatusInterface,
+  IdentifiersInterface,
+  SystemContextInterface,
+  UserInfoInterface,
+  FilterInterface,
+  SerializersInterface,
+  Severity,
   Category,
   HttpStatusCodes,
   HttpMethods,
 } from '../src';
 
 type ErrorEnhancedType = Error &
-  Identifiers &
-  HttpStatus &
-  SystemContext &
-  UserInfo &
-  ErrorAnalysis &
-  Filter &
-  Serializers;
+  IdentifiersInterface &
+  HttpStatusInterface &
+  SystemContextInterface &
+  UserInfoInterface &
+  ErrorAnalysisInterface &
+  FilterInterface &
+  SerializersInterface;
 
 const error = new ErrorEnhanced([
   new IdentifiersEnhancer(),
@@ -53,7 +53,7 @@ error.setOriginalError(new Error('This is an error'));
 error.setErrorCode(5432).setErrorCodePrefix('EE');
 
 // Setting Severity and Category
-error.setSeverity(SeverityLevel.HIGH).setCategory(Category.NETWORK);
+error.setSeverity(Severity.HIGH).setCategory(Category.NETWORK);
 
 // HTTP Context
 error

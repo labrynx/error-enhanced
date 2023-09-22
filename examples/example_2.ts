@@ -6,7 +6,7 @@ import {
   IdentifiersInterface,
   FilterInterface,
   SerializersInterface,
-  SeverityLevel,
+  Severity,
   Category,
 } from '../src';
 
@@ -29,7 +29,7 @@ error.message = 'User is not authorized';
 error.setErrorCode(5432).setErrorCodePrefix('EE');
 
 // Setting Severity and Category
-error.setSeverity(SeverityLevel.HIGH).setCategory(Category.NETWORK);
+error.setSeverity(Severity.HIGH).setCategory(Category.NETWORK);
 
 try {
   throw error; // Throw your error to be catched
