@@ -1,17 +1,16 @@
 import { v4 as uuidv4 } from 'uuid';
 import * as crypto from 'crypto';
 
+import { IdentifiersInterface } from '../interfaces/identifiers.interface';
+import { Category } from '../enums/category.enum';
+import { Severity } from '../enums/severity.enum';
 import {
+  ValidCategory,
   ValidNumber,
+  ValidSeverity,
   ValidStringWithEmpty,
   ValidString,
-  ValidSeverityLevel,
-  ValidCategory,
-} from '../../validators';
-
-import { Category } from './category.enum';
-import { IdentifiersInterface } from './identifiers.interface';
-import { SeverityLevel } from './severity.enum';
+} from '@shared/validators';
 
 /**
  * @class IdentifiersEnhancer
@@ -21,7 +20,7 @@ import { SeverityLevel } from './severity.enum';
  *
  * @example
  * const error = new IdentifiersEnhancer(404);
- * error.setErrorCode(500).setSeverity(SeverityLevel.HIGH);
+ * error.setErrorCode(500).setSeverity(Severity.HIGH);
  */
 export class IdentifiersEnhancer implements IdentifiersInterface {
   /**
@@ -100,7 +99,7 @@ export class IdentifiersEnhancer implements IdentifiersInterface {
     this._id = this._generateUUIDv4(); // Generate a unique ID
     this._timestamp = Date.now(); // Record the current time
     this._highPrecisionTimestamp = process.hrtime.bigint(); // Capture the current time using Node.js's process.hrtime.bigint() function.
-    this._severity = SeverityLevel.MEDIUM; // Default severity level
+    this._severity = Severity.MEDIUM; // Default severity level
     this._category = Category.UNKNOWN; // Default category
   }
 
@@ -240,17 +239,17 @@ export class IdentifiersEnhancer implements IdentifiersInterface {
    * Sets the severity level of the error.
    * @param {string} severity - The severity level to set.
    * @returns {IdentifiersEnhancer} - The instance of the class, useful for chaining.
-   * @throws Will throw an error if the severity level is not in the valid SeverityLevel enum.
+   * @throws Will throw an error if the severity level is not in the valid Severity enum.
    * @example
-   * error.setSeverity(SeverityLevel.HIGH);
+   * error.setSeverity(Severity.HIGH);
    */
   public setSeverity(severity: string): this {
-    const parsed = ValidSeverityLevel.safeParse(severity);
+    const parsed = ValidSeverity.safeParse(severity);
 
     if (!parsed.success) {
       throw new Error(
-        `Invalid Severity level: '${severity}' not in valid SeverityLevel: ${JSON.stringify(
-          SeverityLevel,
+        `Invalid Severity level: '${severity}' not in valid Severity: ${JSON.stringify(
+          Severity,
         )}`,
       );
     }
@@ -263,7 +262,7 @@ export class IdentifiersEnhancer implements IdentifiersInterface {
    * Gets the severity level of the error.
    * @returns {string} - The severity level of the error.
    * @example
-   * const level = error.severity;  // Output example: SeverityLevel.HIGH
+   * const level = error.severity;  // Output example: Severity.HIGH
    */
   public get severity(): string {
     return this._severity;

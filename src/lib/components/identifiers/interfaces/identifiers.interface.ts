@@ -41,7 +41,7 @@
  * Generates a hash value representing the error object. Useful for deduplication or quick comparisons.
  *
  * @method setSeverity(severity: string): this
- * Sets the severity level for the error. Should throw an error if the severity is not in the SeverityLevel enum.
+ * Sets the severity level for the error. Should throw an error if the severity is not in the Severity enum.
  *
  * @method setCategory(category: string): this
  * Sets the category for the error. Should throw an error if the category is not in the Category enum.

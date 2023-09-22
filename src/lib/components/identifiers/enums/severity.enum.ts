@@ -1,7 +1,7 @@
 /**
  * Enum to represent the severity level of an error.
  */
-export enum SeverityLevel {
+export enum Severity {
   /**
    * Indicates a low-impact error that generally doesn't affect the system's functionality.
    */
