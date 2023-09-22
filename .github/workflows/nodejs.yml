@@ -72,9 +72,13 @@ jobs:
         run: npm install
 
       - name: Import GPG key
-        run: echo "${{ secrets.SEMREL_GPG_SIGNKEY }}" | gpg --import
+        run: |
+          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+          git config --global commit.gpgsign true
+          git config --global user.signingkey $(gpg --list-secret-keys --keyid-format LONG --with-colons | grep sec | awk -F: '{print $5}')
         env:
-          SEMREL_GPG_SIGNKEY: ${{ secrets.SEMREL_GPG_SIGNKEY }}
+          GPG_TTY: $(tty)
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
       - name: Configure Git for GPG
         run: |
