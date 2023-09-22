@@ -82,3 +82,4 @@ jobs:
           DEBUG: semantic-release:*
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          SEMREL_GPG_SIGNKEY: ${{ secrets.SEMREL_GPG_SIGNKEY }}
