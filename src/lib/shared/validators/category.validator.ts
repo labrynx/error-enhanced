@@ -1,5 +1,5 @@
 import z from 'zod';
-import { Category } from '../components/identifiers';
+import { Category } from '../../components/identifiers';
 
 /**
  * Validator for Category Enum.

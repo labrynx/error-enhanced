@@ -1,4 +1,5 @@
 import z from 'zod';
+
 import { ValidString } from './string.validator';
 
 /**

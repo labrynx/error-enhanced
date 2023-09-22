@@ -27,7 +27,12 @@
     "types": [
       "node",
       "jest"
-    ]
+    ],
+    "paths": {
+      "@shared/*": [
+        "./src/lib/shared/*"
+      ]
+    },
   },
   "include": [
     "src/**/*.ts",
