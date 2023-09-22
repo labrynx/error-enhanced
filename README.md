@@ -19,7 +19,7 @@
 
 ```typescript
 const error = new ErrorEnhanced([new IdentifiersEnhanced()]);
-error.setErrorCode(400).setSeverity(ErrorEnhanced.SeverityLevel.HIGH);
+error.setErrorCode(400).setSeverity(ErrorEnhanced.Severity.HIGH);
 ```
 
 ## Installation

@@ -42,7 +42,7 @@ Enhancers often come with methods that can be chained to set or modify their pro
 ```typescript
 error
   .setErrorCode(404)
-  .setSeverity(SeverityLevel.HIGH)
+  .setSeverity(Severity.HIGH)
   .setHttpStatus(500);
 ```
 

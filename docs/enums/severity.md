@@ -1,10 +1,10 @@
-# SeverityLevel
+# Severity
 
 _File:_ [_`severity.enum.ts`_](../../src/lib/enums/severity.enum.ts)
 
 ### Overview
 
-The `SeverityLevel` enum, part of the `error-enhanced` library, provides a standardized way to classify the impact level of errors. This allows for prioritized error handling and more effective debugging.
+The `Severity` enum, part of the `error-enhanced` library, provides a standardized way to classify the impact level of errors. This allows for prioritized error handling and more effective debugging.
 
 ### Features
 
@@ -13,7 +13,7 @@ The `SeverityLevel` enum, part of the `error-enhanced` library, provides a stand
 ### Usage Example
 
 ```typescript
-const severity = SeverityLevel.HIGH;
+const severity = Severity.HIGH;
 ```
 
 ### Enum Members

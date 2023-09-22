@@ -5,7 +5,7 @@
 Here's a simple example demonstrating how to create an enhanced error object:
 
 ```typescript
-import { ErrorEnhanced, IdentifiersEnhancer, SeverityLevel } from 'error-enhanced';
+import { ErrorEnhanced, IdentifiersEnhancer, Severity } from 'error-enhanced';
 
 // Instantiate a new enhanced error object
 const error = new ErrorEnhanced([
@@ -20,7 +20,7 @@ You can set various properties like the error code and severity level:
 ```typescript
 error
   .setErrorCode(404)
-  .setSeverity(SeverityLevel.HIGH);
+  .setSeverity(Severity.HIGH);
 ```
 
 ## Accessing Properties

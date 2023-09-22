@@ -15,7 +15,7 @@ The `IdentifiersEnhancer` class is a part of the `error-enhanced` library design
 | `errorCodePrefix`  | A prefix for the error code, default is an empty string.                               |
 | `errorDescription` | A human-readable description of the error code, default is an empty string.            |
 | `timestamp`        | A Unix timestamp representing when the error object was instantiated, default is `-1`. |
-| `severity`         | Severity level of the error, defaults to `SeverityLevel.MEDIUM`.                       |
+| `severity`         | Severity level of the error, defaults to `Severity.MEDIUM`.                       |
 | `category`         | Category to which the error belongs, defaults to `Category.UNKNOWN`.                   |
 
 ### Methods
@@ -51,14 +51,14 @@ Sets a human-readable description for the error code. Validates if it's a valid 
 error.setErrorDescription("Bad Request");
 ```
 
-#### `setSeverity(severity: SeverityLevel)`
+#### `setSeverity(severity: Severity)`
 
-Sets the error's severity level. Validates against the `SeverityLevel` enum.
+Sets the error's severity level. Validates against the `Severity` enum.
 
 **Usage Example**:
 
 ```typescript
-error.setSeverity(SeverityLevel.HIGH);
+error.setSeverity(Severity.HIGH);
 ```
 
 #### `setCategory(category: Category)`
