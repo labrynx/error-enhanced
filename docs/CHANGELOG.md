@@ -1,3 +1,10 @@
+# [2.4.0](https://github.com/labrynx/error-enhanced/compare/v2.3.0...v2.4.0) (2023-09-23)
+
+
+### Bug Fixes
+
+* **Components:** Corrections in index.ts exports ([9abb001](https://github.com/labrynx/error-enhanced/commit/9abb0018716668da19124ec4df3a24f37c4e42b2))
+
 # Changelog
 
 ## [Unreleased](https://github.com/labrynx/error-enhanced/compare/v2.3.0...main)
