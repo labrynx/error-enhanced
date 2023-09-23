@@ -52,7 +52,7 @@ jobs:
           git_commit_gpgsign: true
       - run: npx semantic-release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.MY_PERSONAL_ACCESS_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GIT_COMMITTER_NAME: 'GitHub Action'
           GIT_COMMITTER_EMAIL: 'action@github.com'
