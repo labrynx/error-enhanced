@@ -6,13 +6,12 @@ on:
       - main
       - development
 
-permissions:
-  contents: write
-  pull-requests: read
-
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
     strategy:
       matrix:
         node: [20]
@@ -31,7 +30,7 @@ jobs:
       # - run: npm run test
       - run: ls -al
 
-  pre-release:
+  update-package-version:
     needs: build-and-test
     if: github.ref == 'refs/heads/development'
     runs-on: ubuntu-latest
@@ -44,14 +43,9 @@ jobs:
         with:
           node-version: '20'
       - run: npm install
-      - run: npx semantic-release --branches development
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GIT_COMMITTER_NAME: 'GitHub Action'
-          GIT_COMMITTER_EMAIL: 'action@github.com'
-          GIT_AUTHOR_NAME: 'GitHub Action'
-          GIT_AUTHOR_EMAIL: 'action@github.com'
+      - run: npx semantic-release --dry-run --branches development
+      - run: git commit -am "Update package version"
+      - run: git push origin development
 
   release:
     needs: build-and-test
@@ -66,28 +60,6 @@ jobs:
         with:
           node-version: '20'
       - run: npm install
-      - run: npx semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GIT_COMMITTER_NAME: 'GitHub Action'
-          GIT_COMMITTER_EMAIL: 'action@github.com'
-          GIT_AUTHOR_NAME: 'GitHub Action'
-          GIT_AUTHOR_EMAIL: 'action@github.com'
-
-  npm-publish:
-    needs: release
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: read
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
-      - run: npm ci
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
