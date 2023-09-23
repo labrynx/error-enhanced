@@ -48,6 +48,7 @@ jobs:
         env:
           GPG_KEY: ${{ secrets.SEMREL_GPG_SIGNKEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          GPG_TTY: $(tty)
       - run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
