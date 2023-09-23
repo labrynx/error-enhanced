@@ -56,6 +56,10 @@ jobs:
           node-version: ${{ matrix.node }}
       - name: Install dependencies
         run: npm install
+      - name: Debug first 20 characters of GPG_BASE64
+        run: echo "${GPG_BASE64:0:20}"
+        env:
+          GPG_BASE64: ${{ secrets.SEMREL_GPG_SIGNKEY }}
       - name: Make script executable
         run: chmod +x ./setup-gpg.sh
       - name: Setup GPG
