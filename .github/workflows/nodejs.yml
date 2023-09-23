@@ -70,6 +70,8 @@ jobs:
         run: |
           LATEST_VERSION=$(npm show ${{ env.PACKAGE_NAME }} version)
           NEW_VERSION=$(node -p "require('./package.json').version")
+          echo "Latest Version: $LATEST_VERSION"
+          echo "New Version: $NEW_VERSION"
           if [[ "$LATEST_VERSION" == "$NEW_VERSION" ]]; then
             echo "Version already exists. Skipping publish step."
             echo "VERSION_EXISTS=true" >> $GITHUB_ENV
@@ -77,6 +79,8 @@ jobs:
             echo "New version. Proceeding with publish step."
             echo "VERSION_EXISTS=false" >> $GITHUB_ENV
           fi
+      - name: Print VERSION_EXISTS
+        run: echo "VERSION_EXISTS = ${{ env.VERSION_EXISTS }}"
       - name: Publish to NPM
         if: env.VERSION_EXISTS == 'false'
         run: npm publish
