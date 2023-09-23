@@ -1,0 +1,40 @@
+name: Auto-comment on PR
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Gather PR details
+      id: pr_details
+      run: |
+        PR_ID=$(jq -r ".pull_request.number" "$GITHUB_EVENT_PATH")
+        PR_AUTHOR=$(jq -r ".pull_request.user.login" "$GITHUB_EVENT_PATH")
+        LABELS=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/${{ github.repository }}/pulls/$PR_ID \
+          | jq -r '.labels[] | .name' | xargs)
+        FILES_CHANGED=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/${{ github.repository }}/pulls/$PR_ID/files \
+          | jq -r '.[] | .filename' | xargs)
+        echo "PR_ID=$PR_ID" >> $GITHUB_ENV
+        echo "PR_AUTHOR=$PR_AUTHOR" >> $GITHUB_ENV
+        echo "FILES_CHANGED=$FILES_CHANGED" >> $GITHUB_ENV
+        echo "LABELS=$LABELS" >> $GITHUB_ENV
+
+    - name: Add comment to PR
+      uses: thollander/actions-comment-pull-request@master
+      with:
+        msg: |
+          Hey @${{ env.PR_AUTHOR }},
+          - PR Number: #${{ env.PR_ID }}
+          - Files Changed: ${{ env.FILES_CHANGED }}
+          - Labels: ${{ env.LABELS }}
+          Please ensure all tests and checks are passed.
+          We'll be reviewing it shortly.
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
