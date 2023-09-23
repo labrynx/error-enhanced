@@ -27,9 +27,9 @@ jobs:
         echo "LABELS=$LABELS" >> $GITHUB_ENV
 
     - name: Add comment to PR
-      uses: thollander/actions-comment-pull-request@master
+      uses: thollander/actions-comment-pull-request@v2
       with:
-        msg: |
+        message: |
           Hey @${{ env.PR_AUTHOR }},
           - PR Number: #${{ env.PR_ID }}
           - Files Changed: ${{ env.FILES_CHANGED }}

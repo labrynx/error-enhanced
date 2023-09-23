@@ -65,6 +65,21 @@ jobs:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
       - run: npm install
-      - run: npm publish
+      - name: Check if version already exists
+        id: check_version
+        run: |
+          LATEST_VERSION=$(npm show ${{ env.PACKAGE_NAME }} version)
+          NEW_VERSION=$(node -p "require('./package.json').version")
+          if [[ "$LATEST_VERSION" == "$NEW_VERSION" ]]; then
+            echo "Version already exists. Skipping publish step."
+            echo "VERSION_EXISTS=true" >> $GITHUB_ENV
+          else
+            echo "New version. Proceeding with publish step."
+            echo "VERSION_EXISTS=false" >> $GITHUB_ENV
+          fi
+      - name: Publish to NPM
+        if: env.VERSION_EXISTS == 'false'
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          
