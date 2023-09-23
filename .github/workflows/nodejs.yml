@@ -13,29 +13,19 @@ jobs:
       matrix:
         node: [20]
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Cache Node.js modules
-        uses: actions/cache@v3
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-      - name: Install dependencies
-        run: npm install
-      - name: Show Git logs
-        run: git log --oneline -n 5
-      - name: Build project
-        run: npm run build
-      # - name: Test project
-      #   run: npm run test
-      - name: List current directory
-        run: ls -al
+      - run: npm install
+      - run: git log --oneline -n 5
+      - run: npm run build
+      # - run: npm run test
+      - run: ls -al
 
   release:
     needs: build-and-test
@@ -48,24 +38,17 @@ jobs:
       contents: write
       pull-requests: read
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-      - name: Install dependencies
-        run: npm install
-      - name: Make script executable
-        run: chmod +x ./setup-gpg.sh
-      - name: Setup GPG
-        run: ./setup-gpg.sh
+      - run: npm install
+      - run: chmod +x ./setup-gpg.sh
+      - run: ./setup-gpg.sh
         env:
-          GPG_BASE64: ${{ secrets.SEMREL_GPG_SIGNKEY }}
-      - name: Semantic Release
-        run: npx semantic-release
+          GPG_KEY: ${{ secrets.SEMREL_GPG_SIGNKEY }}
+      - run: npx semantic-release
         env:
-          DEBUG: semantic-release:*
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GIT_COMMITTER_NAME: 'GitHub Action'
