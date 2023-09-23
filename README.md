@@ -1,18 +1,15 @@
+# Enhanced Error Enrichment for Node.js
+> Supercharge your Node.js error handling with this TypeScript library. Leverage modular architecture to enrich error objects with identifiers, system context, user info, and HTTP statuses. Perfect for debugging, logging, and boosting application robustness.
+
 [![npm](https://img.shields.io/npm/v/%40labrynx%2Ferror-enhanced?style=for-the-badge&logo=npm&logoColor=white&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Ferror-enhanced
 )](https://www.npmjs.com/package/@labrynx/error-enhanced)
 
-<a name="top"></a>
+## Features
 
-# Enhanced Error Enrichment for Node.js
-
-## Table of Contents 
-- [Quick Start](#quick-start)
-- [Installation](#installation)
-- [Documentation](#documentation)
-- [Contributing](#contributing)
-- [Changelog](#changelog)
-
----
+* Unification of Error Objects
+* Use of Enhancers for Dynamic Error Enrichment
+* Enum-based Error Categorization
+* Strongly Typed Interfaces
 
 ## Quick Start
 
@@ -22,14 +19,8 @@
 
 ```typescript
 const error = new ErrorEnhanced([new IdentifiersEnhanced()]);
-error.setErrorCode(400).setSeverity(ErrorEnhanced.SeverityLevel.HIGH);
+error.setErrorCode(400).setSeverity(ErrorEnhanced.Severity.HIGH);
 ```
-
-For more examples and advanced usage, please refer to the [Wiki](https://github.com/labrynx/error-enhanced/wiki).
-
-[Back to top](#top)
-
----
 
 ## Installation
 
@@ -39,28 +30,14 @@ To install the package, use the following npm command:
 npm install @labrynx/error-enhanced
 ```
 
-[Back to top](#top)
-
----
-
 ## Documentation
 
 For in-depth documentation, including explanations on enhancers, utilities, enums, and more, please refer to the [Wiki](https://github.com/labrynx/error-enhanced/wiki).
 
-[Back to top](#top)
-
----
-
 ## Contributing
 
-We welcome contributions! Please see our [Contributing Guidelines](https://github.com/labrynx/error-enhanced/wiki/Contributing) for more information.
-
-[Back to top](#top)
-
----
+We welcome contributions! Please see our [Contributing Guidelines](https://github.com/labrynx/error-enhanced/blob/main/docs/CONTRIBUTING.md) for more information.
 
 ## Changelog
 
 For a detailed list of changes, check out the [CHANGELOG](docs/CHANGELOG.md).
-
-[Back to top](#top)
