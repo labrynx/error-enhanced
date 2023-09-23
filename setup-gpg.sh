@@ -5,13 +5,8 @@ set -e
 # Debugging: Show the first and last 30 characters of the GPG key
 echo "Debugging: Start -> ${GPG_KEY:0:30} ... End -> ${GPG_KEY: -30}"
 
-echo "Importing GPG key..."
-
-# Set the GPG_TTY variable
-export GPG_TTY=$(tty)
-
 # Import the GPG key and set pinentry mode to loopback
-echo "$GPG_KEY" | gpg --batch --pinentry-mode loopback --import
+echo "$GPG_KEY" | gpg --batch --pinentry-mode loopback --passphrase "$GPG_PASSPHRASE" --import
 
 # Add loopback pinentry configuration
 echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
