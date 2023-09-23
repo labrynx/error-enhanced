@@ -43,12 +43,13 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - run: npm install
-      - run: chmod +x ./setup-gpg.sh
-      - run: ./setup-gpg.sh
-        env:
-          GPG_KEY: ${{ secrets.SEMREL_GPG_SIGNKEY }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-          GPG_TTY: $(tty)
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.SEMREL_GPG_SIGNKEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
       - run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
