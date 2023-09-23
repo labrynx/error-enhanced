@@ -44,9 +44,9 @@ jobs:
           node-version: '20'
       - run: npm install
       - run: npx semantic-release --dry-run --branches development
-      - run: git config user.email "action@github.com"
-      - run: git config user.name "GitHub Action"
-      - run: git commit -am "Update package version"
+      - run: git config --global user.email "action@github.com"
+      - run: git config --global user.name "GitHub Action"
+      - run: git diff-index --quiet HEAD || git commit -am "Update package version"
       - run: git push origin development
 
   release:
