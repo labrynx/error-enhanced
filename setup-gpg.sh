@@ -7,8 +7,11 @@ echo "Debugging: Start -> ${GPG_KEY:0:30} ... End -> ${GPG_KEY: -30}"
 
 echo "Importing GPG key..."
 
-# Import the GPG key
-echo "$GPG_KEY" | gpg --batch --import
+# Set the GPG_TTY variable
+export GPG_TTY=$(tty)
+
+# Import the GPG key and set pinentry mode to loopback
+echo "$GPG_KEY" | gpg --batch --pinentry-mode loopback --import
 
 # Add loopback pinentry configuration
 echo "allow-loopback-pinentry" >> ~/.gnupg/gpg-agent.conf
