@@ -55,7 +55,7 @@ jobs:
 
         echo "PR_ID=$PR_ID" >> $GITHUB_ENV
         echo "PR_AUTHOR=$PR_AUTHOR" >> $GITHUB_ENV
-        echo "FINAL_FILES_LINKED=$FINAL_FILES_LINKED" >> $GITHUB_ENV
+        echo "$FINAL_FILES_LINKED" > /tmp/final_files_linked.txt
 
     - name: Set Workflow Status
       run: echo "WORKFLOW_STATUS=success" >> $GITHUB_ENV
@@ -67,7 +67,12 @@ jobs:
         echo "WORKFLOW_STATUS=failure" >> $GITHUB_ENV
         echo "An error occurred. Check the logs for details."
       continue-on-error: true
-      
+
+    - name: Read FINAL_FILES_LINKED from file
+      run: |
+        FINAL_FILES_LINKED=$(cat /tmp/final_files_linked.txt)
+        echo "FINAL_FILES_LINKED=$FINAL_FILES_LINKED" >> $GITHUB_ENV
+
     - name: Add comment to PR
       uses: thollander/actions-comment-pull-request@v2
       with:
