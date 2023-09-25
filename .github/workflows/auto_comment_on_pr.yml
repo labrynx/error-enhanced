@@ -45,35 +45,21 @@ jobs:
           FILES_LINKED+=("- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)")
         done
     
-        echo "PR_ID=$PR_ID" >> $GITHUB_ENV
-        echo "PR_AUTHOR=$PR_AUTHOR" >> $GITHUB_ENV
-        echo "FILES_LINKED=$(IFS=$'\n'; join <<< "${FILES_LINKED[*]}")" >> $GITHUB_ENV
-    
-    - name: Set success status
-      if: success()
-      run: echo "WORKFLOW_STATUS=success" >> $GITHUB_ENV
-    
-    - name: Set failure status
-      if: failure()
-      run: echo "WORKFLOW_STATUS=failure" >> $GITHUB_ENV
-  
-    - name: Error Handling
-      if: failure()
-      run: |
-        echo "WORKFLOW_STATUS=failure" >> $GITHUB_ENV
-        echo "An error occurred. Check the logs for details."
-        
+        echo "::set-output name=pr_id::$PR_ID"
+        echo "::set-output name=pr_author::$PR_AUTHOR"
+        echo "::set-output name=files_linked::$(IFS=$'\n'; echo "${FILES_LINKED[*]}")"
+
     - name: Add comment to PR
       uses: thollander/actions-comment-pull-request@v2
       with:
         message: |
-          Hey @${{ env.PR_AUTHOR }},
-          - **PR Number**: [#${{ env.PR_ID }}](https://github.com/${{ github.repository }}/pull/${{ env.PR_ID }})
+          Hey @${{ steps.pr_details.outputs.pr_author }},
+          - **PR Number**: [#${{ steps.pr_details.outputs.pr_id }}](https://github.com/${{ github.repository }}/pull/${{ steps.pr_details.outputs.pr_id }})
           - **Labels**: ${{ env.LABELS }}
           - **Workflow Status**: ${{ env.WORKFLOW_STATUS }}
           
           **Files Changed:**
-          ${{ join(env.FILES_LINKED, '\n') }}
+          ${{ steps.pr_details.outputs.files_linked }}
           
           Please ensure all tests and checks are passed. We'll be reviewing it shortly.
           For more details, please check [our contribution guide](https://github.com/${{ github.repository }}/blob/main/CONTRIBUTING.md).
