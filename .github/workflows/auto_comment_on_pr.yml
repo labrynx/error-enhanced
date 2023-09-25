@@ -35,7 +35,7 @@ jobs:
         FILES_JSON=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           https://api.github.com/repos/${{ github.repository }}/pulls/$PR_ID/files) || exit 1
     
-        FILES_LINKED=""
+        FILES_LINKED=()
         
         # Iterate through each file to get details
         for row in $(echo "${FILES_JSON}" | jq -r '.[] | @base64'); do
@@ -48,12 +48,14 @@ jobs:
           DELETIONS=$(_jq '.deletions')
           CHANGES=$(_jq '.changes')
           
-          FILES_LINKED+="- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)"$'\n'
+          FILES_LINKED+=("- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)")
         done
+
+        FINAL_FILES_LINKED=$(IFS=$'\n'; echo "${FILES_LINKED[*]}")
         
         echo "PR_ID=$PR_ID" >> $GITHUB_ENV
         echo "PR_AUTHOR=$PR_AUTHOR" >> $GITHUB_ENV
-        echo "FILES_LINKED=$FILES_LINKED" >> $GITHUB_ENV
+        echo "FILES_LINKED=$FINAL_FILES_LINKED" >> $GITHUB_ENV
 
     - name: Set Workflow Status
       run: echo "WORKFLOW_STATUS=success" >> $GITHUB_ENV
