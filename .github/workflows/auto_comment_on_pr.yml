@@ -55,7 +55,7 @@ jobs:
 
         echo "PR_ID=$PR_ID" >> $GITHUB_ENV
         echo "PR_AUTHOR=$PR_AUTHOR" >> $GITHUB_ENV
-        echo "FILES_LINKED=$FINAL_FILES_LINKED" >> $GITHUB_ENV
+        echo "FINAL_FILES_LINKED=$FINAL_FILES_LINKED" >> $GITHUB_ENV
 
     - name: Set Workflow Status
       run: echo "WORKFLOW_STATUS=success" >> $GITHUB_ENV
@@ -66,18 +66,19 @@ jobs:
       run: |
         echo "WORKFLOW_STATUS=failure" >> $GITHUB_ENV
         echo "An error occurred. Check the logs for details."
-
+      continue-on-error: true
+      
     - name: Add comment to PR
       uses: thollander/actions-comment-pull-request@v2
       with:
-        message: |
+        message: >-
           Hey @${{ env.PR_AUTHOR }},
           - **PR Number**: [#${{ env.PR_ID }}](https://github.com/${{ github.repository }}/pull/${{ env.PR_ID }})
           - **Labels**: ${{ env.LABELS }}
           - **Workflow Status**: ${{ env.WORKFLOW_STATUS }}
           
           **Files Changed:**
-          ${{ env.FILES_LINKED }}
+          ${{ env.FINAL_FILES_LINKED }}
           
           Please ensure all tests and checks are passed. We'll be reviewing it shortly.
           For more details, please check [our contribution guide](https://github.com/${{ github.repository }}/blob/main/CONTRIBUTING.md).
