@@ -52,7 +52,7 @@ jobs:
         done
 
         FINAL_FILES_LINKED=$(IFS=$'\n'; echo "${FILES_LINKED[*]}")
-        
+
         echo "PR_ID=$PR_ID" >> $GITHUB_ENV
         echo "PR_AUTHOR=$PR_AUTHOR" >> $GITHUB_ENV
         echo "FILES_LINKED=$FINAL_FILES_LINKED" >> $GITHUB_ENV
