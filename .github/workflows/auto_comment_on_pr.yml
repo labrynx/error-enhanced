@@ -31,13 +31,11 @@ jobs:
     
         REPO_URL="https://github.com/${{ github.repository }}/blob/$PR_BRANCH"
         
-        # Fetch Files Changed details
         FILES_JSON=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           https://api.github.com/repos/${{ github.repository }}/pulls/$PR_ID/files) || exit 1
     
         FILES_LINKED=()
         
-        # Iterate through each file to get details
         for row in $(echo "${FILES_JSON}" | jq -r '.[] | @base64'); do
           _jq() {
             echo ${row} | base64 --decode | jq -r ${1}
@@ -52,10 +50,12 @@ jobs:
         done
 
         FINAL_FILES_LINKED=$(IFS=$'\n'; echo "${FILES_LINKED[*]}")
+        
+        # Store this in a file instead of an environment variable
+        echo "$FINAL_FILES_LINKED" > /tmp/final_files_linked.txt
 
         echo "PR_ID=$PR_ID" >> $GITHUB_ENV
         echo "PR_AUTHOR=$PR_AUTHOR" >> $GITHUB_ENV
-        echo -n "$FINAL_FILES_LINKED" | base64 > /tmp/final_files_linked_base64.txt
 
     - name: Set Workflow Status
       run: echo "WORKFLOW_STATUS=success" >> $GITHUB_ENV
@@ -66,25 +66,9 @@ jobs:
       run: |
         echo "WORKFLOW_STATUS=failure" >> $GITHUB_ENV
         echo "An error occurred. Check the logs for details."
-      continue-on-error: true
-
-    - name: Read FINAL_FILES_LINKED from file
-      run: |
-        FINAL_FILES_LINKED=$(cat /tmp/final_files_linked_base64.txt | base64 --decode)
-        echo "FINAL_FILES_LINKED=$FINAL_FILES_LINKED" >> $GITHUB_ENV
 
     - name: Add comment to PR
       uses: thollander/actions-comment-pull-request@v2
       with:
-        message: >-
-          Hey @${{ env.PR_AUTHOR }},
-          - **PR Number**: [#${{ env.PR_ID }}](https://github.com/${{ github.repository }}/pull/${{ env.PR_ID }})
-          - **Labels**: ${{ env.LABELS }}
-          - **Workflow Status**: ${{ env.WORKFLOW_STATUS }}
-          
-          **Files Changed:**
-          ${{ env.FINAL_FILES_LINKED }}
-          
-          Please ensure all tests and checks are passed. We'll be reviewing it shortly.
-          For more details, please check [our contribution guide](https://github.com/${{ github.repository }}/blob/main/CONTRIBUTING.md).
+        message_file: /tmp/final_files_linked.txt
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
