@@ -44,6 +44,14 @@ jobs:
         echo "::set-output name=pr_author::$PR_AUTHOR"
         echo "::set-output name=files_linked::$FILES_LINKED"
 
+    - name: Set success status
+      if: success()
+      run: echo "WORKFLOW_STATUS=success" >> $GITHUB_ENV
+    
+    - name: Set failure status
+      if: failure()
+      run: echo "WORKFLOW_STATUS=failure" >> $GITHUB_ENV
+
     - name: Add comment to PR
       uses: thollander/actions-comment-pull-request@v2
       with:
