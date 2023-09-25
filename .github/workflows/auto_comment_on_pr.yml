@@ -55,7 +55,7 @@ jobs:
 
         echo "PR_ID=$PR_ID" >> $GITHUB_ENV
         echo "PR_AUTHOR=$PR_AUTHOR" >> $GITHUB_ENV
-        echo "$FINAL_FILES_LINKED" > /tmp/final_files_linked.txt
+        echo -n "$FINAL_FILES_LINKED" | base64 > /tmp/final_files_linked_base64.txt
 
     - name: Set Workflow Status
       run: echo "WORKFLOW_STATUS=success" >> $GITHUB_ENV
@@ -70,7 +70,7 @@ jobs:
 
     - name: Read FINAL_FILES_LINKED from file
       run: |
-        FINAL_FILES_LINKED=$(cat /tmp/final_files_linked.txt)
+        FINAL_FILES_LINKED=$(cat /tmp/final_files_linked_base64.txt | base64 --decode)
         echo "FINAL_FILES_LINKED=$FINAL_FILES_LINKED" >> $GITHUB_ENV
 
     - name: Add comment to PR
