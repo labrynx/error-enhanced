@@ -19,35 +19,30 @@ jobs:
         key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.OS }}-node-
-          
+
     - name: Gather PR details
       id: pr_details
       run: |
         PR_ID=$(jq -r ".pull_request.number" "$GITHUB_EVENT_PATH")
         PR_AUTHOR=$(jq -r ".pull_request.user.login" "$GITHUB_EVENT_PATH")
         PR_BRANCH=$(jq -r ".pull_request.head.ref" "$GITHUB_EVENT_PATH")
-        
         REPO_URL="https://github.com/${{ github.repository }}/blob/$PR_BRANCH"
-    
-        # Fetch Files Changed details
         FILES_JSON=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           https://api.github.com/repos/${{ github.repository }}/pulls/$PR_ID/files)
-    
-        FILES_LINKED=()
-    
-        # Iterate through each file to get details
+        
+        FILES_LINKED=""
+        IFS=$'\n'
         for row in $(echo "$FILES_JSON" | jq -r '.[] | @base64'); do
           FILE_NAME=$(echo "$row" | base64 --decode | jq -r '.filename')
           ADDITIONS=$(echo "$row" | base64 --decode | jq -r '.additions')
           DELETIONS=$(echo "$row" | base64 --decode | jq -r '.deletions')
           CHANGES=$(echo "$row" | base64 --decode | jq -r '.changes')
-    
-          FILES_LINKED+=("- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)")
+          FILES_LINKED+="- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES);"
         done
-    
+
         echo "::set-output name=pr_id::$PR_ID"
         echo "::set-output name=pr_author::$PR_AUTHOR"
-        echo "::set-output name=files_linked::$(IFS=$'\n'; echo "${FILES_LINKED[*]}")"
+        echo "::set-output name=files_linked::$FILES_LINKED"
 
     - name: Add comment to PR
       uses: thollander/actions-comment-pull-request@v2
@@ -59,7 +54,7 @@ jobs:
           - **Workflow Status**: ${{ env.WORKFLOW_STATUS }}
           
           **Files Changed:**
-          ${{ steps.pr_details.outputs.files_linked }}
+          ${{ join(split(steps.pr_details.outputs.files_linked, ';'), '\n') }}
           
           Please ensure all tests and checks are passed. We'll be reviewing it shortly.
           For more details, please check [our contribution guide](https://github.com/${{ github.repository }}/blob/main/CONTRIBUTING.md).
