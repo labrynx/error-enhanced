@@ -54,6 +54,8 @@ jobs:
           
         done
 
+        echo "cat files_linked.txt"
+        
         {
           echo "PR_ID=$PR_ID"
           echo "PR_AUTHOR=$PR_AUTHOR"
