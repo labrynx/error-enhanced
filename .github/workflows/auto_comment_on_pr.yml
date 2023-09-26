@@ -79,6 +79,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: files_linked
+        path: files_linked.txt
 
     - name: Add comment to PR
       run: |
