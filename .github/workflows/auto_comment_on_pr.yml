@@ -89,7 +89,7 @@ jobs:
                         --arg repo "${{ github.repository }}" \
                         --arg files_linked "$FILES_LINKED" \
                         '{
-                          "body": ("Hey @$pr_author,\n" +
+                          "body": ("Hey @" + $pr_author + ",\n" +
                                   "- **PR Number**: [#" + $pr_id + "](https://github.com/" + $repo + "/pull/" + $pr_id + ")\n" +  
                                   "- **Labels**: \n" +
                                   "- **Workflow Status**: success\n\n" +
