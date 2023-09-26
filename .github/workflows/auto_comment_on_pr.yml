@@ -32,7 +32,7 @@ jobs:
         REPO_URL="https://github.com/labrynx/error-enhanced/blob/$PR_BRANCH"
         
         # Fetch Files Changed details
-        FILES_JSON=$(curl -s -H "Authorization: token ***" \
+        FILES_JSON=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           "https://api.github.com/repos/labrynx/error-enhanced/pulls/$PR_ID/files") || exit 1
         
         FILES_LINKED=""
