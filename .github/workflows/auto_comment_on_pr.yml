@@ -92,5 +92,4 @@ jobs:
           -H "Content-Type: application/json" \
           -d "$COMMENT_BODY" \
           "https://api.github.com/repos/${{ github.repository }}/issues/${{ env.PR_ID }}/comments"
-
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
