@@ -27,6 +27,9 @@ jobs:
       run: |
         set -e  # Stop execution on any error
         
+        # Initialize or clean up files_linked.txt
+        > files_linked.txt
+
         PR_ID=$(jq -r ".pull_request.number" "$GITHUB_EVENT_PATH") || exit 1
         PR_AUTHOR=$(jq -r ".pull_request.user.login" "$GITHUB_EVENT_PATH") || exit 1
         PR_BRANCH=$(jq -r ".pull_request.head.ref" "$GITHUB_EVENT_PATH") || exit 1
@@ -77,7 +80,11 @@ jobs:
 
     - name: Add comment to PR
       run: |
+        # Asignar el contenido del archivo a la variable FILES_LINKED
         FILES_LINKED=$(cat files_linked.txt)
+        FILES_LINKED="${FILES_LINKED//\"/\\"}"
+
+        # Construir el cuerpo del comentario
         COMMENT_BODY=$(jq -n \
                         --arg pr_author "${{ env.PR_AUTHOR }}" \
                         --arg pr_id "${{ env.PR_ID }}" \
