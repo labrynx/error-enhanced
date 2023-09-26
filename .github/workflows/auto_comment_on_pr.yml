@@ -83,7 +83,8 @@ jobs:
         # Asignar el contenido del archivo a la variable FILES_LINKED
         FILES_LINKED=$(cat files_linked.txt)
         FILES_LINKED="${FILES_LINKED//\"/\\"}"
-
+        echo $FILES_LINKED
+        
         # Construir el cuerpo del comentario
         COMMENT_BODY=$(jq -n \
                         --arg pr_author "${{ env.PR_AUTHOR }}" \
