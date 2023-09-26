@@ -80,12 +80,9 @@ jobs:
 
     - name: Add comment to PR
       run: |
-        # Asignar el contenido del archivo a la variable FILES_LINKED
         FILES_LINKED=$(cat files_linked.txt)
-        FILES_LINKED="${FILES_LINKED//\"/\\"}"
-        echo $FILES_LINKED
+        FILES_LINKED=$(echo "$FILES_LINKED" | sed -E 's/["“”]/\\"/g')
         
-        # Construir el cuerpo del comentario
         COMMENT_BODY=$(jq -n \
                         --arg pr_author "${{ env.PR_AUTHOR }}" \
                         --arg pr_id "${{ env.PR_ID }}" \
