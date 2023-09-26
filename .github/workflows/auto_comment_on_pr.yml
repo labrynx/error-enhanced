@@ -48,9 +48,9 @@ jobs:
           DELETIONS=$(_jq ".deletions")
           CHANGES=$(_jq ".changes")
           
-          FILES_LINKED+="- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)"$"\n"
+          FILES_LINKED+="- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)<br>"
         done
-        
+
         {
           echo "PR_ID=$PR_ID"
           echo "PR_AUTHOR=$PR_AUTHOR"
