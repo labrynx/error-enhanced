@@ -49,7 +49,7 @@ jobs:
           DELETIONS=$(_jq '.deletions')
           CHANGES=$(_jq '.changes')
           
-          FILES_LINKED+="- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)"$'\n'
+          FILES_LINKED+="- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)"$'!\n!'
         done
         
         echo "PR_ID=$PR_ID" >> $GITHUB_ENV
