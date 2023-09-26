@@ -30,34 +30,37 @@ jobs:
         PR_ID=$(jq -r ".pull_request.number" "$GITHUB_EVENT_PATH") || exit 1
         PR_AUTHOR=$(jq -r ".pull_request.user.login" "$GITHUB_EVENT_PATH") || exit 1
         PR_BRANCH=$(jq -r ".pull_request.head.ref" "$GITHUB_EVENT_PATH") || exit 1
-        
-        REPO_URL="https://github.com/labrynx/error-enhanced/blob/$PR_BRANCH"
+    
+        REPO_URL="https://github.com/${{ github.repository }}/blob/$PR_BRANCH"
         
         # Fetch Files Changed details
         FILES_JSON=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          "https://api.github.com/repos/labrynx/error-enhanced/pulls/$PR_ID/files") || exit 1
-        
+          https://api.github.com/repos/${{ github.repository }}/pulls/$PR_ID/files) || exit 1
+    
         FILES_LINKED=""
         
         # Iterate through each file to get details
-        for row in $(echo "${FILES_JSON}" | jq -r ".[] | @base64"); do
+        for row in $(echo "${FILES_JSON}" | jq -r '.[] | @base64'); do
           _jq() {
-            echo "${row}" | base64 --decode | jq -r "${1}"
+            echo ${row} | base64 --decode | jq -r ${1}
           }
           
-          FILE_NAME=$(_jq ".filename")
-          ADDITIONS=$(_jq ".additions")
-          DELETIONS=$(_jq ".deletions")
-          CHANGES=$(_jq ".changes")
+          FILE_NAME=$(_jq '.filename')
+          ADDITIONS=$(_jq '.additions')
+          DELETIONS=$(_jq '.deletions')
+          CHANGES=$(_jq '.changes')
           
-          FILES_LINKED+="- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)"$'\n'
+          echo "- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)" >> files_list.txt    
+          
         done
 
+        echo "cat files_list.txt"
+        
         {
           echo "PR_ID=$PR_ID"
           echo "PR_AUTHOR=$PR_AUTHOR"
-          echo "FILES_LINKED=$FILES_LINKED"
-        } >> "$GITHUB_ENV"
+          echo "FILES_LINKED=$(cat files_list.txt)"
+        } >> $GITHUB_ENV
 
     - name: Set Workflow Status
       run: echo "WORKFLOW_STATUS=success" >> $GITHUB_ENV
@@ -69,27 +72,18 @@ jobs:
         echo "WORKFLOW_STATUS=failure" >> $GITHUB_ENV
         echo "An error occurred. Check the logs for details."
 
-    - name: Add comment to PR manually
-      run: |
-        COMMENT_BODY=$(jq -n \
-                        --arg pr_author "${{ env.PR_AUTHOR }}" \
-                        --arg pr_id "${{ env.PR_ID }}" \
-                        --arg repo "${{ github.repository }}" \
-                        --arg files_linked "${{ env.FILES_LINKED }}" \
-                        '{
-                          "body": ("Hey @" + $pr_author + ",\n" +
-                                  "- **PR Number**: [#" + $pr_id + "](https://github.com/" + $repo + "/pull/" + $pr_id + ")\n" +
-                                  "- **Labels**: \n" +
-                                  "- **Workflow Status**: success\n\n" +
-                                  "**Files Changed:**\n" + $files_linked + "\n\n" +
-                                  "Please ensure all tests and checks are passed. We\\u0027ll be reviewing it shortly.\n" +
-                                  "For more details, please check [our contribution guide](https://github.com/" + $repo + "/blob/main/CONTRIBUTING.md).")
-                        }')
-        
-        curl \
-          -X POST \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          -H "Content-Type: application/json" \
-          -d "$COMMENT_BODY" \
-          "https://api.github.com/repos/${{ github.repository }}/issues/${{ env.PR_ID }}/comments"
+    - name: Add comment to PR
+      uses: thollander/actions-comment-pull-request@v2
+      with:
+        message: |
+          Hey @${{ env.PR_AUTHOR }},
+          - **PR Number**: [#${{ env.PR_ID }}](https://github.com/${{ github.repository }}/pull/${{ env.PR_ID }})
+          - **Labels**: ${{ env.LABELS }}
+          - **Workflow Status**: ${{ env.WORKFLOW_STATUS }}
           
+          **Files Changed:**
+          ${{ env.FILES_LINKED }}
+          
+          Please ensure all tests and checks are passed. We'll be reviewing it shortly.
+          For more details, please check [our contribution guide](https://github.com/${{ github.repository }}/blob/main/CONTRIBUTING.md).
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
