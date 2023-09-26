@@ -24,37 +24,38 @@ jobs:
       id: pr_details
       run: |
         set -e  # Stop execution on any error
-        set \n=^
-
+        
         PR_ID=$(jq -r ".pull_request.number" "$GITHUB_EVENT_PATH") || exit 1
         PR_AUTHOR=$(jq -r ".pull_request.user.login" "$GITHUB_EVENT_PATH") || exit 1
         PR_BRANCH=$(jq -r ".pull_request.head.ref" "$GITHUB_EVENT_PATH") || exit 1
-    
-        REPO_URL="https://github.com/${{ github.repository }}/blob/$PR_BRANCH"
+        
+        REPO_URL="https://github.com/labrynx/error-enhanced/blob/$PR_BRANCH"
         
         # Fetch Files Changed details
-        FILES_JSON=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          https://api.github.com/repos/${{ github.repository }}/pulls/$PR_ID/files) || exit 1
-    
+        FILES_JSON=$(curl -s -H "Authorization: token ***" \
+          "https://api.github.com/repos/labrynx/error-enhanced/pulls/$PR_ID/files") || exit 1
+        
         FILES_LINKED=""
         
         # Iterate through each file to get details
-        for row in $(echo "${FILES_JSON}" | jq -r '.[] | @base64'); do
+        for row in $(echo "${FILES_JSON}" | jq -r ".[] | @base64"); do
           _jq() {
-            echo ${row} | base64 --decode | jq -r ${1}
+            echo "${row}" | base64 --decode | jq -r "${1}"
           }
           
-          FILE_NAME=$(_jq '.filename')
-          ADDITIONS=$(_jq '.additions')
-          DELETIONS=$(_jq '.deletions')
-          CHANGES=$(_jq '.changes')
+          FILE_NAME=$(_jq ".filename")
+          ADDITIONS=$(_jq ".additions")
+          DELETIONS=$(_jq ".deletions")
+          CHANGES=$(_jq ".changes")
           
-          FILES_LINKED+="- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)"$'!\n!'
+          FILES_LINKED+="- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)"$"\n"
         done
         
-        echo "PR_ID=$PR_ID" >> $GITHUB_ENV
-        echo "PR_AUTHOR=$PR_AUTHOR" >> $GITHUB_ENV
-        echo "FILES_LINKED=$FILES_LINKED" >> $GITHUB_ENV
+        {
+          echo "PR_ID=$PR_ID"
+          echo "PR_AUTHOR=$PR_AUTHOR"
+          echo "FILES_LINKED=$FILES_LINKED"
+        } >> "$GITHUB_ENV"
 
     - name: Set Workflow Status
       run: echo "WORKFLOW_STATUS=success" >> $GITHUB_ENV
