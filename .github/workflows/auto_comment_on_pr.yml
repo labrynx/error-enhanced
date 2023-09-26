@@ -60,6 +60,9 @@ jobs:
         } >> "$GITHUB_ENV"
 
         echo "$FILES_LINKED" > files_linked.txt
+        
+        echo "$FILES_LINKED"
+        
         set +x
 
     - name: Upload files_linked as artifact
@@ -87,6 +90,8 @@ jobs:
       run: |
         set -x
         FILES_LINKED=$(cat files_linked.txt)
+
+        echo "$FILES_LINKED"
                 
         COMMENT_JSON=$(cat <<- EOM
         {
