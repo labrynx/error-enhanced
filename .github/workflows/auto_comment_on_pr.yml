@@ -87,23 +87,24 @@ jobs:
       run: |
         set -x
         FILES_LINKED=$(cat files_linked.txt)
+        COMMENT_TEXT='{
+          "body": ("Hey @" + $pr_author + ",\n" +
+                  "- **PR Number**: [#" + $pr_id + "](https://github.com/" + $repo + "/pull/" + $pr_id + ")\n" +
+                  "- **Labels**: \n" +
+                  "- **Workflow Status**: success\n\n" +
+                  "**Files Changed:**\n" + $files_linked + "\n\n" +
+                  "Please ensure all tests and checks are passed. We\'ll be reviewing it shortly.\n" +
+                  "For more details, please check [our contribution guide](https://github.com/" + $repo + "/blob/main/CONTRIBUTING.md).")
+        }'
+        
+        # Utiliza jq para crear el JSON, pasando la variable como argumento
         COMMENT_BODY=$(jq -n \
-                        --arg pr_author "${{ env.PR_AUTHOR }}" \
-                        --arg pr_id "${{ env.PR_ID }}" \
-                        --arg repo "${{ github.repository }}" \
+                        --arg pr_author "$PR_AUTHOR" \
+                        --arg pr_id "$PR_ID" \
+                        --arg repo "$REPO" \
                         --arg files_linked "$FILES_LINKED" \
-                          '{
-                            "body": ("Hey @" + $pr_author + ",\n" +
-                                    "- **PR Number**: [#" + $pr_id + "](https://github.com/" + $repo + "/pull/" + $pr_id + ")\n" +
-                                    "- **Labels**: \n" +
-                                    "- **Workflow Status**: success\n\n" +
-                                    "**Files Changed:**\n" + $files_linked + "\n\n" +
-                                    "Please ensure all tests and checks are passed. We\'ll be reviewing it shortly.\n" +
-                                    "For more details, please check [our contribution guide](https://github.com/" + $repo + "/blob/main/CONTRIBUTING.md).")
-                          }')
-
-        echo "Generated comment body: $COMMENT_BODY"
-
+                        "$COMMENT_TEXT")
+                        
         curl \
           -X POST \
           -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
