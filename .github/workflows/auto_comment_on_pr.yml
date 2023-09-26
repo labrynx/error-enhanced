@@ -50,7 +50,7 @@ jobs:
           DELETIONS=$(_jq ".deletions")
           CHANGES=$(_jq ".changes")
           
-          FILES_LINKED+="- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)%0A"
+          FILES_LINKED+="- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)\n"
         done
 
         {
@@ -93,4 +93,4 @@ jobs:
           -d "$COMMENT_BODY" \
           "https://api.github.com/repos/${{ github.repository }}/issues/${{ env.PR_ID }}/comments"
 
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
