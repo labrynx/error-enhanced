@@ -77,6 +77,7 @@ jobs:
 
     - name: Add comment to PR
       run: |
+        echo "FILES_LINKED= " | cat files_linked.txt
         FILES_LINKED=$(cat files_linked.txt)
         COMMENT_BODY=$(jq -n \
                         --arg pr_author "${{ env.PR_AUTHOR }}" \
@@ -88,7 +89,7 @@ jobs:
                                   "- **PR Number**: [#" + $pr_id + "](https://github.com/" + $repo + "/pull/" + $pr_id + ")\n" +
                                   "- **Labels**: \n" +
                                   "- **Workflow Status**: success\n\n" +
-                                  "**Files Changed:**\n$(cat files_linked.txt)\n\n" +
+                                  "**Files Changed:**\n" + $(cat files_linked.txt) + "\n\n" +
                                   "Please ensure all tests and checks are passed. We\'ll be reviewing it shortly.\n" +
                                   "For more details, please check [our contribution guide](https://github.com/" + $repo + "/blob/main/CONTRIBUTING.md).")
                         }')
