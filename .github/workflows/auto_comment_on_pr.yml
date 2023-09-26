@@ -87,14 +87,14 @@ jobs:
                         --arg pr_author "${{ env.PR_AUTHOR }}" \
                         --arg pr_id "${{ env.PR_ID }}" \
                         --arg repo "${{ github.repository }}" \
-                        --arg files_linked "${{ env.FILES_LINKED }}" \
+                        --arg files_linked "$FILES_LINKED" \
                         '{
                           "body": ("Hey @" + $pr_author + ",\n" +
                                   "- **PR Number**: [#" + $pr_id + "](https://github.com/" + $repo + "/pull/" + $pr_id + ")\n" +
                                   "- **Labels**: \n" +
                                   "- **Workflow Status**: success\n\n" +
                                   "**Files Changed:**\n" + $files_linked + "\n\n" +
-                                  "Please ensure all tests and checks are passed. We\\u0027ll be reviewing it shortly.\n" +
+                                  "Please ensure all tests and checks are passed. We\'ll be reviewing it shortly.\n" +
                                   "For more details, please check [our contribution guide](https://github.com/" + $repo + "/blob/main/CONTRIBUTING.md).")
                         }')
         
