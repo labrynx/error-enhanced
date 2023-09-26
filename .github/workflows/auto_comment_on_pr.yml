@@ -50,12 +50,17 @@ jobs:
           DELETIONS=$(_jq '.deletions')
           CHANGES=$(_jq '.changes')
           
-          FILES_LINKED+="- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)"$'\\n'
+          echo "- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)" >> files_list.txt    
+          
         done
+
+        echo "cat files_list.txt"
         
-        echo "PR_ID=$PR_ID" >> $GITHUB_ENV
-        echo "PR_AUTHOR=$PR_AUTHOR" >> $GITHUB_ENV
-        echo "FILES_LINKED=$FILES_LINKED" >> $GITHUB_ENV
+        {
+          echo "PR_ID=$PR_ID"
+          echo "PR_AUTHOR=$PR_AUTHOR"
+          echo "FILES_LINKED=$(cat files_list.txt)"
+        } >> $GITHUB_ENV
 
     - name: Set Workflow Status
       run: echo "WORKFLOW_STATUS=success" >> $GITHUB_ENV
