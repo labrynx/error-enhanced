@@ -25,7 +25,8 @@ jobs:
     - name: Gather PR details
       id: pr_details
       run: |
-        set -e  # Stop execution on any error
+        set -x
+        set -e
         
         PR_ID=$(jq -r ".pull_request.number" "$GITHUB_EVENT_PATH") || exit 1
         PR_AUTHOR=$(jq -r ".pull_request.user.login" "$GITHUB_EVENT_PATH") || exit 1
@@ -59,6 +60,7 @@ jobs:
         } >> "$GITHUB_ENV"
 
         echo "$FILES_LINKED" > files_linked.txt
+        set +x
 
     - name: Upload files_linked as artifact
       uses: actions/upload-artifact@v2
@@ -83,12 +85,13 @@ jobs:
 
     - name: Add comment to PR
       run: |
+        set -x
         FILES_LINKED=$(cat files_linked.txt)
         COMMENT_BODY=$(jq -n \
-                          --arg pr_author "alessbarb" \
-                          --arg pr_id "114" \
-                          --arg repo "labrynx/error-enhanced" \
-                          --arg files_linked "$FILES_LINKED" \
+                        --arg pr_author "${{ env.PR_AUTHOR }}" \
+                        --arg pr_id "${{ env.PR_ID }}" \
+                        --arg repo "${{ github.repository }}" \
+                        --arg files_linked "$FILES_LINKED" \
                           '{
                             "body": ("Hey @" + $pr_author + ",\n" +
                                     "- **PR Number**: [#" + $pr_id + "](https://github.com/" + $repo + "/pull/" + $pr_id + ")\n" +
@@ -98,11 +101,13 @@ jobs:
                                     "Please ensure all tests and checks are passed. We\'ll be reviewing it shortly.\n" +
                                     "For more details, please check [our contribution guide](https://github.com/" + $repo + "/blob/main/CONTRIBUTING.md).")
                           }')
-        
+
+        echo "Generated comment body: $COMMENT_BODY"
+
         curl \
           -X POST \
           -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           -H "Content-Type: application/json" \
           -d "$COMMENT_BODY" \
           "https://api.github.com/repos/${{ github.repository }}/issues/${{ env.PR_ID }}/comments"
-          
+        set +x          
