@@ -33,16 +33,17 @@ jobs:
         PR_ID=$(jq -r ".pull_request.number" "$GITHUB_EVENT_PATH") || exit 1
         PR_AUTHOR=$(jq -r ".pull_request.user.login" "$GITHUB_EVENT_PATH") || exit 1
         PR_BRANCH=$(jq -r ".pull_request.head.ref" "$GITHUB_EVENT_PATH") || exit 1
-        PR_TITLE=$(jq -r '.pull_request.title' $GITHUB_EVENT_PATH)
-        PR_URL=$(jq -r '.pull_request.html_url' $GITHUB_EVENT_PATH)  
-        PR_BODY=$(jq -r '.pull_request.body' $GITHUB_EVENT_PATH)
+        PR_TITLE=$(jq -r '.pull_request.html_url' $GITHUB_EVENT_PATH) || exit 1
+        PR_BODY=$(jq -r '.pull_request.body' $GITHUB_EVENT_PATH) || exit 1
 
         REPO_URL="https://github.com/${{ github.repository }}/blob/$PR_BRANCH"
         
         # Fetch Files Changed details
         FILES_JSON=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           https://api.github.com/repos/${{ github.repository }}/pulls/$PR_ID/files) || exit 1
-    
+
+        echo "$FILES_JSON"
+        
         FILES_LINKED=""
         
         # Iterate through each file to get details
@@ -59,19 +60,18 @@ jobs:
           echo "- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)" >> files_linked.txt    
           
         done
-     
-        echo "::set-output name=pr_id::$PR_ID"
-        echo "::set-output name=pr_author::$PR_AUTHOR"
-        echo "::set-output name=pr_title::$PR_TITLE"
-        echo "::set-output name=pr_url::$PR_URL"
-        echo "::set-output name=pr_body::$PR_BODY"
 
-    - name: Upload files_linked as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: files_linked_file
-        path: files_linked.txt
+        echo "PR_ID=$PR_ID" >> "$GITHUB_ENV"
+        echo "PR_AUTHOR=$PR_AUTHOR" >> "$GITHUB_ENV"
+        echo "PR_TITLE=$PR_TITLE" >> "$GITHUB_ENV"
+        echo "PR_BODY=$PR_BODY" >> "$GITHUB_ENV"
 
+        {
+          echo 'FILES_LINKED<<EOF'
+          cat files_linked.txt
+          echo EOF
+        } >> "$GITHUB_ENV"
+        
     - name: Set Workflow Status
       run: echo "WORKFLOW_STATUS=success" >> $GITHUB_ENV
       if: success()
@@ -84,29 +84,18 @@ jobs:
 
     - name: Add comment to PR
       run: |
-        PR_ID="${{ steps.pr_details.outputs.pr_id }}"
-        PR_AUTHOR="${{ steps.pr_details.outputs.pr_author }}"
-        PR_TITLE="${{ steps.pr_details.outputs.pr_title }}"
-        PR_URL="${{ steps.pr_details.outputs.pr_url }}"
-        PR_BODY="${{ steps.pr_details.outputs.pr_body }}"
-
-        FILES_LINKED=$(cat files_linked.txt)
         FILES_LINKED=$(echo "$FILES_LINKED" | sed -E 's/["“”]/\\"/g')
         
         COMMENT_BODY=$(jq -n \
-                        --arg pr_id "$PR_ID" \
                         --arg pr_author "$PR_AUTHOR" \
                         --arg pr_title "$PR_TITLE" \
-                        --arg pr_url "$PR_URL" \
                         --arg pr_body "$PR_BODY" \
                         --arg repo "${{ github.repository }}" \
                         --arg files_linked "$FILES_LINKED" \
                         '{
                           "body": ("Hey @" + $pr_author + ",\n" +
                                   "- **PR Title**: " + $pr_title + "\n" +
-                                  "- **PR URL**: " + $pr_url + "\n" +
                                   "- **PR Body**: " + $pr_body + "\n" +
-                                  "- **PR Number**: [#" + $pr_id + "](https://github.com/" + $repo + "/pull/" + $pr_id + ")\n" +  
                                   "- **Labels**: \n" +
                                   "- **Workflow Status**: success\n\n" +
                                   "**Files Changed:**\n" + $files_linked + "\n\n" +
