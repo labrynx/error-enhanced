@@ -53,9 +53,7 @@ jobs:
           echo "- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)" >> files_linked.txt    
           
         done
-
-        cat files_linked.txt
-        
+     
         {
           echo "PR_ID=$PR_ID"
           echo "PR_AUTHOR=$PR_AUTHOR"
@@ -79,7 +77,6 @@ jobs:
 
     - name: Add comment to PR
       run: |
-        cat files_linked.txt
         FILES_LINKED=$(cat files_linked.txt)
         COMMENT_BODY=$(jq -n \
                         --arg pr_author "${{ env.PR_AUTHOR }}" \
@@ -91,7 +88,7 @@ jobs:
                                   "- **PR Number**: [#" + $pr_id + "](https://github.com/" + $repo + "/pull/" + $pr_id + ")\n" +
                                   "- **Labels**: \n" +
                                   "- **Workflow Status**: success\n\n" +
-                                  "**Files Changed:**\n" + $files_linked + "\n\n" +
+                                  "**Files Changed:**\n" + $FILES_LINKED + "\n\n" +
                                   "Please ensure all tests and checks are passed. We\'ll be reviewing it shortly.\n" +
                                   "For more details, please check [our contribution guide](https://github.com/" + $repo + "/blob/main/CONTRIBUTING.md).")
                         }')
