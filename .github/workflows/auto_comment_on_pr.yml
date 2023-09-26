@@ -119,4 +119,4 @@ jobs:
           -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           -H "Content-Type: application/json" \
           -d "$COMMENT_BODY" \
-          "https://api.github.com/repos/${{ github.repository }}/issues/${{ env.PR_ID }}/comments"
+          "https://api.github.com/repos/${{ github.repository }}/issues/$PR_ID/comments"
