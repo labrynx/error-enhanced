@@ -75,12 +75,6 @@ jobs:
         echo "WORKFLOW_STATUS=failure" >> $GITHUB_ENV
         echo "An error occurred. Check the logs for details."
 
-    - name: Download files_linked from artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: files_linked
-        path: files_linked.txt
-
     - name: Add comment to PR
       run: |
         FILES_LINKED=$(cat files_linked.txt)
