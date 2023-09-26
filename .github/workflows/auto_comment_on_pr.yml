@@ -87,30 +87,32 @@ jobs:
       run: |
         set -x
         FILES_LINKED=$(cat files_linked.txt)
+                
+        COMMENT_JSON=$(cat <<- EOM
+        {
+          "body": ("Hey @" + \$pr_author + ",\\n" +
+                  "- **PR Number**: [#" + \$pr_id + "](https://github.com/" + \$repo + "/pull/" + \$pr_id + ")\\n" +
+                  "- **Labels**: \\n" +
+                  "- **Workflow Status**: success\\n\\n" +
+                  "**Files Changed:**\\n" + \$files_linked + "\\n\\n" +
+                  "Please ensure all tests and checks are passed. We'll be reviewing it shortly.\\n" +
+                  "For more details, please check [our contribution guide](https://github.com/" + \$repo + "/blob/main/CONTRIBUTING.md).")
+        }
+        EOM
+        )
         
+        # Usar jq para procesar la cadena JSON
         COMMENT_BODY=$(jq -n \
                         --arg pr_author "$PR_AUTHOR" \
                         --arg pr_id "$PR_ID" \
                         --arg repo "$REPO" \
                         --arg files_linked "$FILES_LINKED" \
-                        "$(cat <<- EOM
-                            {
-                              "body": ("Hey @" + \$pr_author + ",\n" +
-                                      "- **PR Number**: [#" + \$pr_id + "](https://github.com/" + \$repo + "/pull/" + \$pr_id + ")\n" +
-                                      "- **Labels**: \n" +
-                                      "- **Workflow Status**: success\n\n" +
-                                      "**Files Changed:**\n" + \$files_linked + "\n\n" +
-                                      "Please ensure all tests and checks are passed. We'll be reviewing it shortly.\n" +
-                                      "For more details, please check [our contribution guide](https://github.com/" + \$repo + "/blob/main/CONTRIBUTING.md).")
-                            }
-                        EOM
-                        )"
-        )
-                        
-        curl \
-          -X POST \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          -H "Content-Type: application/json" \
-          -d "$COMMENT_BODY" \
-          "https://api.github.com/repos/${{ github.repository }}/issues/${{ env.PR_ID }}/comments"
+                        "$COMMENT_JSON")
+        
+        # Realizar la solicitud HTTP
+        curl -X POST \
+             -H "Authorization: token $GITHUB_TOKEN" \
+             -H "Content-Type: application/json" \
+             -d "$COMMENT_BODY" \
+             "https://api.github.com/repos/$REPO/issues/$PR_ID/comments"
         set +x          
