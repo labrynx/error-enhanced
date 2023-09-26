@@ -45,9 +45,11 @@ jobs:
     - name: 📥 Checkout Code
       uses: actions/checkout@v2
 
-    # Define Retry Function
-    - name: 🛠️ Define Retry Function
+    # Data Gathering Phase: Collect PR details such as labels and files changed
+    - name: 📊 Gather PR Details
+      id: pr_details
       run: |
+        # Define Retry Function
         retry_command() {
           local -r cmd="$1"
           local -r max_retries="$2"
@@ -68,11 +70,7 @@ jobs:
           echo "Failed to execute $cmd after $max_retries attempts. Exiting."
           exit 1
         }
-        
-    # Data Gathering Phase: Collect PR details such as labels and files changed
-    - name: 📊 Gather PR Details
-      id: pr_details
-      run: |
+
         # Initialize or clean up files_linked.txt
         echo "Initializing or cleaning up files_linked.txt..."
         > files_linked.txt
