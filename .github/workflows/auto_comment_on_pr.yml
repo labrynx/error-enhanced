@@ -50,7 +50,7 @@ jobs:
           DELETIONS=$(_jq '.deletions')
           CHANGES=$(_jq '.changes')
           
-          echo "\- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)" >> files_linked.txt    
+          echo "- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)" >> files_linked.txt    
           
         done
 
@@ -79,6 +79,7 @@ jobs:
 
     - name: Add comment to PR
       run: |
+        cat files_linked.txt
         FILES_LINKED=$(cat files_linked.txt)
         COMMENT_BODY=$(jq -n \
                         --arg pr_author "${{ env.PR_AUTHOR }}" \
