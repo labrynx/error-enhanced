@@ -1,7 +1,9 @@
 name: Auto-comment on PR
 on:
   pull_request:
-    types: [opened]
+    types: 
+      - opened
+      - synchronize
 
 jobs:
   comment:
