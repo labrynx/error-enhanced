@@ -50,17 +50,20 @@ jobs:
           DELETIONS=$(_jq '.deletions')
           CHANGES=$(_jq '.changes')
           
-          echo "- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)" >> files_list.txt    
+          echo "- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)" >> files_linked.txt    
           
         done
 
-        echo "cat files_list.txt"
-        
         {
           echo "PR_ID=$PR_ID"
           echo "PR_AUTHOR=$PR_AUTHOR"
-          echo "FILES_LINKED=$(cat files_list.txt)"
         } >> $GITHUB_ENV
+
+    - name: Upload files_linked as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: files_linked
+        path: files_linked.txt
 
     - name: Set Workflow Status
       run: echo "WORKFLOW_STATUS=success" >> $GITHUB_ENV
@@ -72,18 +75,32 @@ jobs:
         echo "WORKFLOW_STATUS=failure" >> $GITHUB_ENV
         echo "An error occurred. Check the logs for details."
 
-    - name: Add comment to PR
-      uses: thollander/actions-comment-pull-request@v2
+    - name: Download files_linked from artifact
+      uses: actions/download-artifact@v2
       with:
-        message: |
-          Hey @${{ env.PR_AUTHOR }},
-          - **PR Number**: [#${{ env.PR_ID }}](https://github.com/${{ github.repository }}/pull/${{ env.PR_ID }})
-          - **Labels**: ${{ env.LABELS }}
-          - **Workflow Status**: ${{ env.WORKFLOW_STATUS }}
-          
-          **Files Changed:**
-          ${{ env.FILES_LINKED }}
-          
-          Please ensure all tests and checks are passed. We'll be reviewing it shortly.
-          For more details, please check [our contribution guide](https://github.com/${{ github.repository }}/blob/main/CONTRIBUTING.md).
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        name: files_linked
+
+    - name: Add comment to PR
+      run: |
+        FILES_LINKED=$(cat files_linked.txt)
+        COMMENT_BODY=$(jq -n \
+                        --arg pr_author "${{ env.PR_AUTHOR }}" \
+                        --arg pr_id "${{ env.PR_ID }}" \
+                        --arg repo "${{ github.repository }}" \
+                        --arg files_linked "${{ env.FILES_LINKED }}" \
+                        '{
+                          "body": ("Hey @" + $pr_author + ",\n" +
+                                  "- **PR Number**: [#" + $pr_id + "](https://github.com/" + $repo + "/pull/" + $pr_id + ")\n" +
+                                  "- **Labels**: \n" +
+                                  "- **Workflow Status**: success\n\n" +
+                                  "**Files Changed:**\n" + $files_linked + "\n\n" +
+                                  "Please ensure all tests and checks are passed. We\\u0027ll be reviewing it shortly.\n" +
+                                  "For more details, please check [our contribution guide](https://github.com/" + $repo + "/blob/main/CONTRIBUTING.md).")
+                        }')
+        
+        curl \
+          -X POST \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          -H "Content-Type: application/json" \
+          -d "$COMMENT_BODY" \
+          "https://api.github.com/repos/${{ github.repository }}/issues/${{ env.PR_ID }}/comments"
