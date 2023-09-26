@@ -24,7 +24,8 @@ jobs:
       id: pr_details
       run: |
         set -e  # Stop execution on any error
-        
+        set \n=^
+
         PR_ID=$(jq -r ".pull_request.number" "$GITHUB_EVENT_PATH") || exit 1
         PR_AUTHOR=$(jq -r ".pull_request.user.login" "$GITHUB_EVENT_PATH") || exit 1
         PR_BRANCH=$(jq -r ".pull_request.head.ref" "$GITHUB_EVENT_PATH") || exit 1
