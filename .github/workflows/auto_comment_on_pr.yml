@@ -53,7 +53,7 @@ jobs:
         
         echo "PR_ID=$PR_ID" >> $GITHUB_ENV
         echo "PR_AUTHOR=$PR_AUTHOR" >> $GITHUB_ENV
-        echo "FILES_LINKED=$FILES_LINKED" >> $GITHUB_ENV
+        echo -e "FILES_LINKED=$FILES_LINKED" >> $GITHUB_ENV
 
     - name: Set Workflow Status
       run: echo "WORKFLOW_STATUS=success" >> $GITHUB_ENV
