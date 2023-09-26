@@ -54,7 +54,7 @@ jobs:
           
         done
 
-        echo "cat files_linked.txt"
+        cat files_linked.txt
         
         {
           echo "PR_ID=$PR_ID"
