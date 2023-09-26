@@ -58,7 +58,13 @@ jobs:
           echo "PR_AUTHOR=$PR_AUTHOR"
         } >> "$GITHUB_ENV"
 
-        echo "$FILES_LINKED" > /tmp/files_linked.txt
+        echo "$FILES_LINKED" > files_linked.txt
+
+    - name: Upload files_linked as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: files_linked
+        path: files_linked.txt
 
     - name: Set Workflow Status
       run: echo "WORKFLOW_STATUS=success" >> $GITHUB_ENV
@@ -70,9 +76,14 @@ jobs:
         echo "WORKFLOW_STATUS=failure" >> $GITHUB_ENV
         echo "An error occurred. Check the logs for details."
 
-    - name: Add comment to PR manually
+    - name: Download files_linked from artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: files_linked
+
+    - name: Add comment to PR
       run: |
-        FILES_LINKED=$(cat /tmp/files_linked.txt)
+        FILES_LINKED=$(cat files_linked.txt)
         COMMENT_BODY=$(jq -n \
                         --arg pr_author "${{ env.PR_AUTHOR }}" \
                         --arg pr_id "${{ env.PR_ID }}" \
