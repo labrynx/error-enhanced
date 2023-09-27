@@ -73,9 +73,6 @@ jobs:
           exit 1
         }
 
-        # Define GitHub API Base URL
-        GITHUB_API_BASE_URL="https://api.github.com"
-
        # Initialize or clean up files_linked.txt
         echo "Initializing or cleaning up files_linked.txt..."
         > files_linked.txt
@@ -91,6 +88,9 @@ jobs:
           PR_LABELS="None"
         fi
         echo "PR_LABELS=$PR_LABELS" >> "$GITHUB_ENV"
+
+        # Define GitHub API Base URL
+        GITHUB_API_BASE_URL="https://api.github.com"
 
         # Fetch commits metrics
         echo "Fetching commits from URL: $GITHUB_API_BASE_URL/repos/$REPO/pulls/$PR_ID/commits"
