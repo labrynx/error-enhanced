@@ -155,6 +155,12 @@ jobs:
           echo EOF
         } >> "$GITHUB_ENV"
 
+        if [[ -z "$PR_BODY" ]]; then
+          echo "PR body is empty. Setting to a default value."
+          PR_BODY="No description provided."
+        fi
+        echo "PR_BODY=$PR_BODY" >> "$GITHUB_ENV"
+
         echo "PR details gathered successfully."
 
     # Workflow Status Phase
