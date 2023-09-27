@@ -49,6 +49,8 @@ jobs:
     - name: 📊 Gather PR Details
       id: pr_details
       run: |
+        set -ex
+        
         # Define Retry Function
         retry_command() {
           local -r cmd="$1"
