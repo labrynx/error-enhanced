@@ -90,7 +90,18 @@ jobs:
         echo "PR_LABELS=$PR_LABELS" >> "$GITHUB_ENV"
 
         # Fetch commits metrics
+        echo "Fetching commits from URL: $GITHUB_API_BASE_URL/repos/$REPO/pulls/$PR_ID/commits"
         COMMITS_JSON=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$GITHUB_API_BASE_URL/repos/$REPO/pulls/$PR_ID/commits")
+
+        if [[ $? -ne 0 ]]; then  
+          echo "Failed to fetch commit data using curl. Exiting."
+          exit 1
+        fi
+        
+        if [[ -z "$COMMITS_JSON" ]]; then
+          echo "COMMITS_JSON is empty, which is unexpected. Exiting."
+          exit 1
+        fi
 
         NUM_COMMITS=$(echo "$COMMITS_JSON" | jq 'length')
         echo "NUM_COMMITS=$NUM_COMMITS" >> "$GITHUB_ENV"
