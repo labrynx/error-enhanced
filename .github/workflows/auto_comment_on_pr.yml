@@ -77,6 +77,9 @@ jobs:
         echo "Initializing or cleaning up files_linked.txt..."
         > files_linked.txt
 
+        FILES_LINKED=""
+        REPO_URL="https://github.com/$REPO/blob/$PR_BRANCH"
+        
         # Fetch PR labels
         echo "Fetching PR labels..."
         PR_LABELS=$(jq -r '.pull_request.labels[]?.name // empty' "$GITHUB_EVENT_PATH" | tr '\n', ', ') 
@@ -130,9 +133,6 @@ jobs:
           exit 1
         fi
 
-        FILES_LINKED=""
-        REPO_URL="https://github.com/$REPO/blob/$PR_BRANCH"
-        
         # Iterate through each file to get details
         echo "Iterating through each file to get details..."
         for row in $(echo "${FILES_JSON}" | jq -r '.[] | @base64'); do
