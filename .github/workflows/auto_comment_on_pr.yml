@@ -159,6 +159,7 @@ jobs:
           echo "PR body is empty. Setting to a default value."
           PR_BODY="No description provided."
         fi
+        PR_BODY=$(echo "$PR_BODY" | sed 's/</\&lt;/g; s/>/\&gt;/g')
         echo "PR_BODY=$PR_BODY" >> "$GITHUB_ENV"
 
         echo "PR details gathered successfully."
