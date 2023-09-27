@@ -49,6 +49,8 @@ jobs:
     - name: 📊 Gather PR Details
       id: pr_details
       run: |
+        set -ex
+        
         # Define Retry Function
         retry_command() {
           local -r cmd="$1"
@@ -71,30 +73,44 @@ jobs:
           exit 1
         }
 
-        # Initialize or clean up files_linked.txt
+       # Initialize or clean up files_linked.txt
         echo "Initializing or cleaning up files_linked.txt..."
         > files_linked.txt
 
         # Fetch PR labels
         echo "Fetching PR labels..."
-        PR_LABELS=$(jq -r '.pull_request.labels[]?.name' "$GITHUB_EVENT_PATH" | tr '\n' ', ') || exit 1
+        PR_LABELS=$(jq -r '.pull_request.labels[]?.name // empty' "$GITHUB_EVENT_PATH" | tr '\n', ', ') 
         if [[ $? -ne 0 ]]; then  
           echo "Failed to fetch PR labels using jq. Exiting."
           exit 1
+        elif [[ -z "$PR_LABELS" ]]; then
+          echo "No labels found for this PR."
+          PR_LABELS="None"
         fi
         echo "PR_LABELS=$PR_LABELS" >> "$GITHUB_ENV"
 
+        # Define GitHub API Base URL
+        GITHUB_API_BASE_URL="https://api.github.com"
+
         # Fetch commits metrics
+        echo "Fetching commits from URL: $GITHUB_API_BASE_URL/repos/$REPO/pulls/$PR_ID/commits"
         COMMITS_JSON=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$GITHUB_API_BASE_URL/repos/$REPO/pulls/$PR_ID/commits")
+
+        if [[ $? -ne 0 ]]; then  
+          echo "Failed to fetch commit data using curl. Exiting."
+          exit 1
+        fi
+        
+        if [[ -z "$COMMITS_JSON" ]]; then
+          echo "COMMITS_JSON is empty, which is unexpected. Exiting."
+          exit 1
+        fi
 
         NUM_COMMITS=$(echo "$COMMITS_JSON" | jq 'length')
         echo "NUM_COMMITS=$NUM_COMMITS" >> "$GITHUB_ENV"
 
         COMMIT_AUTHORS=$(echo "$COMMITS_JSON" | jq -r '.[].commit.author.name' | sort -u | tr '\n' ', ')
         echo "COMMIT_AUTHORS=$COMMIT_AUTHORS" >> "$GITHUB_ENV"
-
-        # Define GitHub API Base URL
-        GITHUB_API_BASE_URL="https://api.github.com"
 
         # Fetch files metrics
         NUM_FILES_ADDED=$(echo "$FILES_JSON" | jq '[.[] | select(.status=="added")] | length')
