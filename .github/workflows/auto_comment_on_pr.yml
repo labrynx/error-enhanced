@@ -77,10 +77,13 @@ jobs:
 
         # Fetch PR labels
         echo "Fetching PR labels..."
-        PR_LABELS=$(jq -r '.pull_request.labels[]?.name' "$GITHUB_EVENT_PATH" | tr '\n' ', ') || exit 1
+        PR_LABELS=$(jq -r '.pull_request.labels[]?.name // empty' "$GITHUB_EVENT_PATH" | tr '\n', ', ') 
         if [[ $? -ne 0 ]]; then  
           echo "Failed to fetch PR labels using jq. Exiting."
           exit 1
+        elif [[ -z "$PR_LABELS" ]]; then
+          echo "No labels found for this PR."
+          PR_LABELS="None"
         fi
         echo "PR_LABELS=$PR_LABELS" >> "$GITHUB_ENV"
 
