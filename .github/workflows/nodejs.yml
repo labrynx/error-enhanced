@@ -1,11 +1,15 @@
 name: Node.js CI/CD
 
+env:
+  SEMREL_GPG_SIGNKEY: ${{ secrets.SEMREL_GPG_SIGNKEY }}
+  GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
 on:
   push:
     branches:
       - main
       - development
-
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -37,11 +41,14 @@ jobs:
     permissions:
       contents: write
       pull-requests: read
+    strategy:
+      matrix:
+        node: [20]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: ${{ matrix.node }}
       - run: npm install
       - run: npx semantic-release --dry-run --branches development
       - run: |
@@ -60,18 +67,12 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
-
       - name: Check package version
         id: cpv
         uses: PostHog/check-package-version@v2
-
       - name: Install dependencies
         if: steps.cpv.outputs.is-new-version == 'true'
         run: npm ci
-
       - name: Publish new version
         if: steps.cpv.outputs.is-new-version == 'true'
         run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          

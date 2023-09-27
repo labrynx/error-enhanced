@@ -192,10 +192,7 @@ jobs:
         echo "Preparing comment body..."
         COMMENT_BODY=$(jq -n \
                         --arg pr_author "$PR_AUTHOR" \
-                        --arg pr_title "$PR_TITLE" \
-                        --arg pr_body "$PR_BODY" \
                         --arg repo "$REPO" \
-                        --arg pr_labels "$PR_LABELS" \
                         --arg num_files_added "$NUM_FILES_ADDED" \
                         --arg num_files_deleted "$NUM_FILES_DELETED" \
                         --arg num_files_modified "$NUM_FILES_MODIFIED" \
@@ -204,19 +201,19 @@ jobs:
                         --arg workflow_status "$WORKFLOW_STATUS" \
                         --arg files_linked "$FILES_LINKED" \
                         '{
-                          "body": ("Hey @" + $pr_author + ",\n" +
-                                  "- **PR Title**: " + $pr_title + "\n" +
-                                  "- **PR Body**:\n" + $pr_body + "\n\n" +
-                                  "- **Labels**: " + $pr_labels + "\n" +
-                                  "- **Files Added**: " + $num_files_added + "\n" +
-                                  "- **Files Deleted**: " + $num_files_deleted + "\n" +
-                                  "- **Files Modified**: " + $num_files_modified + "\n" +
-                                  "- **Commits**: " + $num_commits + "\n" +
-                                  "- **Commit Authors**: " + $commit_authors + "\n\n" +
-                                  "- **Workflow Status**: " + $workflow_status + "\n\n" +
-                                  "**Files Changed:**\n" + $files_linked + "\n\n" +
-                                  "Please ensure all tests and checks are passed. We will examine it shortly.\n" +
-                                  "For more details, please check [our contribution guide](https://github.com/" + $repo + "/blob/main/CONTRIBUTING.md).")
+                          "body": ("## :wave: Hey @" + $pr_author + ",\n\n" +
+                                  "### :file_folder: File Metrics\n" +
+                                  "- **Added**: `" + $num_files_added + "`\n" +
+                                  "- **Deleted**: `" + $num_files_deleted + "`\n" +
+                                  "- **Modified**: `" + $num_files_modified + "`\n\n" +
+                                  "### :hammer_and_wrench: Development\n" +
+                                  "- **Commits**: `" + $num_commits + "`\n" +
+                                  "- **Authors**: " + $commit_authors + "\n\n" +
+                                  "### :page_facing_up: Files Changed\n" +
+                                  $files_linked + "\n\n" +
+                                  "---\n\n" +
+                                  ":warning: Please ensure all tests and checks are passed.\n" +
+                                  ":book: For more details, check our [Contribution Guide](https://github.com/" + $repo + "/blob/main/CONTRIBUTING.md).")
                         }')
 
         # Validate comment body before posting
