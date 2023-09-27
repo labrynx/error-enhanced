@@ -181,6 +181,7 @@ jobs:
     - name: 📝 Add Comment to PR
       run: |
         FILES_LINKED=$(echo "$FILES_LINKED" | sed -E 's/["“”]/\\"/g')
+        PR_BODY=$(echo "$PR_BODY" | sed 's/</\&lt;/g; s/>/\&gt;/g')
 
         # Preparing comment body for posting
         echo "Preparing comment body..."
