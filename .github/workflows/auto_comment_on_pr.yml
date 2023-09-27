@@ -73,7 +73,7 @@ jobs:
           exit 1
         }
 
-       # Initialize or clean up files_linked.txt
+        # Initialize or clean up files_linked.txt
         echo "Initializing or cleaning up files_linked.txt..."
         > files_linked.txt
 
