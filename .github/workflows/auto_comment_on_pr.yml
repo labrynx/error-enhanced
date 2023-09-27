@@ -73,7 +73,10 @@ jobs:
           exit 1
         }
 
-        # Initialize or clean up files_linked.txt
+        # Define GitHub API Base URL
+        GITHUB_API_BASE_URL="https://api.github.com"
+
+       # Initialize or clean up files_linked.txt
         echo "Initializing or cleaning up files_linked.txt..."
         > files_linked.txt
 
@@ -108,9 +111,6 @@ jobs:
 
         COMMIT_AUTHORS=$(echo "$COMMITS_JSON" | jq -r '.[].commit.author.name' | sort -u | tr '\n' ', ')
         echo "COMMIT_AUTHORS=$COMMIT_AUTHORS" >> "$GITHUB_ENV"
-
-        # Define GitHub API Base URL
-        GITHUB_API_BASE_URL="https://api.github.com"
 
         # Fetch files metrics
         NUM_FILES_ADDED=$(echo "$FILES_JSON" | jq '[.[] | select(.status=="added")] | length')
