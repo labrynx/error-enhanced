@@ -115,6 +115,14 @@ jobs:
         COMMIT_AUTHORS=$(echo "$COMMITS_JSON" | jq -r '.[].commit.author.name' | sort -u | tr '\n' ', ')
         echo "COMMIT_AUTHORS=$COMMIT_AUTHORS" >> "$GITHUB_ENV"
 
+        # Fetch Files Changed details
+        retry_command "curl -s -H \"Authorization: token $GITHUB_TOKEN\" $GITHUB_API_BASE_URL/repos/$REPO/pulls/$PR_ID/files" 3 5 FILES_JSON
+
+        if [[ -z "$FILES_JSON" ]]; then
+          echo "FILES_JSON is empty, which is unexpected. Exiting."
+          exit 1
+        fi
+
         # Fetch files metrics
         NUM_FILES_ADDED=$(echo "$FILES_JSON" | jq '[.[] | select(.status=="added")] | length')
         echo "NUM_FILES_ADDED=$NUM_FILES_ADDED" >> "$GITHUB_ENV"
@@ -124,14 +132,6 @@ jobs:
 
         NUM_FILES_MODIFIED=$(echo "$FILES_JSON" | jq '[.[] | select(.status=="modified")] | length')
         echo "NUM_FILES_MODIFIED=$NUM_FILES_MODIFIED" >> "$GITHUB_ENV"
-
-        # Fetch Files Changed details
-        retry_command "curl -s -H \"Authorization: token $GITHUB_TOKEN\" $GITHUB_API_BASE_URL/repos/$REPO/pulls/$PR_ID/files" 3 5 FILES_JSON
-
-        if [[ -z "$FILES_JSON" ]]; then
-          echo "FILES_JSON is empty, which is unexpected. Exiting."
-          exit 1
-        fi
 
         # Iterate through each file to get details
         echo "Iterating through each file to get details..."
