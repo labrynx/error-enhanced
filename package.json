@@ -1,6 +1,6 @@
 {
   "name": "@labrynx/error-enhanced",
-  "version": "2.4.0",
+  "version": "2.4.2",
   "author": "alessbarb",
   "description": "Supercharge your Node.js error handling with this TypeScript library. Leverage modular architecture to enrich error objects with identifiers, system context, user info, and HTTP statuses. Perfect for debugging, logging, and boosting application robustness.",
   "repository": {
@@ -15,8 +15,8 @@
   },
   "exports": {
     ".": {
+      "import": "./dist/index.js",
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
     "./package.json": "./package.json"
@@ -40,7 +40,7 @@
   },
   "scripts": {
     "start": "node dist/index.js",
-    "build": "rm -rf dist && tsc --project tsconfig.json",
+    "build": "rm -rf dist > build.log && tsc --project tsconfig.json --traceResolution >> build.log && ../scripts/generate-metadata.js -v -o dist >> build.log",
     "lint": "eslint --ignore-path .eslintignore --ext .js,.ts .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
     "test": "jest --runInBand --config=jest.config.ts",
@@ -95,6 +95,8 @@
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/npm": "^11.0.0",
     "@semantic-release/release-notes-generator": "^12.0.0-beta.3",
+    "@tsconfig/node18": "^18.2.2",
+    "@tsconfig/node20": "^20.1.2",
     "@types/jest": "^29.5.4",
     "@types/js-yaml": "^4.0.5",
     "@types/json-stringify-safe": "^5.0.1",
