@@ -43,7 +43,7 @@ jobs:
 
     # Checkout Code
     - name: 📥 Checkout Code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     # Data Gathering Phase: Collect PR details such as labels and files changed
     - name: 📊 Gather PR Details
