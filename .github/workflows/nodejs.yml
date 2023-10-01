@@ -51,12 +51,24 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: npm install
       - run: npx semantic-release --dry-run --branches development
-      - run: |
+
+      - name: Create and push a new branch and PR
+        run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
+          git checkout -b auto-update-version-${{ github.run_id }}
           git diff-index --quiet HEAD || git commit -am "Update package version" || echo "No changes to commit"
-        continue-on-error: true
-      - run: git push origin development
+          git push origin auto-update-version-${{ github.run_id }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: development
+          head: auto-update-version-${{ github.run_id }}
+          title: "Automatically update package version"
+          labels: "automated-pr, update-version"
+          draft: false
 
   release:
     needs: build-and-test
