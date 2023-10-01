@@ -41,6 +41,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "build": "rm -rf dist > build.log && tsc --project tsconfig.json --traceResolution >> build.log && ../scripts/generate-metadata.js -v -o dist >> build.log",
+    "build:github": "tsc --project tsconfig.json",
     "lint": "eslint --ignore-path .eslintignore --ext .js,.ts .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
     "test": "jest --runInBand --config=jest.config.ts",
