@@ -1,12 +1,12 @@
 {
   "name": "@labrynx/error-enhanced",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "lockfileVersion": 3,
   "requires": true,
   "packages": {
     "": {
       "name": "@labrynx/error-enhanced",
-      "version": "2.4.0",
+      "version": "2.4.1",
       "license": "MIT",
       "dependencies": {
         "error-stack-parser": "^2.1.4",
@@ -27,6 +27,8 @@
         "@semantic-release/git": "^10.0.1",
         "@semantic-release/npm": "^11.0.0",
         "@semantic-release/release-notes-generator": "^12.0.0-beta.3",
+        "@tsconfig/node18": "^18.2.2",
+        "@tsconfig/node20": "^20.1.2",
         "@types/jest": "^29.5.4",
         "@types/js-yaml": "^4.0.5",
         "@types/json-stringify-safe": "^5.0.1",
@@ -740,14 +742,14 @@
       }
     },
     "node_modules/@commitlint/cli": {
-      "version": "17.7.1",
-      "resolved": "https://registry.npmjs.org/@commitlint/cli/-/cli-17.7.1.tgz",
-      "integrity": "sha512-BCm/AT06SNCQtvFv921iNhudOHuY16LswT0R3OeolVGLk8oP+Rk9TfQfgjH7QPMjhvp76bNqGFEcpKojxUNW1g==",
+      "version": "17.7.2",
+      "resolved": "https://registry.npmjs.org/@commitlint/cli/-/cli-17.7.2.tgz",
+      "integrity": "sha512-t3N7TZq7lOeqTOyEgfGcaltHqEJf7YDlPg75MldeVPPyz14jZq/+mbGF9tueDLFX8R6RwdymrN6D+U5XwZ8Iwg==",
       "dev": true,
       "dependencies": {
         "@commitlint/format": "^17.4.4",
         "@commitlint/lint": "^17.7.0",
-        "@commitlint/load": "^17.7.1",
+        "@commitlint/load": "^17.7.2",
         "@commitlint/read": "^17.5.1",
         "@commitlint/types": "^17.4.4",
         "execa": "^5.0.0",
@@ -887,16 +889,16 @@
       }
     },
     "node_modules/@commitlint/load": {
-      "version": "17.7.1",
-      "resolved": "https://registry.npmjs.org/@commitlint/load/-/load-17.7.1.tgz",
-      "integrity": "sha512-S/QSOjE1ztdogYj61p6n3UbkUvweR17FQ0zDbNtoTLc+Hz7vvfS7ehoTMQ27hPSjVBpp7SzEcOQu081RLjKHJQ==",
+      "version": "17.7.2",
+      "resolved": "https://registry.npmjs.org/@commitlint/load/-/load-17.7.2.tgz",
+      "integrity": "sha512-XA7WTnsjHZ4YH6ZYsrnxgLdXzriwMMq+utZUET6spbOEEIPBCDLdOQXS26P+v3TTO4hUHOEhzUquaBv3jbBixw==",
       "dev": true,
       "dependencies": {
         "@commitlint/config-validator": "^17.6.7",
         "@commitlint/execute-rule": "^17.4.0",
         "@commitlint/resolve-extends": "^17.6.7",
         "@commitlint/types": "^17.4.4",
-        "@types/node": "20.4.7",
+        "@types/node": "20.5.1",
         "chalk": "^4.1.0",
         "cosmiconfig": "^8.0.0",
         "cosmiconfig-typescript-loader": "^4.0.0",
@@ -912,9 +914,9 @@
       }
     },
     "node_modules/@commitlint/load/node_modules/@types/node": {
-      "version": "20.4.7",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.4.7.tgz",
-      "integrity": "sha512-bUBrPjEry2QUTsnuEjzjbS7voGWCc30W0qzgMf90GPeDGFRakvrz47ju+oqDAKCXLUCe39u57/ORMl/O/04/9g==",
+      "version": "20.5.1",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.5.1.tgz",
+      "integrity": "sha512-4tT2UrL5LBqDwoed9wZ6N3umC4Yhz3W3FloMmiiG4JwmUJWpie0c7lcnUNd4gtMKuDEO4wRVS8B6Xa0uMRsMKg==",
       "dev": true
     },
     "node_modules/@commitlint/load/node_modules/resolve-from": {
@@ -2759,6 +2761,18 @@
       "integrity": "sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==",
       "dev": true
     },
+    "node_modules/@tsconfig/node18": {
+      "version": "18.2.2",
+      "resolved": "https://registry.npmjs.org/@tsconfig/node18/-/node18-18.2.2.tgz",
+      "integrity": "sha512-d6McJeGsuoRlwWZmVIeE8CUA27lu6jLjvv1JzqmpsytOYYbVi1tHZEnwCNVOXnj4pyLvneZlFlpXUK+X9wBWyw==",
+      "dev": true
+    },
+    "node_modules/@tsconfig/node20": {
+      "version": "20.1.2",
+      "resolved": "https://registry.npmjs.org/@tsconfig/node20/-/node20-20.1.2.tgz",
+      "integrity": "sha512-madaWq2k+LYMEhmcp0fs+OGaLFk0OenpHa4gmI4VEmCKX4PJntQ6fnnGADVFrVkBj0wIdAlQnK/MrlYTHsa1gQ==",
+      "dev": true
+    },
     "node_modules/@types/babel__core": {
       "version": "7.20.2",
       "resolved": "https://registry.npmjs.org/@types/babel__core/-/babel__core-7.20.2.tgz",
@@ -2868,9 +2882,9 @@
       "dev": true
     },
     "node_modules/@types/node": {
-      "version": "20.7.1",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.7.1.tgz",
-      "integrity": "sha512-LT+OIXpp2kj4E2S/p91BMe+VgGX2+lfO+XTpfXhh+bCk2LkQtHZSub8ewFBMGP5ClysPjTDFa4sMI8Q3n4T0wg==",
+      "version": "20.7.2",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-20.7.2.tgz",
+      "integrity": "sha512-RcdC3hOBOauLP+r/kRt27NrByYtDjsXyAuSbR87O6xpsvi763WI+5fbSIvYJrXnt9w4RuxhV6eAXfIs7aaf/FQ==",
       "dev": true
     },
     "node_modules/@types/normalize-package-data": {

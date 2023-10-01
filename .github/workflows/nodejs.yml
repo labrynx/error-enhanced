@@ -20,7 +20,7 @@ jobs:
       matrix:
         node: [20]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/cache@v3
         with:
           path: ~/.npm
@@ -30,7 +30,7 @@ jobs:
           node-version: ${{ matrix.node }}
       - run: npm install
       - run: git log --oneline -n 5
-      - run: npm run build
+      - run: npm run build:github
       # - run: npm run test
       - run: ls -al
 
@@ -45,18 +45,30 @@ jobs:
       matrix:
         node: [20]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
       - run: npm install
       - run: npx semantic-release --dry-run --branches development
-      - run: |
+
+      - name: Create and push a new branch and PR
+        run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Action"
+          git checkout -b auto-update-version-${{ github.run_id }}
           git diff-index --quiet HEAD || git commit -am "Update package version" || echo "No changes to commit"
-        continue-on-error: true
-      - run: git push origin development
+          git push origin auto-update-version-${{ github.run_id }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: development
+          head: auto-update-version-${{ github.run_id }}
+          title: "Automatically update package version"
+          labels: "automated-pr, update-version"
+          draft: false
 
   release:
     needs: build-and-test
@@ -66,7 +78,7 @@ jobs:
       contents: write
     steps:
       - name: Check out repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Check package version
         id: cpv
         uses: PostHog/check-package-version@v2
