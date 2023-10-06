@@ -10,32 +10,50 @@ on:
     branches:
       - main
       - development
+
+defaults:
+  run:
+    shell: bash
+
 jobs:
-  build-and-test:
+  common-setup:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: read
+    outputs:
+      cache-key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v3
+      - name: Calculate cache key
+        run: echo "Cache key calculated"
+
+  build-test-lint:
+    needs: common-setup
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node: [20]
+        task: ['build', 'test', 'lint']
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/cache@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Cache
+        uses: actions/cache@v3
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-      - uses: actions/setup-node@v3
+          key: ${{ needs.common-setup.outputs.cache-key }}
+      - name: Setup node
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
-      - run: npm install
-      - run: git log --oneline -n 5
-      - run: npm run build:github
-      # - run: npm run test
-      - run: ls -al
+      - name: Install dependencies
+        run: npm install
+      - name: Run ${{ matrix.task }}
+        run: npm run ${{ matrix.task }}
 
   update-package-version:
-    needs: build-and-test
+    needs: build-test-lint
     if: github.ref == 'refs/heads/development'
     runs-on: ubuntu-latest
     permissions:
@@ -66,12 +84,32 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           base: development
           head: auto-update-version-${{ github.run_id }}
-          title: "Automatically update package version"
-          labels: "automated-pr, update-version"
+          title: 'Automatically update package version'
+          labels: 'automated-pr, update-version'
           draft: false
 
+  release-draft:
+    name: Create Release Draft
+    needs: build-test-lint
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create Release Draft
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ github.sha }}
+          release_name: Release Draft for ${{ github.sha }}
+          draft: true
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   release:
-    needs: build-and-test
+    needs: build-test-lint
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:

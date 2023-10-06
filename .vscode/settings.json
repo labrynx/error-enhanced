@@ -39,5 +39,6 @@
     "**/.git": true,
     "**/.DS_Store": true
   },
-  "jest.rootPath": "."
+  "jest.rootPath": ".",
+  "jest.jestCommandLine": "npm run test --"
 }
