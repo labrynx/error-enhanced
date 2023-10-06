@@ -1,10 +1,46 @@
 {
-  "verbose": true,
+  "preset": "ts-jest",
   "testEnvironment": "node",
-  "setupFiles": ["<rootDir>/tests/jest.setup.ts"],
-  "setupFilesAfterEnv": ["<rootDir>/tests/jest.setup.ts"],
-  "testMatch": ["**/*.test.ts", "**/*.spec.ts"],
+  "roots": [
+    "<rootDir>"
+  ],
+  "setupFiles": [
+    "<rootDir>/test/jest.setup.ts"
+  ],
+  "setupFilesAfterEnv": [
+    "<rootDir>/test/jest.setup.ts"
+  ],
+  "testMatch": [
+    "**/*.test.ts",
+    "**/*.spec.ts"
+  ],
   "transform": {
-    "^.+\\.ts?$": "ts-jest"
-  }
+    "^.+\\.tsx?$": "ts-jest"
+  },
+  "moduleFileExtensions": [
+    "ts",
+    "tsx",
+    "js",
+    "jsx",
+    "json",
+    "node"
+  ],
+  "coverageDirectory": "coverage",
+  "collectCoverageFrom": [
+    "<rootDir>/**/*.{test,spec}.{ts,tsx}",
+    "<rootDir>/src/**/*.{ts,tsx}",
+    "!<rootDir>/**/*.d.ts"
+  ],
+  "coverageReporters": [
+    "json",
+    "lcov",
+    "text",
+    "clover",
+    "html"
+  ],
+  "moduleNameMapper": {
+    "^@/(.*)$": "<rootDir>/$1",
+    "^@shared/(.*)$": "<rootDir>/src/lib/shared/$1"
+  },
+  "verbose": true
 }

@@ -1,252 +1,252 @@
 name: Auto-comment on PR
 on:
   pull_request:
-    types: 
+    types:
       - opened
       - synchronize
 
 jobs:
   comment:
+    if: github.event.pull_request.base.ref == 'main' || github.event.pull_request.base.ref == 'development'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
     env:
-      GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      REPO: "${{ github.repository }}"
-      PR_AUTHOR: "${{ github.event.pull_request.user.login }}"
-      PR_ID: "${{ github.event.pull_request.number }}"
-      PR_BRANCH: "${{ github.event.pull_request.head.ref }}"
-      PR_TITLE: "${{ github.event.pull_request.html_url }}"
-      PR_BODY: "${{ github.event.pull_request.body }}"
-      DEBUG: "${{ github.event.inputs.debug || 'false' }}"  
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      REPO: '${{ github.repository }}'
+      PR_AUTHOR: '${{ github.event.pull_request.user.login }}'
+      PR_ID: '${{ github.event.pull_request.number }}'
+      PR_BRANCH: '${{ github.event.pull_request.head.ref }}'
+      PR_TITLE: '${{ github.event.pull_request.html_url }}'
+      PR_BODY: '${{ github.event.pull_request.body }}'
+      DEBUG: "${{ github.event.inputs.debug || 'false' }}"
 
     steps:
-    # Preparation Phase: Installing dependencies needed for the workflow
-    - name: 🛠️ Prepare Dependencies
-      run: |
-        echo "Installing jq and curl..."
-        if ! sudo apt-get install -y jq curl; then
-          echo "Failed to install jq and curl. Exiting."
-          exit 1
-        fi
-        echo "Dependencies installed."
+      # Preparation Phase: Installing dependencies needed for the workflow
+      - name: 🛠️ Prepare Dependencies
+        run: |
+          echo "Installing jq and curl..."
+          if ! sudo apt-get install -y jq curl; then
+            echo "Failed to install jq and curl. Exiting."
+            exit 1
+          fi
+          echo "Dependencies installed."
 
-    # Input Validation: Check if all required variables are present
-    - name: 🛡️ Validate Input Data
-      run: |
-        echo "Validating input data: REPO=$REPO, PR_ID=$PR_ID, PR_BRANCH=$PR_BRANCH"
-        if [[ -z "$REPO" || -z "$PR_ID" || -z "$PR_BRANCH" ]]; then
-          echo "Invalid input data."
-          exit 1
-        fi
-        echo "Input data validated successfully."
+      # Input Validation: Check if all required variables are present
+      - name: 🛡️ Validate Input Data
+        run: |
+          echo "Validating input data: REPO=$REPO, PR_ID=$PR_ID, PR_BRANCH=$PR_BRANCH"
+          if [[ -z "$REPO" || -z "$PR_ID" || -z "$PR_BRANCH" ]]; then
+            echo "Invalid input data."
+            exit 1
+          fi
+          echo "Input data validated successfully."
 
-    # Checkout Code
-    - name: 📥 Checkout Code
-      uses: actions/checkout@v4
+      # Checkout Code
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v2
 
-    # Data Gathering Phase: Collect PR details such as labels and files changed
-    - name: 📊 Gather PR Details
-      id: pr_details
-      run: |
-        set -ex
-        
-        # Define Retry Function
-        retry_command() {
-          local -r cmd="$1"
-          local -r max_retries="$2"
-          local -r wait_time="$3"
-          local -n result_ref="$4"  
-          local retry_count=0
+      # Data Gathering Phase: Collect PR details such as labels and files changed
+      - name: 📊 Gather PR Details
+        id: pr_details
+        run: |
+          set -ex
 
-          while [[ $retry_count -lt $max_retries ]]; do
-            echo "Executing: $cmd... Attempt $(($retry_count + 1))"
-            result_ref=$(eval $cmd)
-            if [[ $? -eq 0 ]]; then
-              return 0
-            fi
-            retry_count=$((retry_count + 1))
-            sleep $wait_time
+          # Define Retry Function
+          retry_command() {
+            local -r cmd="$1"
+            local -r max_retries="$2"
+            local -r wait_time="$3"
+            local -n result_ref="$4"  
+            local retry_count=0
+
+            while [[ $retry_count -lt $max_retries ]]; do
+              echo "Executing: $cmd... Attempt $(($retry_count + 1))"
+              result_ref=$(eval $cmd)
+              if [[ $? -eq 0 ]]; then
+                return 0
+              fi
+              retry_count=$((retry_count + 1))
+              sleep $wait_time
+            done
+
+            echo "Failed to execute $cmd after $max_retries attempts. Exiting."
+            exit 1
+          }
+
+          # Initialize or clean up files_linked.txt
+          echo "Initializing or cleaning up files_linked.txt..."
+          > files_linked.txt
+
+          FILES_LINKED=""
+          REPO_URL="https://github.com/$REPO/blob/$PR_BRANCH"
+
+          # Fetch PR labels
+          echo "Fetching PR labels..."
+          PR_LABELS=$(jq -r '.pull_request.labels[]?.name // empty' "$GITHUB_EVENT_PATH" | tr '\n', ', ') 
+          if [[ $? -ne 0 ]]; then  
+            echo "Failed to fetch PR labels using jq. Exiting."
+            exit 1
+          elif [[ -z "$PR_LABELS" ]]; then
+            echo "No labels found for this PR."
+            PR_LABELS="None"
+          fi
+          echo "PR_LABELS=$PR_LABELS" >> "$GITHUB_ENV"
+
+          # Define GitHub API Base URL
+          GITHUB_API_BASE_URL="https://api.github.com"
+
+          # Fetch commits metrics
+          echo "Fetching commits from URL: $GITHUB_API_BASE_URL/repos/$REPO/pulls/$PR_ID/commits"
+          COMMITS_JSON=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$GITHUB_API_BASE_URL/repos/$REPO/pulls/$PR_ID/commits")
+
+          if [[ $? -ne 0 ]]; then  
+            echo "Failed to fetch commit data using curl. Exiting."
+            exit 1
+          fi
+
+          if [[ -z "$COMMITS_JSON" ]]; then
+            echo "COMMITS_JSON is empty, which is unexpected. Exiting."
+            exit 1
+          fi
+
+          NUM_COMMITS=$(echo "$COMMITS_JSON" | jq 'length')
+          echo "NUM_COMMITS=$NUM_COMMITS" >> "$GITHUB_ENV"
+
+          COMMIT_AUTHORS=$(echo "$COMMITS_JSON" | jq -r '.[].commit.author.name' | sort -u | tr '\n' ', ')
+          echo "COMMIT_AUTHORS=$COMMIT_AUTHORS" >> "$GITHUB_ENV"
+
+          # Fetch Files Changed details
+          retry_command "curl -s -H \"Authorization: token $GITHUB_TOKEN\" $GITHUB_API_BASE_URL/repos/$REPO/pulls/$PR_ID/files" 3 5 FILES_JSON
+
+          if [[ -z "$FILES_JSON" ]]; then
+            echo "FILES_JSON is empty, which is unexpected. Exiting."
+            exit 1
+          fi
+
+          # Fetch files metrics
+          NUM_FILES_ADDED=$(echo "$FILES_JSON" | jq '[.[] | select(.status=="added")] | length')
+          echo "NUM_FILES_ADDED=$NUM_FILES_ADDED" >> "$GITHUB_ENV"
+
+          NUM_FILES_DELETED=$(echo "$FILES_JSON" | jq '[.[] | select(.status=="removed")] | length')
+          echo "NUM_FILES_DELETED=$NUM_FILES_DELETED" >> "$GITHUB_ENV"
+
+          NUM_FILES_MODIFIED=$(echo "$FILES_JSON" | jq '[.[] | select(.status=="modified")] | length')
+          echo "NUM_FILES_MODIFIED=$NUM_FILES_MODIFIED" >> "$GITHUB_ENV"
+
+          # Iterate through each file to get details
+          echo "Iterating through each file to get details..."
+          for row in $(echo "${FILES_JSON}" | jq -r '.[] | @base64'); do
+            _jq() {
+              echo ${row} | base64 --decode | jq -r ${1}
+            }
+            
+            FILE_NAME=$(_jq '.filename')
+            ADDITIONS=$(_jq '.additions')
+            DELETIONS=$(_jq '.deletions')
+            CHANGES=$(_jq '.changes')
+            
+            echo "- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)" >> files_linked.txt    
+            
           done
 
-          echo "Failed to execute $cmd after $max_retries attempts. Exiting."
+          {
+            echo 'FILES_LINKED<<EOF'
+            cat files_linked.txt
+            echo EOF
+          } >> "$GITHUB_ENV"
+
+          if [[ -z "$PR_BODY" ]]; then
+            echo "PR body is empty. Setting to a default value."
+            PR_BODY="No description provided."
+          fi
+          echo "$PR_BODY" > pr_body.txt
+
+          {
+            echo 'PR_BODY<<EOF'
+            cat pr_body.txt
+            echo EOF
+          } >> "$GITHUB_ENV"
+
+          echo "PR details gathered successfully."
+
+      # Workflow Status Phase
+      - name: ✔️ Workflow Status = Success
+        if: success()
+        run: |
+          echo "WORKFLOW_STATUS=success" >> $GITHUB_ENV
+          echo "Workflow completed successfully."
+
+      - name: ❌ Error Handling (Workflow Status = Failure)
+        if: failure()
+        run: |
+          echo "WORKFLOW_STATUS=failure" >> $GITHUB_ENV
+          echo "An error occurred. Check the logs for specific failure points."
           exit 1
-        }
 
-        # Initialize or clean up files_linked.txt
-        echo "Initializing or cleaning up files_linked.txt..."
-        > files_linked.txt
+      # Finalization Phase
+      - name: 📝 Add Comment to PR
+        run: |
+          FILES_LINKED=$(echo "$FILES_LINKED" | sed -E 's/["“”]/\\"/g')
 
-        FILES_LINKED=""
-        REPO_URL="https://github.com/$REPO/blob/$PR_BRANCH"
-        
-        # Fetch PR labels
-        echo "Fetching PR labels..."
-        PR_LABELS=$(jq -r '.pull_request.labels[]?.name // empty' "$GITHUB_EVENT_PATH" | tr '\n', ', ') 
-        if [[ $? -ne 0 ]]; then  
-          echo "Failed to fetch PR labels using jq. Exiting."
-          exit 1
-        elif [[ -z "$PR_LABELS" ]]; then
-          echo "No labels found for this PR."
-          PR_LABELS="None"
-        fi
-        echo "PR_LABELS=$PR_LABELS" >> "$GITHUB_ENV"
+          # Preparing comment body for posting
+          echo "Preparing comment body..."
+          COMMENT_BODY=$(jq -n \
+                          --arg pr_author "$PR_AUTHOR" \
+                          --arg repo "$REPO" \
+                          --arg num_files_added "$NUM_FILES_ADDED" \
+                          --arg num_files_deleted "$NUM_FILES_DELETED" \
+                          --arg num_files_modified "$NUM_FILES_MODIFIED" \
+                          --arg num_commits "$NUM_COMMITS" \
+                          --arg commit_authors "$COMMIT_AUTHORS" \
+                          --arg workflow_status "$WORKFLOW_STATUS" \
+                          --arg files_linked "$FILES_LINKED" \
+                          '{
+                            "body": ("## :wave: Hey @" + $pr_author + ",\n\n" +
+                                    "### :file_folder: File Metrics\n" +
+                                    "- **Added**: `" + $num_files_added + "`\n" +
+                                    "- **Deleted**: `" + $num_files_deleted + "`\n" +
+                                    "- **Modified**: `" + $num_files_modified + "`\n\n" +
+                                    "### :hammer_and_wrench: Development\n" +
+                                    "- **Commits**: `" + $num_commits + "`\n" +
+                                    "- **Authors**: " + $commit_authors + "\n\n" +
+                                    "### :page_facing_up: Files Changed\n" +
+                                    $files_linked + "\n\n" +
+                                    "---\n\n" +
+                                    ":warning: Please ensure all tests and checks are passed.\n" +
+                                    ":book: For more details, check our [Contribution Guide](https://github.com/" + $repo + "/blob/main/CONTRIBUTING.md).")
+                          }')
 
-        # Define GitHub API Base URL
-        GITHUB_API_BASE_URL="https://api.github.com"
+          # Validate comment body before posting
+          echo "Validating comment body..."
+          if [[ -z "$COMMENT_BODY" ]]; then 
+            echo "Comment body is empty. Aborting."
+            exit 1
+          fi
 
-        # Fetch commits metrics
-        echo "Fetching commits from URL: $GITHUB_API_BASE_URL/repos/$REPO/pulls/$PR_ID/commits"
-        COMMITS_JSON=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$GITHUB_API_BASE_URL/repos/$REPO/pulls/$PR_ID/commits")
+          if [[ ${#COMMENT_BODY} -gt 65536 ]]; then
+            echo "Comment body exceeds 65536 characters. Truncating..."
+            COMMENT_BODY="${COMMENT_BODY:0:65532}...)"
+          fi
 
-        if [[ $? -ne 0 ]]; then  
-          echo "Failed to fetch commit data using curl. Exiting."
-          exit 1
-        fi
-        
-        if [[ -z "$COMMITS_JSON" ]]; then
-          echo "COMMITS_JSON is empty, which is unexpected. Exiting."
-          exit 1
-        fi
+          # Posting comment to PR
+          echo "Posting comment to PR..."
+          curl \
+            -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "$COMMENT_BODY" \
+            "https://api.github.com/repos/$REPO/issues/$PR_ID/comments"
 
-        NUM_COMMITS=$(echo "$COMMITS_JSON" | jq 'length')
-        echo "NUM_COMMITS=$NUM_COMMITS" >> "$GITHUB_ENV"
+          echo "Comment added to PR successfully."
 
-        COMMIT_AUTHORS=$(echo "$COMMITS_JSON" | jq -r '.[].commit.author.name' | sort -u | tr '\n' ', ')
-        echo "COMMIT_AUTHORS=$COMMIT_AUTHORS" >> "$GITHUB_ENV"
-
-        # Fetch Files Changed details
-        retry_command "curl -s -H \"Authorization: token $GITHUB_TOKEN\" $GITHUB_API_BASE_URL/repos/$REPO/pulls/$PR_ID/files" 3 5 FILES_JSON
-
-        if [[ -z "$FILES_JSON" ]]; then
-          echo "FILES_JSON is empty, which is unexpected. Exiting."
-          exit 1
-        fi
-
-        # Fetch files metrics
-        NUM_FILES_ADDED=$(echo "$FILES_JSON" | jq '[.[] | select(.status=="added")] | length')
-        echo "NUM_FILES_ADDED=$NUM_FILES_ADDED" >> "$GITHUB_ENV"
-
-        NUM_FILES_DELETED=$(echo "$FILES_JSON" | jq '[.[] | select(.status=="removed")] | length')
-        echo "NUM_FILES_DELETED=$NUM_FILES_DELETED" >> "$GITHUB_ENV"
-
-        NUM_FILES_MODIFIED=$(echo "$FILES_JSON" | jq '[.[] | select(.status=="modified")] | length')
-        echo "NUM_FILES_MODIFIED=$NUM_FILES_MODIFIED" >> "$GITHUB_ENV"
-
-        # Iterate through each file to get details
-        echo "Iterating through each file to get details..."
-        for row in $(echo "${FILES_JSON}" | jq -r '.[] | @base64'); do
-          _jq() {
-            echo ${row} | base64 --decode | jq -r ${1}
-          }
-          
-          FILE_NAME=$(_jq '.filename')
-          ADDITIONS=$(_jq '.additions')
-          DELETIONS=$(_jq '.deletions')
-          CHANGES=$(_jq '.changes')
-          
-          echo "- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)" >> files_linked.txt    
-          
-        done
-        
-        {
-          echo 'FILES_LINKED<<EOF'
-          cat files_linked.txt
-          echo EOF
-        } >> "$GITHUB_ENV"
-
-        if [[ -z "$PR_BODY" ]]; then
-          echo "PR body is empty. Setting to a default value."
-          PR_BODY="No description provided."
-        fi
-        echo "$PR_BODY" > pr_body.txt
-        
-        {
-          echo 'PR_BODY<<EOF'
-          cat pr_body.txt
-          echo EOF
-        } >> "$GITHUB_ENV"
-
-        echo "PR details gathered successfully."
-
-    # Workflow Status Phase
-    - name: ✔️ Workflow Status = Success
-      if: success()
-      run: |
-        echo "WORKFLOW_STATUS=success" >> $GITHUB_ENV
-        echo "Workflow completed successfully."
-
-    - name: ❌ Error Handling (Workflow Status = Failure)
-      if: failure()
-      run: |
-        echo "WORKFLOW_STATUS=failure" >> $GITHUB_ENV
-        echo "An error occurred. Check the logs for specific failure points."
-        exit 1
-
-    # Finalization Phase
-    - name: 📝 Add Comment to PR
-      run: |
-        FILES_LINKED=$(echo "$FILES_LINKED" | sed -E 's/["“”]/\\"/g')
-
-        # Preparing comment body for posting
-        echo "Preparing comment body..."
-        COMMENT_BODY=$(jq -n \
-                        --arg pr_author "$PR_AUTHOR" \
-                        --arg repo "$REPO" \
-                        --arg num_files_added "$NUM_FILES_ADDED" \
-                        --arg num_files_deleted "$NUM_FILES_DELETED" \
-                        --arg num_files_modified "$NUM_FILES_MODIFIED" \
-                        --arg num_commits "$NUM_COMMITS" \
-                        --arg commit_authors "$COMMIT_AUTHORS" \
-                        --arg workflow_status "$WORKFLOW_STATUS" \
-                        --arg files_linked "$FILES_LINKED" \
-                        '{
-                          "body": ("## :wave: Hey @" + $pr_author + ",\n\n" +
-                                  "### :file_folder: File Metrics\n" +
-                                  "- **Added**: `" + $num_files_added + "`\n" +
-                                  "- **Deleted**: `" + $num_files_deleted + "`\n" +
-                                  "- **Modified**: `" + $num_files_modified + "`\n\n" +
-                                  "### :hammer_and_wrench: Development\n" +
-                                  "- **Commits**: `" + $num_commits + "`\n" +
-                                  "- **Authors**: " + $commit_authors + "\n\n" +
-                                  "### :page_facing_up: Files Changed\n" +
-                                  $files_linked + "\n\n" +
-                                  "---\n\n" +
-                                  ":warning: Please ensure all tests and checks are passed.\n" +
-                                  ":book: For more details, check our [Contribution Guide](https://github.com/" + $repo + "/blob/main/CONTRIBUTING.md).")
-                        }')
-
-        # Validate comment body before posting
-        echo "Validating comment body..."
-        if [[ -z "$COMMENT_BODY" ]]; then 
-          echo "Comment body is empty. Aborting."
-          exit 1
-        fi
-
-        if [[ ${#COMMENT_BODY} -gt 65536 ]]; then
-          echo "Comment body exceeds 65536 characters. Truncating..."
-          COMMENT_BODY="${COMMENT_BODY:0:65532}...)"
-        fi
-
-        # Posting comment to PR
-        echo "Posting comment to PR..."
-        curl \
-          -X POST \
-          -H "Authorization: token $GITHUB_TOKEN" \
-          -H "Content-Type: application/json" \
-          -d "$COMMENT_BODY" \
-          "https://api.github.com/repos/$REPO/issues/$PR_ID/comments"
-
-        echo "Comment added to PR successfully."
-
-    - name: 🐛 Debug Logs
-      if: env.DEBUG == 'true'
-      run: |
-        echo "===== DEBUG LOGS ====="
-        echo "REPO: $REPO"
-        echo "PR_ID: $PR_ID"
-        echo "PR_BRANCH: $PR_BRANCH"
-        echo "PR_LABELS: $PR_LABELS"
-        echo "FILES_JSON: $FILES_JSON"
-        echo "======================"
-        
+      - name: 🐛 Debug Logs
+        if: env.DEBUG == 'true'
+        run: |
+          echo "===== DEBUG LOGS ====="
+          echo "REPO: $REPO"
+          echo "PR_ID: $PR_ID"
+          echo "PR_BRANCH: $PR_BRANCH"
+          echo "PR_LABELS: $PR_LABELS"
+          echo "FILES_JSON: $FILES_JSON"
+          echo "======================"
