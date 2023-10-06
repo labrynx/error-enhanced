@@ -1,0 +1,10 @@
+{
+  "verbose": true,
+  "testEnvironment": "node",
+  "setupFiles": ["<rootDir>/tests/jest.setup.ts"],
+  "setupFilesAfterEnv": ["<rootDir>/tests/jest.setup.ts"],
+  "testMatch": ["**/*.test.ts", "**/*.spec.ts"],
+  "transform": {
+    "^.+\\.ts?$": "ts-jest"
+  }
+}
