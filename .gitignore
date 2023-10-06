@@ -1,53 +1,15 @@
 # ========================
-# Logs and Diagnostic Data
-# ========================
-*.log
-logs/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-.pnpm-debug.log*
-report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-
-# ========================
-# Runtime and Process Data
-# ========================
-*.pid
-*.seed
-*.pid.lock
-pids/
-
-# ========================
-# Testing and Coverage
-# ========================
-coverage/
-.nyc_output
-*.lcov
-tests/
-jest.config.ts
-
-# ========================
 # Build and Dependency Data
 # ========================
-build/Release
 node_modules/
-jspm_packages/
+dist/
 package-lock.json
-web_modules/
-bower_components/
-.lock-wscript
-.env
 
 # ========================
-# TypeScript and Cache
+# IDEs and Editors
 # ========================
-*.tsbuildinfo
-.tscache/
-.rpt2_cache/
-.rts2_cache_cjs/
-.rts2_cache_es/
-.rts2_cache_umd/
+*.idea
+.vscode
 
 # ========================
 # Linters and Formatters
@@ -56,42 +18,33 @@ bower_components/
 .stylelintcache
 
 # ========================
-# Parcel and Webpack
+# Logs and Diagnostic Data
 # ========================
-.cache
-.parcel-cache
+*.log
+npm-debug.log*
+.pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # ========================
-# Next.js and Nuxt.js
+# TypeScript and Cache
 # ========================
-.next
-out
-.nuxt
-dist
+.tsbuildinfo
 
 # ========================
-# Other Frameworks
+# Testing and Coverage
 # ========================
-.cache/
-.vuepress/dist
-.temp
-.docusaurus
-.serverless/
-.fusebox/
-.dynamodb/
+coverage/
 
 # ========================
-# Misc and IDEs
+# Husky and Lint-Staged
 # ========================
-node_repl_history
-*.tgz
-.yarn-integrity
-.yarn/cache
-.yarn/unplugged
-.yarn/build-state.yml
-.yarn/install-state.gz
-.pnp.*
-.vscode-test
+.husky/
+
+# ========================
+# Misc
+# ========================
 .npmrc
-npm-shrinkwrap.json
+reports
 scripts
+*.tgz
