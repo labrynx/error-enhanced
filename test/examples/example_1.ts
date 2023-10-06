@@ -18,7 +18,7 @@ import {
   Category,
   HttpStatusCodes,
   HttpMethods,
-} from '../src';
+} from '../../src';
 
 type ErrorEnhancedType = Error &
   IdentifiersInterface &
