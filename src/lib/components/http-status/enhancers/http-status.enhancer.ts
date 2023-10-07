@@ -134,12 +134,67 @@ export class HttpStatusEnhancer implements HttpStatusInterface {
   /**
    * @public
    * @type {string}
-   * @returns The HTTP status code related to the error.
+   * @returns The url related to the error.
    *
-   * Getter method for the HTTP status code.
+   * Getter method for the url.
    */
   public get url(): string {
     return this._url;
+  }
+
+  /**
+   * @public
+   * @type {number}
+   * @returns The latency related to the error.
+   *
+   * Getter method for the latency.
+   */
+  public get latency(): number {
+    return this._latency;
+  }
+
+  /**
+   * @public
+   * @type {HttpHeaders}
+   * @returns The requestHeaders related to the error.
+   *
+   * Getter method for the requestHeaders.
+   */
+  public get requestHeaders(): HttpHeaders {
+    return this._requestHeaders;
+  }
+
+  /**
+   * @public
+   * @type {HttpHeaders}
+   * @returns The responseHeaders related to the error.
+   *
+   * Getter method for the responseHeaders.
+   */
+  public get responseHeaders(): HttpHeaders {
+    return this._responseHeaders;
+  }
+
+  /**
+   * @public
+   * @type {HttpBody}
+   * @returns The requestHeaders related to the error.
+   *
+   * Getter method for the requestHeaders.
+   */
+  public get requestBody(): HttpBody {
+    return this._requestBody;
+  }
+
+  /**
+   * @public
+   * @type {HttpBody}
+   * @returns The responseHeaders related to the error.
+   *
+   * Getter method for the responseHeaders.
+   */
+  public get responseBody(): HttpBody {
+    return this._responseBody;
   }
 
   /**
@@ -151,6 +206,28 @@ export class HttpStatusEnhancer implements HttpStatusInterface {
    */
   public get httpMethod(): string {
     return this._httpMethod;
+  }
+
+  /**
+   * @public
+   * @type {string}
+   * @returns The clientIp related to the error.
+   *
+   * Getter method for retrieving the clientIp associated with the error.
+   */
+  public get clientIp(): string {
+    return this._clientIp;
+  }
+
+  /**
+   * @public
+   * @type {QueryParams}
+   * @returns The queryParams related to the error.
+   *
+   * Getter method for retrieving the queryParams associated with the error.
+   */
+  public get queryParams(): QueryParams {
+    return this._queryParams;
   }
 
   /**
