@@ -91,6 +91,10 @@ export class ErrorAnalysisEnhancer implements ErrorAnalysisInterface {
         typeName: functionName?.split('.')[0] ?? 'unknown',
       }),
     );
+    ErrorAnalysisEnhancer._stackCache.set(
+      this._originalError!,
+      this._parsedStack,
+    );
 
     return this;
   }
