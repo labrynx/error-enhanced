@@ -1,6 +1,6 @@
 import ErrorStackParser from 'error-stack-parser';
 
-import { StackFrame } from '@shared/types';
+import { StackFrame } from '../../../shared/types';
 
 import { ErrorAnalysisInterface } from '../interfaces/error-analysis.interface';
 

@@ -1,6 +1,6 @@
 import { HttpStatusInterface } from '../interfaces/http-status.interface';
 
-import { HttpBody, HttpHeaders, QueryParams } from '@shared/types';
+import { HttpBody, HttpHeaders, QueryParams } from '../../../shared/types';
 import {
   ValidKeyedObject,
   ValidNumber,
@@ -8,7 +8,7 @@ import {
   ValidHttpStatusCodes,
   ValidIP,
   ValidURL,
-} from '@shared/validators';
+} from '../../../shared/validators';
 
 import { HttpMethods } from '../enums/http-methods.enum';
 import { HttpStatusCodes } from '../enums/http-status-codes.enum';
