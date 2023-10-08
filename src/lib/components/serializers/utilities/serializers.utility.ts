@@ -3,7 +3,7 @@ import { create } from 'xmlbuilder';
 import { unparse, UnparseConfig } from 'papaparse';
 import { dump } from 'js-yaml';
 
-import { JsonReplacer } from '@shared/types';
+import { JsonReplacer } from '../../../shared/types';
 
 import { SerializersInterface } from '../interfaces/serializers.interface';
 
@@ -200,27 +200,54 @@ export class SerializersUtility implements SerializersInterface {
    * @param {any} value - The object value.
    */
   private _serializeToXmlElement(xml: any, key: string, value: any) {
+    const sanitizedKey = this._sanitizeXmlTag(key);
+
     if (value === null || value === undefined) {
-      xml.ele(key, {}, ''); // Asignar un valor vacío si el valor es null o undefined
+      xml.ele(sanitizedKey, {}, '');
     } else if (value instanceof Error) {
-      const errorElement = xml.ele(key);
+      const errorElement = xml.ele(sanitizedKey);
       const flatError = this._flattenErrorObject(value);
       Object.keys(flatError).forEach(subKey => {
         this._serializeToXmlElement(errorElement, subKey, flatError[subKey]);
       });
     } else if (Array.isArray(value)) {
-      const arrayElement = xml.ele(key);
+      const arrayElement = xml.ele(sanitizedKey);
       value.forEach((item, index) => {
         this._serializeToXmlElement(arrayElement, `item_${index}`, item);
       });
     } else if (typeof value === 'object') {
-      const objElement = xml.ele(key);
+      const objElement = xml.ele(sanitizedKey);
       Object.keys(value).forEach(subKey => {
         this._serializeToXmlElement(objElement, subKey, value[subKey]);
       });
     } else {
-      xml.ele(key, {}, value);
+      xml.ele(sanitizedKey, {}, value);
     }
+  }
+
+  /**
+   * Sanitizes the given XML tag name to ensure it adheres to XML naming rules.
+   * Replaces invalid characters with underscores and ensures the tag starts with
+   * either a letter or an underscore.
+   *
+   * @private
+   * @param {string} tag - The XML tag name to sanitize.
+   * @returns {string} The sanitized XML tag name.
+   *
+   * @example
+   * _sanitizeXmlTag("invalid<tag>");  // returns "invalid_tag_"
+   * _sanitizeXmlTag("1invalidTag");  // returns "_1invalidTag"
+   */
+  private _sanitizeXmlTag(tag: string): string {
+    // Replace invalid characters with underscore
+    let sanitizedTag = tag.replace(/[^a-zA-Z0-9\-._]/g, '_');
+
+    // Ensure the tag starts with a letter or underscore
+    if (!/^[a-zA-Z_]/.test(sanitizedTag)) {
+      sanitizedTag = '_' + sanitizedTag;
+    }
+
+    return sanitizedTag;
   }
 
   /**

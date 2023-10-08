@@ -1,8 +1,9 @@
 import { execSync } from 'child_process';
 
-import { ValidString } from '@shared/validators';
+import { ValidString } from '../../../shared/validators';
 
 import { ApplicationStateInterface } from '../interfaces/application-state.interface';
+import { CommandExecutor } from '../helpers/command-executor';
 
 /**
  * @class ApplicationStateEnhancer
@@ -80,12 +81,15 @@ export class ApplicationStateEnhancer implements ApplicationStateInterface {
    */
   private _lastFetchTime: number = 0;
 
+  private _commandExecutor: CommandExecutor;
+
   /**
    * @constructor
    * Constructs a new ApplicationStateEnhancer object and initializes it with
    * environment variables and fetches package dependencies.
    */
   constructor() {
+    this._commandExecutor = new CommandExecutor();
     this._environment = process.env.NODE_ENV || 'unknown';
     this._nodeVersion = process.version;
     this._envVars = process.env;
@@ -224,64 +228,101 @@ export class ApplicationStateEnhancer implements ApplicationStateInterface {
 
   /**
    * @private
+   * @async
    * Fetches the dependencies from the package manager.
    *
-   * @returns {Record<string, string> | null} - The fetched dependencies or null if fetch fails.
+   * @returns {Promise<Record<string, string> | null>}
+   * A promise that resolves to a Record containing dependency names as keys and their versions as values.
+   * Returns null if fetching fails or if no package manager is detected.
    */
-  private _fetchDependencies(): any {
+  private async _fetchDependencies(): Promise<any> {
     const currentTime = Date.now();
 
-    // Check if cached data is recent (less than 5 minutes old)
-    if (this._dependenciesCache && currentTime - this._lastFetchTime < 300000) {
+    if (this._isCacheValid(currentTime)) {
       return this._dependenciesCache;
     }
 
-    try {
-      // Check for npm package manager
-      if (this._isPackageManagerInstalled('npm')) {
-        const output = execSync('npm list --json', { encoding: 'utf8' });
-        const parsed = JSON.parse(output);
-        this._dependencies = parsed.dependencies || {};
-
-        // Update the cache and the last fetch time
-        this._dependenciesCache = this._dependencies;
-        this._lastFetchTime = currentTime;
-
-        return this._dependencies;
-      }
-      // Check for yarn package manager
-      else if (this._isPackageManagerInstalled('yarn')) {
-        const output = execSync('yarn list --json', { encoding: 'utf8' });
-        const lines = output.trim().split('\n');
-        lines.forEach(line => {
-          const parsed = JSON.parse(line);
-          if (parsed.type === 'tree') {
-            this._dependencies = parsed.data.trees;
-          }
-        });
-
-        // Update the cache and the last fetch time
-        this._dependenciesCache = this._dependencies;
-        this._lastFetchTime = currentTime;
-
-        return this._dependencies;
-      }
-      // Check for pnpm package manager
-      else if (this._isPackageManagerInstalled('pnpm')) {
-        const output = execSync('pnpm list --json', { encoding: 'utf8' });
-        const parsed = JSON.parse(output);
-        this._dependencies = parsed.dependencies || {};
-
-        // Update the cache and the last fetch time
-        this._dependenciesCache = this._dependencies;
-        this._lastFetchTime = currentTime;
-
-        return this._dependencies;
-      }
-    } catch (error) {
-      // Handle the error if fetching dependencies fails
-      this._handleAppStateError(error as Error, '_fetchDependencies');
+    const packageManager = this._detectPackageManager();
+    if (!packageManager) {
       return null;
+    }
+
+    try {
+      const output = await this._executeCommand(
+        `${packageManager} list --json`,
+      );
+      this._parseAndCacheDependencies(output, currentTime);
+      return this._dependencies;
+    } catch (error) {
+      this._handleAppStateError(error as any, '_fetchDependencies');
+      return null;
+    }
+  }
+
+  /**
+   * @private
+   * Checks if the cache is still valid based on the last fetch time.
+   *
+   * @param {number} currentTime - The current time in milliseconds since the Unix epoch.
+   * @returns {boolean} True if the cache is valid, false otherwise.
+   */
+  private _isCacheValid(currentTime: number): boolean {
+    if (this._dependenciesCache) {
+      return currentTime - this._lastFetchTime < 300000;
+    }
+    return false;
+  }
+
+  /**
+   * @private
+   * Detects the package manager used in the current environment.
+   *
+   * @returns {string | null} The detected package manager or null if none found.
+   */
+  private _detectPackageManager(): string | null {
+    const managers = ['npm', 'yarn', 'pnpm'];
+    for (const manager of managers) {
+      if (this._isPackageManagerInstalled(manager)) {
+        return manager;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * @private
+   * @async
+   * Executes a shell command.
+   *
+   * @param {string} command - The shell command to execute.
+   * @returns {Promise<string>} A promise that resolves to the standard output of the executed command.
+   */
+  private async _executeCommand(command: string): Promise<string> {
+    return this._commandExecutor.execute(command);
+  }
+
+  /**
+   * @private
+   * Parses and caches the dependencies.
+   *
+   * @param {string} output - The JSON-formatted string output from the package manager.
+   * @param {number} currentTime - The current time in milliseconds since the Unix epoch.
+   */
+  private _parseAndCacheDependencies(
+    output: string,
+    currentTime: number,
+  ): void {
+    try {
+      const parsed = JSON.parse(output);
+      this._dependencies = parsed.dependencies || {};
+      this._dependenciesCache = this._dependencies;
+      this._lastFetchTime = currentTime;
+    } catch (e) {
+      this._handleAppStateError(
+        new Error(`Failed to parse JSON: ${e as any}`),
+        '_parseAndCacheDependencies',
+      );
+      return;
     }
   }
 

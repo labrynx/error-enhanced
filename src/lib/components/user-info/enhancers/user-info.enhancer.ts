@@ -1,4 +1,4 @@
-import { ValidString } from '@shared/validators';
+import { ValidString } from '../../../shared/validators';
 
 import { UserInfoInterface } from '../interfaces/user-info.interface';
 
@@ -88,6 +88,17 @@ export class UserInfoEnhancer implements UserInfoInterface {
     }
     this._user = user;
     return this;
+  }
+
+  /**
+   * @public
+   * @method user
+   * @return {string} The current user related to the error.
+   *
+   * Getter method for retreiving the user associated with the error.
+   */
+  public get user(): string {
+    return this._user;
   }
 
   /**
