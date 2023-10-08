@@ -14,6 +14,10 @@
     "**/*.test.ts",
     "**/*.spec.ts"
   ],
+  "testPathIgnorePatterns": [
+    "/node_modules/",
+    "/index\\.ts$"
+  ],
   "transform": {
     "^.+\\.tsx?$": "ts-jest"
   },
@@ -27,7 +31,6 @@
   ],
   "coverageDirectory": "coverage",
   "collectCoverageFrom": [
-    "<rootDir>/**/*.{test,spec}.{ts,tsx}",
     "<rootDir>/src/**/*.{ts,tsx}",
     "!<rootDir>/**/*.d.ts"
   ],
@@ -39,8 +42,6 @@
     "html"
   ],
   "moduleNameMapper": {
-    "^@/(.*)$": "<rootDir>/$1",
-    "^@shared/(.*)$": "<rootDir>/src/lib/shared/$1"
-  },
-  "verbose": true
+    "^@/(.*)$": "<rootDir>/$1"
+  }
 }

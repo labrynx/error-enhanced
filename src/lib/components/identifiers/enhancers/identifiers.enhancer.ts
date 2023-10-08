@@ -10,7 +10,7 @@ import {
   ValidSeverity,
   ValidStringWithEmpty,
   ValidString,
-} from '@shared/validators';
+} from '../../../shared/validators';
 
 /**
  * @class IdentifiersEnhancer

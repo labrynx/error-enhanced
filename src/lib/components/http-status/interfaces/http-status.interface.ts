@@ -1,4 +1,4 @@
-import { HttpBody , HttpHeaders , QueryParams } from '@shared/types';
+import { HttpBody, HttpHeaders, QueryParams } from '../../../shared/types/index';
 
 /**
  * @interface HttpStatusInterface
@@ -50,6 +50,13 @@ export interface HttpStatusInterface {
   readonly httpStatusCode: number;
   readonly url: string;
   readonly httpMethod: string;
+  readonly requestHeaders: HttpHeaders;
+  readonly responseHeaders: HttpHeaders;
+  readonly queryParams: QueryParams;
+  readonly requestBody: HttpBody;
+  readonly responseBody: HttpBody;
+  readonly clientIp: string;
+  readonly latency: number;
 
   setHttpStatusCode(httpStatusCode: number): this;
   setUrl(url: string): this;

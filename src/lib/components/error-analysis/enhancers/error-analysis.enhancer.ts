@@ -1,6 +1,6 @@
 import ErrorStackParser from 'error-stack-parser';
 
-import { StackFrame } from '@shared/types';
+import { StackFrame } from '../../../shared/types';
 
 import { ErrorAnalysisInterface } from '../interfaces/error-analysis.interface';
 
@@ -90,6 +90,10 @@ export class ErrorAnalysisEnhancer implements ErrorAnalysisInterface {
         columnNumber: columnNumber ?? -1,
         typeName: functionName?.split('.')[0] ?? 'unknown',
       }),
+    );
+    ErrorAnalysisEnhancer._stackCache.set(
+      this._originalError!,
+      this._parsedStack,
     );
 
     return this;

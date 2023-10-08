@@ -45,6 +45,7 @@
  * Adds an action to the action history of the user related to the error. Should throw an error if the action string is invalid.
  */
 export interface UserInfoInterface {
+  readonly user: string;
   readonly sessionId: string;
   readonly roles: string[];
   readonly authToken: string;

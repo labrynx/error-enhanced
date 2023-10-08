@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "target": "es2015",
+    "target": "es2020",
     "module": "commonjs",
     "rootDir": "src",
     "moduleResolution": "node",
@@ -22,12 +22,7 @@
     "types": [
       "node",
       "jest"
-    ],
-    "paths": {
-      "@shared/*": [
-        "./src/lib/shared/*"
-      ]
-    }
+    ]
   },
   "exclude": [
     "node_modules",
