@@ -20,7 +20,6 @@ describe('SystemContextEnhancer', () => {
 
   beforeEach(() => {
     testeableError = new ErrorEnhanced([
-      new Error(),
       new SystemContextEnhancer(),
     ]) as ErrorEnhancedType;
   });

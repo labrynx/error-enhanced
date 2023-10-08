@@ -1,10 +1,25 @@
 import * as crypto from 'crypto';
 
-import { Severity, Category } from '../../src';
-import { testeableError } from '../testeable-error';
+import {
+  Severity,
+  Category,
+  IdentifiersInterface,
+  IdentifiersEnhancer,
+  ErrorEnhanced,
+} from '../../src';
+
+type ErrorEnhancedType = Error & IdentifiersInterface;
 
 // Test cases related to setters and getters
 describe('Setters and Getters', () => {
+  let testeableError: ErrorEnhancedType;
+
+  beforeEach(() => {
+    testeableError = new ErrorEnhanced([
+      new IdentifiersEnhancer(),
+    ]) as ErrorEnhancedType;
+  });
+
   describe('Basic Properties', () => {
     it('should set and get errorCode correctly', () => {
       testeableError.setErrorCode(5432);

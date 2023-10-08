@@ -1,8 +1,31 @@
-import { testeableError } from '../testeable-error';
+import {
+  ErrorEnhanced,
+  FilterInterface,
+  FilterUtility,
+  IdentifiersEnhancer,
+  IdentifiersInterface,
+  SerializersInterface,
+  SerializersUtility,
+} from '../../src';
+
+type ErrorEnhancedType = Error &
+  IdentifiersInterface &
+  SerializersInterface &
+  FilterInterface;
 
 // Test cases related to Serialization
 describe('Serialization', () => {
-  const filteredError = testeableError.filterUnused();
+  let testeableError: ErrorEnhancedType;
+  let filteredError: ErrorEnhancedType;
+
+  beforeEach(() => {
+    testeableError = new ErrorEnhanced([
+      new IdentifiersEnhancer(),
+      new FilterUtility(),
+      new SerializersUtility(),
+    ]) as ErrorEnhancedType;
+    filteredError = testeableError.filterUnused();
+  });
 
   describe('Basic Serialization', () => {
     it('should serialize to JSON without throwing an error', () => {

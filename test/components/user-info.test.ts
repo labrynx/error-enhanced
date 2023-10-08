@@ -7,7 +7,6 @@ describe('UserInfoEnhancer', () => {
 
   beforeEach(() => {
     testeableError = new ErrorEnhanced([
-      new Error(),
       new UserInfoEnhancer(),
     ]) as ErrorEnhancedType;
   });

@@ -14,7 +14,6 @@ describe('HttpStatusEnhancer', () => {
 
   beforeEach(() => {
     testeableError = new ErrorEnhanced([
-      new Error(),
       new HttpStatusEnhancer(),
     ]) as ErrorEnhancedType;
   });

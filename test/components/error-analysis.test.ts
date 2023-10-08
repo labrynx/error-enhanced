@@ -1,15 +1,8 @@
 import ErrorStackParser from 'error-stack-parser';
-import { ErrorEnhancedType } from '../testeable-error';
 import {
-  ApplicationStateEnhancer,
   ErrorAnalysisEnhancer,
+  ErrorAnalysisInterface,
   ErrorEnhanced,
-  FilterUtility,
-  HttpStatusEnhancer,
-  IdentifiersEnhancer,
-  SerializersUtility,
-  SystemContextEnhancer,
-  UserInfoEnhancer,
 } from '../../src';
 
 // Mock de ErrorStackParser.parse
@@ -17,24 +10,15 @@ jest.mock('error-stack-parser', () => ({
   parse: jest.fn(),
 }));
 
+type ErrorEnhancedType = Error & ErrorAnalysisInterface;
+
 describe('ErrorAnalysisEnhancer', () => {
   let testeableError: ErrorEnhancedType;
 
   beforeEach(() => {
     testeableError = new ErrorEnhanced([
-      new ApplicationStateEnhancer(),
-      new IdentifiersEnhancer(),
-      new HttpStatusEnhancer(),
-      new SystemContextEnhancer(),
-      new UserInfoEnhancer(),
-      new FilterUtility(),
       new ErrorAnalysisEnhancer(),
-      new SerializersUtility(),
     ]) as ErrorEnhancedType;
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
   });
 
   describe('setOriginalError', () => {
@@ -110,15 +94,15 @@ describe('ErrorAnalysisEnhancer', () => {
         },
       ];
       const error = new Error('Test Error');
-
       (ErrorStackParser.parse as jest.Mock).mockReturnValue(stackFrames);
       testeableError.setOriginalError(error);
-
       (ErrorStackParser.parse as jest.Mock).mockClear();
-
       testeableError.setOriginalError(error);
-
       expect(ErrorStackParser.parse).not.toHaveBeenCalled();
     });
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 });
