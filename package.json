@@ -1,6 +1,6 @@
 {
   "name": "@labrynx/error-enhanced",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "Supercharge your Node.js error handling with this TypeScript library. Leverage modular architecture to enrich error objects with identifiers, system context, user info, and HTTP statuses. Perfect for debugging, logging, and boosting application robustness.",
   "author": "alessbarb",
   "license": "MIT",
@@ -144,8 +144,6 @@
     "semantic-release-replace-plugin": "^1.2.7",
     "ts-jest": "^29.1.1",
     "typedoc": "^0.25.2",
-    "typedoc-default-themes": "^0.12.10",
-    "typedoc-plugin-missing-exports": "^2.1.0",
     "typescript": "^5.2.2"
   },
   "publishConfig": {
