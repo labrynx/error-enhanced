@@ -1,12 +1,8 @@
-# IdentifiersEnhancer
-
-_File:_ [_`identifiers.enhancer.ts`_](../../src/lib/enhancers/identifiers.enhancer.ts)
-
-### Overview
+# Overview
 
 The `IdentifiersEnhancer` class is a part of the `error-enhanced` library designed to augment error objects with unique identifiers, custom error codes, and additional metadata. This class is particularly beneficial for in-depth error analysis in large-scale applications.
 
-### Properties
+## Properties
 
 | Property           | Description                                                                            |
 | ------------------ | -------------------------------------------------------------------------------------- |
@@ -18,9 +14,9 @@ The `IdentifiersEnhancer` class is a part of the `error-enhanced` library design
 | `severity`         | Severity level of the error, defaults to `Severity.MEDIUM`.                       |
 | `category`         | Category to which the error belongs, defaults to `Category.UNKNOWN`.                   |
 
-### Methods
+## Methods
 
-#### `setErrorCode(errorCode: number)`
+### `setErrorCode(errorCode: number)`
 
 Sets the custom error code. Validates if it's a number.
 
@@ -31,7 +27,7 @@ const error = new IdentifiersEnhancer();
 error.setErrorCode(400);
 ```
 
-#### `setErrorCodePrefix(prefix: string)`
+### `setErrorCodePrefix(prefix: string)`
 
 Sets the error code prefix. Validates if it's a valid string.
 
@@ -41,7 +37,7 @@ Sets the error code prefix. Validates if it's a valid string.
 error.setErrorCodePrefix("ERR");
 ```
 
-#### `setErrorDescription(description: string)`
+### `setErrorDescription(description: string)`
 
 Sets a human-readable description for the error code. Validates if it's a valid string.
 
@@ -51,7 +47,7 @@ Sets a human-readable description for the error code. Validates if it's a valid 
 error.setErrorDescription("Bad Request");
 ```
 
-#### `setSeverity(severity: Severity)`
+### `setSeverity(severity: Severity)`
 
 Sets the error's severity level. Validates against the `Severity` enum.
 
@@ -61,7 +57,7 @@ Sets the error's severity level. Validates against the `Severity` enum.
 error.setSeverity(Severity.HIGH);
 ```
 
-#### `setCategory(category: Category)`
+### `setCategory(category: Category)`
 
 Sets the error's category. Validates against the `Category` enum.
 
@@ -71,7 +67,7 @@ Sets the error's category. Validates against the `Category` enum.
 error.setCategory(Category.SYSTEM);
 ```
 
-#### `getHash()`
+### `getHash()`
 
 Calculates a hash value for the error object based on its properties.
 
@@ -81,7 +77,7 @@ Calculates a hash value for the error object based on its properties.
 const hash = error.getHash();
 ```
 
-### Common Use-Cases
+## Common Use-Cases
 
 * **Audit & Logging**: This class is useful for attaching additional metadata to errors, aiding in more effective error tracking in logging systems.
 * **Error Analysis**: The extra information provided can be helpful for in-depth error analysis.

@@ -1,6 +1,6 @@
 /**
  * @class ErrorEnhanced
- *
+ * @category Core
  * @extends {Error}
  *
  * @overview
@@ -26,11 +26,13 @@
  * error.setErrorCode(404).setSeverity('High');
  * ```
  *
- * @param {any[]} enhancers - An array of enhancer objects to mix into the ErrorEnhanced instance.
+ * @param enhancers - An array of enhancer objects to mix into the ErrorEnhanced instance.
  *
  * @constructor
  * Initializes a new instance of the ErrorEnhanced class, applying the given enhancers to enrich
  * its functionality.
+ *
+ * [[include:core-concepts/core-errorenhanced.md]]
  */
 export class ErrorEnhanced extends Error {
   constructor(enhancers: any[]) {

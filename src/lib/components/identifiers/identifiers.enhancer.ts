@@ -1,26 +1,37 @@
 import { v4 as uuidv4 } from 'uuid';
 import * as crypto from 'crypto';
 
-import { IdentifiersInterface } from '../interfaces/identifiers.interface';
-import { Category } from '../enums/category.enum';
-import { Severity } from '../enums/severity.enum';
+import { IdentifiersInterface } from './interfaces/identifiers.interface';
+import { Category } from './enums/category.enum';
+import { Severity } from './enums/severity.enum';
 import {
   ValidCategory,
   ValidNumber,
   ValidSeverity,
   ValidStringWithEmpty,
   ValidString,
-} from '../../../shared/validators';
+} from '../../shared/validators';
 
 /**
  * @class IdentifiersEnhancer
+ * @group Enhancers
+ * @category Identifiers
+ * @dependencies
+ * - {@link https://www.npmjs.com/package/uuid | uuid}
+ * - {@link https://nodejs.org/api/crypto.html | crypto}
  *
+ * @description
  * The IdentifiersEnhancer class is responsible for enriching error objects with
- * unique identifiers, error codes, and metadata.
+ * unique identifiers, error codes, and metadata. It uses the `uuid` library for generating
+ * unique identifiers and the `crypto` library for generating hash values.
  *
  * @example
- * const error = new IdentifiersEnhancer(404);
+ * ```
+ * const error = new IdentifiersEnhancer();
  * error.setErrorCode(500).setSeverity(Severity.HIGH);
+ * ```
+ *
+ * [[include:enhancers/identifiersenhancer.md]]
  */
 export class IdentifiersEnhancer implements IdentifiersInterface {
   /**
@@ -117,9 +128,12 @@ export class IdentifiersEnhancer implements IdentifiersInterface {
 
   /**
    * Sets the custom error code.
-   * @param {number} errorCode - The error code to set.
+   * @param errorCode - The error code to set. Must be a valid number.
    * @returns {IdentifiersEnhancer} - The instance of the class, useful for chaining.
    * @throws Will throw an error if the error code is not a number.
+   * @pre None.
+   * @post The error object will have its `_errorCode` property updated.
+   * @complexity O(1) // Time complexity
    * @example
    * error.setErrorCode(400);
    */
@@ -144,7 +158,7 @@ export class IdentifiersEnhancer implements IdentifiersInterface {
 
   /**
    * Sets the custom prefix for the error code.
-   * @param {string} errorCodePrefix - The prefix to set.
+   * @param errorCodePrefix - The prefix to set.
    * @returns {IdentifiersEnhancer} - The instance of the class, useful for chaining.
    * @throws Will throw an error if the prefix is not a valid string.
    * @example
@@ -175,7 +189,7 @@ export class IdentifiersEnhancer implements IdentifiersInterface {
 
   /**
    * Sets a description for the error code.
-   * @param {string} errorDescription - The description to set.
+   * @param errorDescription - The description to set.
    * @returns {IdentifiersEnhancer} - The instance of the class, useful for chaining.
    * @throws Will throw an error if the description is not a valid string.
    * @example
@@ -237,7 +251,7 @@ export class IdentifiersEnhancer implements IdentifiersInterface {
 
   /**
    * Sets the severity level of the error.
-   * @param {string} severity - The severity level to set.
+   * @param severity - The severity level to set.
    * @returns {IdentifiersEnhancer} - The instance of the class, useful for chaining.
    * @throws Will throw an error if the severity level is not in the valid Severity enum.
    * @example
@@ -270,7 +284,7 @@ export class IdentifiersEnhancer implements IdentifiersInterface {
 
   /**
    * Sets the category of the error.
-   * @param {string} category - The category to set.
+   * @param category - The category to set.
    * @returns {IdentifiersEnhancer} - The instance of the class, useful for chaining.
    * @throws Will throw an error if the category is not in the valid Category enum.
    * @example

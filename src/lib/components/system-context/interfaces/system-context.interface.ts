@@ -1,6 +1,9 @@
 /**
  * @interface SystemContextInterface
+ * @group Enhancers
+ * @category SystemContext
  *
+ * @description
  * The SystemContext interface defines the contract for classes that enrich
  * error objects with system-level context, such as the originating module
  * and method, as well as various system details like the application's

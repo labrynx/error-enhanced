@@ -8,7 +8,7 @@ import {
   SerializersInterface,
   Severity,
   Category,
-} from '../../src';
+} from '../../lib';
 
 type ErrorEnhancedType = Error &
   IdentifiersInterface &

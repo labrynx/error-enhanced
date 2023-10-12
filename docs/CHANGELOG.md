@@ -1,5 +1,11 @@
-# [2.4.0](https://github.com/labrynx/error-enhanced/compare/v2.3.0...v2.4.0) (2023-09-23)
+# [2.5.0](https://github.com/labrynx/error-enhanced/compare/v2.4.0...v2.5.0) (2023-10-08)
 
+### Bug Fixes
+
+    * enhancers: error-analysis caching bug fix (102aa4e)
+    * enhancers: fixed application-state enhancer (004a58a)
+    * shared: fixed keyed-objects.validator (0a9111d)
+# [2.4.0](https://github.com/labrynx/error-enhanced/compare/v2.3.0...v2.4.0) (2023-09-23)
 
 ### Bug Fixes
 

@@ -3,13 +3,16 @@ import { create } from 'xmlbuilder';
 import { unparse, UnparseConfig } from 'papaparse';
 import { dump } from 'js-yaml';
 
-import { JsonReplacer } from '../../../shared/types';
+import { JsonReplacer } from '../../shared/types';
 
-import { SerializersInterface } from '../interfaces/serializers.interface';
+import { SerializersInterface } from './interfaces/serializers.interface';
 
 /**
  * @class Serializers
+ * @group Utilities
+ * @category Serializers
  *
+ * @description
  * Utility class for serializing an object into JSON, CSV, XML and YAML strings.
  *
  * @example
@@ -18,6 +21,8 @@ import { SerializersInterface } from '../interfaces/serializers.interface';
  * const csvString = serializer.toCSV();
  * const xmlString = serializer.toXML();
  * const yamlString = serializer.toYAML();
+ *
+ * [[include:utilities/serializersutility.md]]
  */
 export class SerializersUtility implements SerializersInterface {
   private _serializableCache: Record<string, any> | null = null;
@@ -27,7 +32,7 @@ export class SerializersUtility implements SerializersInterface {
    * Serializes the object to a JSON string. It will exclude null, undefined, and empty string values.
    * Optionally, a custom replacer function can be provided to further customize serialization.
    *
-   * @param {Function} replacer - Optional replacer function to customize serialization.
+   * @param replacer - Optional replacer function to customize serialization.
    * @returns {string} The serialized JSON string.
    * @throws Will throw an error if serialization fails.
    */
@@ -88,8 +93,8 @@ export class SerializersUtility implements SerializersInterface {
    *
    * Serializes the object to a CSV string using the Papaparse library.
    *
-   * @param {string} delimiter - The delimiter to use between fields. Default is ','.
-   * @param {boolean} quotes - Whether or not fields containing strings should be quoted. Default is true.
+   * @param delimiter - The delimiter to use between fields. Default is ','.
+   * @param quotes - Whether or not fields containing strings should be quoted. Default is true.
    *
    * @returns {string} - The CSV string representation of the object.
    *
@@ -177,8 +182,8 @@ export class SerializersUtility implements SerializersInterface {
    *
    * Handles serialization errors, logging them to the console and throwing a new Error.
    *
-   * @param {Error} e - The error object.
-   * @param {string} format - The serialization format in which the error occurred.
+   * @param e - The error object.
+   * @param format - The serialization format in which the error occurred.
    * @throws {Error} - Throws a new Error with the formatted message.
    */
   private _handleSerializationError(e: Error, format: string) {
@@ -195,9 +200,9 @@ export class SerializersUtility implements SerializersInterface {
    *
    * Helper function for serializing individual properties to XML elements.
    *
-   * @param {any} xml - The xmlbuilder element.
-   * @param {string} key - The object key.
-   * @param {any} value - The object value.
+   * @param xml - The xmlbuilder element.
+   * @param key - The object key.
+   * @param value - The object value.
    */
   private _serializeToXmlElement(xml: any, key: string, value: any) {
     const sanitizedKey = this._sanitizeXmlTag(key);
@@ -231,7 +236,7 @@ export class SerializersUtility implements SerializersInterface {
    * either a letter or an underscore.
    *
    * @private
-   * @param {string} tag - The XML tag name to sanitize.
+   * @param tag - The XML tag name to sanitize.
    * @returns {string} The sanitized XML tag name.
    *
    * @example
@@ -256,8 +261,8 @@ export class SerializersUtility implements SerializersInterface {
    *
    * Flattens an Error object into a plain object for easier serialization.
    *
-   * @param {Error} error - The Error object.
-   * @returns {Record<string, any>} - The flattened Error object.
+   * @param error - The Error object.
+   * @returns {Record \<string, any>} - The flattened Error object.
    */
   private _flattenErrorObject(error: Error): Record<string, any> {
     const plainObject: Record<string, any> = {};

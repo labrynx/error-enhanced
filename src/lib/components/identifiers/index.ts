@@ -1,4 +1,4 @@
-export * from './enhancers/identifiers.enhancer';
+export * from './identifiers.enhancer';
 
 export * from './interfaces/identifiers.interface';
 

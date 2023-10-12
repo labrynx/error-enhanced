@@ -1,6 +1,9 @@
 /**
  * @interface UserInfoInterface
+ * @group Enhancers
+ * @category UserInfo
  *
+ * @description
  * The UserInfo interface defines the contract for classes that enrich
  * error objects with user-related information. This includes the
  * user ID, session ID, roles, authentication tokens, IP address, etc.

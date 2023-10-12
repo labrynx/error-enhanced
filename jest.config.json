@@ -1,46 +1,21 @@
 {
   "preset": "ts-jest",
   "testEnvironment": "node",
-  "roots": [
-    "<rootDir>"
-  ],
-  "setupFiles": [
-    "<rootDir>/test/jest.setup.ts"
-  ],
-  "setupFilesAfterEnv": [
-    "<rootDir>/test/jest.setup.ts"
-  ],
-  "testMatch": [
-    "**/*.test.ts",
-    "**/*.spec.ts"
-  ],
-  "testPathIgnorePatterns": [
-    "/node_modules/",
-    "/index\\.ts$"
-  ],
+  "roots": ["<rootDir>"],
+  "setupFiles": ["<rootDir>/src/test/jest.setup.ts"],
+  "setupFilesAfterEnv": ["<rootDir>/src/test/jest.setup.ts"],
+  "testMatch": ["**/*.test.ts", "**/*.spec.ts"],
+  "testPathIgnorePatterns": ["/node_modules/", "/index\\.ts$"],
   "transform": {
     "^.+\\.tsx?$": "ts-jest"
   },
-  "moduleFileExtensions": [
-    "ts",
-    "tsx",
-    "js",
-    "jsx",
-    "json",
-    "node"
-  ],
-  "coverageDirectory": "coverage",
+  "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
+  "coverageDirectory": "<rootDir>/reports/coverage",
   "collectCoverageFrom": [
-    "<rootDir>/src/**/*.{ts,tsx}",
+    "<rootDir>/src/lib/**/*.{ts,tsx}",
     "!<rootDir>/**/*.d.ts"
   ],
-  "coverageReporters": [
-    "json",
-    "lcov",
-    "text",
-    "clover",
-    "html"
-  ],
+  "coverageReporters": ["json", "lcov", "text", "clover", "html"],
   "moduleNameMapper": {
     "^@/(.*)$": "<rootDir>/$1"
   }

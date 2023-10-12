@@ -1,16 +1,21 @@
-import { ValidString } from '../../../shared/validators';
+import { ValidString } from '../../shared/validators';
 
-import { UserInfoInterface } from '../interfaces/user-info.interface';
+import { UserInfoInterface } from './interfaces/user-info.interface';
 
 /**
  * @class UserInfoEnhancer
+ * @group Enhancers
+ * @category UserInfo
  *
+ * @description
  * The UserInfoEnhancer class enriches the error object with user-related information.
  * This includes the user ID, session ID, roles, authentication tokens, etc.
  *
  * @example
  * const errorInfo = new UserInfoEnhancer();
  * errorInfo.setUser("JohnDoe").setRoles(["admin", "user"]);
+ *
+ * [[include:enhancers/userinfoenhancer.md]]
  */
 export class UserInfoEnhancer implements UserInfoInterface {
   /**
