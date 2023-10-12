@@ -3,7 +3,7 @@ import {
   ErrorAnalysisEnhancer,
   ErrorAnalysisInterface,
   ErrorEnhanced,
-} from '../../src';
+} from '../../lib';
 
 // Mock de ErrorStackParser.parse
 jest.mock('error-stack-parser', () => ({

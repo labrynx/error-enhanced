@@ -4,7 +4,7 @@ import {
   FilterUtility,
   SerializersInterface,
   SerializersUtility,
-} from '../../src';
+} from '../../lib';
 
 type ErrorEnhancedType = Error & SerializersInterface & FilterInterface;
 

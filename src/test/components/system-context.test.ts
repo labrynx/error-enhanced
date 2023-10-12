@@ -3,7 +3,7 @@ import {
   ErrorEnhanced,
   SystemContextEnhancer,
   SystemContextInterface,
-} from '../../src';
+} from '../../lib';
 
 type ErrorEnhancedType = Error & SystemContextInterface;
 

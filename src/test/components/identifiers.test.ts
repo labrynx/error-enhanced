@@ -6,7 +6,7 @@ import {
   IdentifiersInterface,
   IdentifiersEnhancer,
   ErrorEnhanced,
-} from '../../src';
+} from '../../lib';
 
 type ErrorEnhancedType = Error & IdentifiersInterface;
 
@@ -62,6 +62,12 @@ describe('Setters and Getters', () => {
       expect(id).not.toBe('');
     });
 
+    test('should throw error for invalid error code', () => {
+      expect(() =>
+        testeableError.setErrorCode(23456789876543234567876543n as any),
+      ).toThrow(Error);
+    });
+
     test('should throw error for invalid error code prefix', () => {
       expect(() => testeableError.setErrorCodePrefix(123 as any)).toThrow(
         Error,
@@ -72,6 +78,14 @@ describe('Setters and Getters', () => {
       expect(() => testeableError.setErrorDescription(123 as any)).toThrow(
         Error,
       );
+    });
+
+    test('should throw error for invalid Severity', () => {
+      expect(() => testeableError.setSeverity(123 as any)).toThrow(Error);
+    });
+
+    test('should throw error for invalid Category', () => {
+      expect(() => testeableError.setCategory(123 as any)).toThrow(Error);
     });
 
     test('should get a valid timestamp', () => {

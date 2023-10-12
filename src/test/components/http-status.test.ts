@@ -4,8 +4,8 @@ import {
   HttpStatusEnhancer,
   HttpStatusCodes,
   HttpMethods,
-} from '../../src';
-import { HttpBody, HttpHeaders, QueryParams } from '../../src/lib/shared/types';
+} from '../../lib';
+import { HttpBody, HttpHeaders, QueryParams } from '../../lib/shared/types';
 
 type ErrorEnhancedType = Error & HttpStatusInterface;
 
