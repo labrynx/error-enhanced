@@ -1,6 +1,9 @@
 /**
  * @type {object} HttpHeaders
+ * @group Enhancers
+ * @category HttpStatus
  *
+ * @description
  * Represents a single key-value pair for an HTTP header.
  *
  * @property {string} key - The header name.

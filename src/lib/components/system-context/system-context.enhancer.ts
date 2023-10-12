@@ -1,16 +1,21 @@
 import os from 'os';
 
-import { SystemContextInterface } from '../interfaces/system-context.interface';
+import { SystemContextInterface } from './interfaces/system-context.interface';
 
 /**
  * @class SystemContextEnhancer
+ * @group Enhancers
+ * @category SystemContext
  *
+ * @description
  * The SystemContextEnhancer class enriches an error object with system-level
  * context, such as the originating module and method, as well as various system details.
  *
  * @example
  * const systemContext = new SystemContextEnhancer();
  * systemContext.refreshSystemInfo();
+ *
+ * [[include:enhancers/systemcontextenhancer.md]]
  */
 export class SystemContextEnhancer implements SystemContextInterface {
   /**

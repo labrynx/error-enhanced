@@ -1,28 +1,34 @@
-# Severity
+# Overview
 
-_File:_ [_`severity.enum.ts`_](../../src/lib/enums/severity.enum.ts)
+The `Severity` enum, part of the `error-enhanced` library, is designed to offer a standardized approach to categorizing the impact level of errors within a system. By doing so, it facilitates more effective error handling and debugging.
 
-### Overview
+## Features
 
-The `Severity` enum, part of the `error-enhanced` library, provides a standardized way to classify the impact level of errors. This allows for prioritized error handling and more effective debugging.
+### Error Impact Classification
 
-### Features
+- Allows for sorting errors based on their impact level on system operations, enabling a more focused approach to troubleshooting.
+  
+### Versatility
 
-* **Error Impact Classification**: Enables errors to be sorted according to their impact level on system operations.
+- Since it's an enum, it's straightforward to extend or adapt to specific project needs, making it both reusable and maintainable.
 
-### Usage Example
+### Type-Safety
+
+- Written in TypeScript, it provides type-checking advantages, ensuring that the impact level is one of the predefined categories.
+
+## Example Usage
 
 ```typescript
-const severity = Severity.HIGH;
+const sev = Severity.HIGH;
+if (sev === Severity.CRITICAL) {
+  // Trigger emergency alert
+} else if (sev === Severity.HIGH) {
+  // Log and notify admin
+} else {
+  // Handle less severe cases
+}
 ```
 
-### Enum Members
+## Extending and Customization
 
-| Key        | Description                                                                              |
-| ---------- | ---------------------------------------------------------------------------------------- |
-| `LOW`      | Low-impact errors that generally don't affect system functionality.                      |
-| `MEDIUM`   | Moderate-impact errors that may affect some minor functionalities.                       |
-| `HIGH`     | High-impact errors affecting critical functionalities but not halting the entire system. |
-| `CRITICAL` | Critical-impact errors that demand immediate attention and may cause system outages.     |
-
-***
+Since the enum is written in TypeScript, extending it or customizing it for specific use-cases is straightforward. For example, you could add a `NONE` member to indicate the absence of an error.

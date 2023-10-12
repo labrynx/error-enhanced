@@ -1,6 +1,9 @@
 /**
  * @interface IdentifiersInterface
+ * @group Enhancers
+ * @category Identifiers
  *
+ * @description
  * The Identifiers interface defines the contract for classes that enrich
  * error objects with unique identifiers, error codes, and metadata.
  *

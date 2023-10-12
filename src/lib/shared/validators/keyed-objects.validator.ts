@@ -8,7 +8,9 @@ const isValidKey = (key: string): boolean => {
 };
 
 /**
- * Validates that an object's keys are all non-empty strings.
+ * @group Enhancers
+ * @category HttpStatus
+ * @description Validates that an object's keys are all non-empty strings.
  */
 export const ValidKeyedObject = z.record(z.any()).refine(
   obj => {

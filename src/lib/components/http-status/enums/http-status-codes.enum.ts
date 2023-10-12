@@ -1,5 +1,9 @@
 /**
- * @fileoverview `HttpStatusCodes` enum provides a comprehensive list of HTTP status codes.
+ * @enum
+ * @group Enhancers
+ * @category HttpStatus
+ * @description
+ * `HttpStatusCodes` enum provides a comprehensive list of HTTP status codes.
  *
  * The enum is categorized as follows:
  * - 1XX: Informational Responses
@@ -12,14 +16,22 @@
  * which can be used to set the HTTP response status or to understand
  * the type of response received from an HTTP request.
  *
+ * @usage
+ * This enum is commonly used in HTTP response handling, error handling, and logging.
+ *
  * Note that not all HTTP status codes are standardized, and some are
  * specific to certain web services. Therefore, it's crucial to consult
  * the relevant documentation when working with non-standard status codes.
  *
- * Relevant documentation:
- * - https://www.rfc-editor.org/rfc/rfc9110#section-15
- * - https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
- * - https://www.restapitutorial.com/httpstatuscodes.html
+ * @see {@link https://www.rfc-editor.org/rfc/rfc9110#section-15 | RFC 9110 Section 15}
+ * @see {@link https://en.wikipedia.org/wiki/List_of_HTTP_status_codes | Wikipedia: List of HTTP status codes}
+ * @see {@link https://www.restapitutorial.com/httpstatuscodes.html | REST API Tutorial: HTTP Status Codes}
+ * @example
+ * ```typescript
+ * if (response.status === HttpStatusCodes.OK) {
+ *   // Handle OK response
+ * }
+ * ```
  */
 export enum HttpStatusCodes {
   // 1XX - HTTP - Informational Response
