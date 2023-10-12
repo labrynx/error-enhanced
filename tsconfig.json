@@ -3,30 +3,24 @@
   "compilerOptions": {
     "target": "es2020",
     "module": "commonjs",
-    "rootDir": "src",
     "moduleResolution": "node",
+    "esModuleInterop": true,
+    "rootDir": "src/lib",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["es2020", "dom"],
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
     "noImplicitAny": false,
-    "types": [
-      "node",
-      "jest"
-    ]
+    "removeComments": false,
+    "noImplicitReturns": true,
+    "resolveJsonModule": true,
+    "types": ["node", "jest"],
+    "pretty": true
   },
-  "exclude": [
-    "node_modules",
-    "tmp",
-    "test"
-  ]
+  "exclude": ["node_modules", "tmp", "src/test"]
 }

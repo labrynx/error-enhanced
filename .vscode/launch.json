@@ -2,30 +2,11 @@
   "configurations": [
     {
       "type": "node",
-      "name": "vscode-jest-tests.v2-1696628315949",
-      "request": "launch",
-      "args": [
-        "test",
-        "--",
-        "--runInBand",
-        "--watchAll=false",
-        "--testNamePattern",
-        "${jest.testNamePattern}",
-        "--runTestsByPath",
-        "${jest.testFile}"
-      ],
-      "cwd": "/home/alessbarb/projects/error-enhanced",
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "runtimeExecutable": "npm"
-    },
-    {
-      "type": "node",
       "name": "vscode-jest-tests.v2",
       "request": "launch",
       "args": [
         "run",
-        "test",
+        "test:run",
         "--",
         "--config=jest.config.json",
         "--runInBand",

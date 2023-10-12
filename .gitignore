@@ -2,6 +2,7 @@
 # Build and Dependency Data
 # ========================
 node_modules/
+lib/
 dist/
 package-lock.json
 
@@ -32,11 +33,6 @@ yarn-error.log*
 .tsbuildinfo
 
 # ========================
-# Testing and Coverage
-# ========================
-coverage/
-
-# ========================
 # Husky and Lint-Staged
 # ========================
 .husky/
@@ -48,3 +44,9 @@ coverage/
 reports
 scripts
 *.tgz
+jsdoc.config.json
+
+# ========================
+# Exceptions
+# ========================
+!/src/lib/
