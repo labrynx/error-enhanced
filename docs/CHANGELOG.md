@@ -1,3 +1,55 @@
+# [2.6.0](https://github.com/labrynx/error-enhanced/compare/v2.5.0...v2.6.0) (2023-10-12)
+
+### Build System and Project Structure
+
+- **Output Directory**: Moved from `dist/` to `lib/`, aligning with common npm package practices.
+- **Declaration Files**: Now output to a separate `lib/types/` directory.
+- **Source Maps**: Enabled for build.
+  
+  *The restructuring of the output directory and addition of source maps aim to improve the build process.*
+
+### Source Code
+
+- **File Organization**: Source code relocated to `src/lib/` with new entry points at `src/main` and `src/types`.
+- **Imports**: All updated to reflect the new structure.
+
+  *This restructuring isolates the source code and clearly separates it from test code, improving maintainability.*
+
+### Documentation
+
+- **JSDoc**: Detailed comments added throughout the source code.
+- **TypeDoc**: Added for auto-generated API documentation with a `typedoc.json` config.
+- **Embedded Snippets**: Documentation snippets are now part of the source files.
+
+  *These changes make the documentation more robust and easier to maintain.*
+
+### Testing
+
+- **Test Location**: Moved to `src/test/`.
+- **Additional Cases**: More test cases added, particularly for validation and error handling.
+
+  *Improves overall test coverage and robustness.*
+
+### Dev Dependencies and Tooling
+
+- **New Additions**: Added `typedoc` and related plugins.
+- **Updates**: The `@types/*` packages have been updated to their latest versions.
+- **Code Style**: Configuration files for Prettier and ESLint added.
+  
+  *These additions and updates facilitate a smoother development workflow.*
+
+### Miscellaneous
+
+- **Scripts**: Added `prepare` script to run documentation generation and `npm-run-all` for running multiple npm scripts.
+- **Ignore Files**: Enhanced `.gitignore` and added `.prettierignore`.
+
+  *Housekeeping improvements for a cleaner repo.*
+
+## Contributors
+
+- @alessbarb
+- @labrynx
+
 # [2.5.0](https://github.com/labrynx/error-enhanced/compare/v2.4.0...v2.5.0) (2023-10-08)
 
 ### Bug Fixes
