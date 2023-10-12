@@ -16,7 +16,7 @@ import {
   SystemContextInterface,
   UserInfoEnhancer,
   UserInfoInterface,
-} from '../../src';
+} from '../../lib';
 
 type ErrorEnhancedType = Error &
   ApplicationStateInterface &

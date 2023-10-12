@@ -1,6 +1,8 @@
 import z from 'zod';
 
 /**
- * Validates a string, allowing it to be empty.
+ * @group Enhancers
+ * @category Identifiers
+ * @description Validates a string, allowing it to be empty.
  */
 export const ValidStringWithEmpty = z.string();

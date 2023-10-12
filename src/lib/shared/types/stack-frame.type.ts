@@ -1,6 +1,9 @@
 /**
  * @type {object} StackFrame
+ * @group Enhancers
+ * @category ErrorAnalysis
  *
+ * @description
  * Represents a single frame in a stack trace.
  *
  * @property {string} functionName - The name of the function where the error occurred.

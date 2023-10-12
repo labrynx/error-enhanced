@@ -1,7 +1,11 @@
 import z from 'zod';
 
 /**
- * Validates that a string is not empty.
+ * @group Enhancers
+ * @category ApplicationState
+ * @category UserInfo
+ * @category Identifiers
+ * @description Validates that a string is not empty.
  */
 export const ValidString = z
   .string()

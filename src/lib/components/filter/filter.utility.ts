@@ -1,23 +1,31 @@
-import { FilterInterface } from '../interfaces/filter.interface';
+import { FilterInterface } from './interfaces/filter.interface';
 
 /**
- * @class FilterUtility
- *
- * Utility mixin that provides a method to filter out unused properties from an object.
- * This version returns a new object rather than modifying the existing one.
- *
+ * @class
+ * @group Utilities
+ * @category Filter
+ * @description Utility mixin that provides a method to filter out unused properties from an object. This version returns a new object rather than modifying the existing one.
+ * @implements {FilterInterface} Implements methods for filtering unused properties.
+ * @performance The time complexity for the `filterUnused` method is O(n), where n is the number of properties in the object.
+ * @see {@link FilterInterface} to understand the methods that this class must implement.
  * @example
+ * ```typescript
  * const error = new ErrorEnhanced();
- * error.someField = null;
- * error.someOtherField = "usefulData";
  * const filteredError = error.filterUnused();
- * // Now, filteredError only contains 'someOtherField' and other useful properties.
+ * ```
+ * [[include:utilities/filterutility.md]]
  */
 export class FilterUtility implements FilterInterface {
   /**
-   * @static
-   * @type {Set<string>}
-   * A set of properties that should never be deleted.
+   * @private
+   * @readonly
+   * @property {Set<string>}
+   * @description A set of properties that should never be deleted.
+   * @default Initially set to ['name', 'message', '_originalError'].
+   * @example
+   * ```typescript
+   * // Not intended for direct access outside the class.
+   * ```
    */
   private static readonly _preservedProps: Set<string> = new Set([
     'name',
@@ -26,11 +34,14 @@ export class FilterUtility implements FilterInterface {
   ]);
 
   /**
+   * @method
    * @public
-   * @returns {this} A new object instance with unused properties removed.
-   *
-   * Iterates over each property of the object and deletes any that are unused,
-   * except for properties listed in 'preservedProps'.
+   * @description Iterates over each property of the object and deletes any that are unused, except for properties listed in 'preservedProps'.
+   * @returns {this} Returns a new object instance with unused properties removed.
+   * @example
+   * ```typescript
+   * const newObj = someObject.filterUnused();
+   * ```
    */
   public filterUnused(): this {
     // Create a new object with the same prototype as 'this'.
@@ -67,13 +78,15 @@ export class FilterUtility implements FilterInterface {
   }
 
   /**
+   * @method
    * @private
-   * @method _isUnused
-   *
-   * Determines if the given value is considered "unused" based on the specified criteria.
-   *
+   * @description Determines if a given value is considered "unused".
    * @param {unknown} value - The value to check.
-   * @returns {boolean} - Returns true if the value is considered unused, otherwise false.
+   * @returns {boolean} Returns true if the value is considered unused, otherwise false.
+   * @example
+   * ```typescript
+   * // Not intended for direct access outside the class.
+   * ```
    */
   private _isUnused(value: unknown): boolean {
     if (typeof value === 'function') {
@@ -91,13 +104,15 @@ export class FilterUtility implements FilterInterface {
   }
 
   /**
+   * @method
    * @private
-   * @method _isEmptyObject
-   *
-   * Checks if a given object is an empty object.
-   *
+   * @description Checks if a given object is an empty object.
    * @param {unknown} obj - The object to check.
-   * @returns {boolean} - Returns true if the object is empty, otherwise false.
+   * @returns {boolean} Returns true if the object is empty, otherwise false.
+   * @example
+   * ```typescript
+   * // Not intended for direct access outside the class.
+   * ```
    */
   private _isEmptyObject(obj: unknown): obj is Record<string, unknown> {
     return (
@@ -106,26 +121,30 @@ export class FilterUtility implements FilterInterface {
   }
 
   /**
+   * @method
    * @private
-   * @method _isEmptyArray
-   *
-   * Checks if a given array is empty.
-   *
+   * @description Checks if a given array is empty.
    * @param {unknown} arr - The array to check.
-   * @returns {boolean} - Returns true if the array is empty, otherwise false.
+   * @returns {boolean} Returns true if the array is empty, otherwise false.
+   * @example
+   * ```typescript
+   * // Not intended for direct access outside the class.
+   * ```
    */
   private _isEmptyArray(arr: unknown): arr is unknown[] {
     return Array.isArray(arr) && arr.length === 0;
   }
 
   /**
+   * @method
    * @private
-   * @method _isPlainObject
-   *
-   * Checks if a given object is a plain object.
-   *
+   * @description Checks if a given object is a plain object.
    * @param {unknown} obj - The object to check.
-   * @returns {boolean} - Returns true if the object is a plain object, otherwise false.
+   * @returns {boolean} Returns true if the object is a plain object, otherwise false.
+   * @example
+   * ```typescript
+   * // Not intended for direct access outside the class.
+   * ```
    */
   private _isPlainObject(obj: unknown): obj is Record<string, unknown> {
     return (

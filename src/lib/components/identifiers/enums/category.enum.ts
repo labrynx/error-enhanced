@@ -1,38 +1,14 @@
 /**
- * @file category.enum.ts
- * @module Category
- * @category Enums
- * @group Enums
- * @overview
- * Enum to represent the different categories an error can belong to.
- *
- * @features
- * - Categorizes Errors: Allows errors to be categorized into different types.
+ * @enum Category
+ * @group Enhancers
+ * @category Identifiers
  *
  * @example
  * ```typescript
  * const cat = Category.NETWORK;
  * ```
  *
- * @dependencies
- * None
- *
- * @apiDocumentation
- * Refer to the enum comments for detailed API documentation.
- *
- * @qualityAssurance
- * - All unit tests must pass.
- * - Code must be reviewed and adhere to coding standards.
- *
- * @contributing
- * For suggestions or bug reports, please create an issue or a pull request on the project repository.
- *
- * @license
- * This module is licensed under the MIT License.
- */
-
-/**
- * Enum to represent the different categories an error can belong to.
+ * [[include:enums/category.md]]
  */
 export enum Category {
   /**

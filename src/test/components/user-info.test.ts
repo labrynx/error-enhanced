@@ -1,4 +1,4 @@
-import { ErrorEnhanced, UserInfoEnhancer, UserInfoInterface } from '../../src';
+import { ErrorEnhanced, UserInfoEnhancer, UserInfoInterface } from '../../lib';
 
 type ErrorEnhancedType = Error & UserInfoInterface;
 

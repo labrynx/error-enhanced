@@ -1,4 +1,4 @@
-export * from './enhancers/http-status.enhancer';
+export * from './http-status.enhancer';
 
 export * from './interfaces/http-status.interface';
 

@@ -1,8 +1,15 @@
-import { HttpBody, HttpHeaders, QueryParams } from '../../../shared/types/index';
+import {
+  HttpBody,
+  HttpHeaders,
+  QueryParams,
+} from '../../../shared/types/index';
 
 /**
  * @interface HttpStatusInterface
+ * @group Enhancers
+ * @category HttpStatus
  *
+ * @description
  * The HttpStatus interface defines the contract for classes that aim to
  * enrich error objects with HTTP-related information. This includes the HTTP status
  * code, HTTP method, URL, request and response headers, and more.

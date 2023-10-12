@@ -2,8 +2,8 @@ import {
   ApplicationStateEnhancer,
   ApplicationStateInterface,
   ErrorEnhanced,
-} from '../../src';
-import { CommandExecutor } from '../../src/lib/components/application-state/helpers/command-executor';
+} from '../../lib';
+import { CommandExecutor } from '../../lib/components/application-state/helpers/command-executor';
 import shell from 'shelljs';
 
 jest.mock('shelljs', () => ({
@@ -12,7 +12,7 @@ jest.mock('shelljs', () => ({
 }));
 
 jest.mock(
-  '../../src/lib/components/application-state/helpers/command-executor',
+  '../../lib/components/application-state/helpers/command-executor',
   () => {
     return {
       CommandExecutor: jest.fn().mockImplementation(() => {
@@ -24,6 +24,9 @@ jest.mock(
                 version: '1.0.0',
                 dependencies: { someLib: '1.0.0' },
               });
+            }
+            if (command === 'npm --version') {
+              return '6.14.0';
             }
             throw new Error('Command failed');
           }),
@@ -41,6 +44,10 @@ type ErrorEnhancedType = Error & ApplicationStateInterface;
 const commandExecutor = new CommandExecutor();
 
 describe('CommandExecutor', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should execute the command successfully', () => {
     const resultStr = commandExecutor.execute('npm list --json');
     const result = JSON.parse(resultStr);
@@ -115,19 +122,29 @@ describe('ApplicationState', () => {
   });
 
   describe('Dependencies Fetching', () => {
-    it('should fetch npm dependencies if npm is available', async () => {
-      await testeableError['_fetchDependencies']();
+    it('should fetch npm dependencies if npm is available', () => {
+      testeableError['_fetchDependencies']();
       expect(testeableError.dependencies).toEqual({ someLib: '1.0.0' });
     });
 
-    it('should handle errors during dependency fetching', async () => {
+    it('should handle errors during dependency fetching', () => {
+      // Mock _isCacheValid to always return false
+      jest.spyOn(testeableError as any, '_isCacheValid').mockReturnValue(false);
+
+      // Mock _detectPackageManager to return 'npm'
+      jest
+        .spyOn(testeableError as any, '_detectPackageManager')
+        .mockReturnValue('npm');
+
+      // Mock _commandExecutor.execute to throw an error
       jest
         .spyOn(testeableError['_commandExecutor'], 'execute')
         .mockImplementation(() => {
           throw new Error('Command failed');
         });
 
-      await expect(testeableError['_fetchDependencies']()).rejects.toThrow(
+      // Now, the actual test
+      expect(() => testeableError['_fetchDependencies']()).toThrow(
         'Failed during _fetchDependencies',
       );
     });
