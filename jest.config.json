@@ -13,9 +13,17 @@
   "coverageDirectory": "<rootDir>/reports/coverage",
   "collectCoverageFrom": [
     "<rootDir>/src/lib/**/*.{ts,tsx}",
-    "!<rootDir>/**/*.d.ts"
+    "!<rootDir>/**/*.d.ts",
+    "!<rootDir>/**/index.ts"
   ],
-  "coverageReporters": ["json", "lcov", "text", "clover", "html"],
+  "coverageReporters": [
+    "json",
+    "lcov",
+    "text",
+    "text-summary",
+    "clover",
+    "html"
+  ],
   "moduleNameMapper": {
     "^@/(.*)$": "<rootDir>/$1"
   }
