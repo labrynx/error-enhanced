@@ -21,6 +21,7 @@ export class UserInfoEnhancer implements UserInfoInterface {
   /**
    * @private
    * @type {string}
+   * @default ''
    * User ID or username related to the error.
    */
   private _user: string = '';
@@ -28,6 +29,7 @@ export class UserInfoEnhancer implements UserInfoInterface {
   /**
    * @private
    * @type {string}
+   * @default ''
    * User session ID.
    */
   private _sessionId: string = '';
@@ -35,6 +37,7 @@ export class UserInfoEnhancer implements UserInfoInterface {
   /**
    * @private
    * @type {string[]}
+   * @default []
    * User roles or permissions.
    */
   private _roles: string[] = [];
@@ -42,6 +45,7 @@ export class UserInfoEnhancer implements UserInfoInterface {
   /**
    * @private
    * @type {string}
+   * @default ''
    * Authentication token.
    */
   private _authToken: string = '';
@@ -49,6 +53,7 @@ export class UserInfoEnhancer implements UserInfoInterface {
   /**
    * @private
    * @type {string}
+   * @default ''
    * IP Address.
    */
   private _ipAddress: string = '';
@@ -56,6 +61,7 @@ export class UserInfoEnhancer implements UserInfoInterface {
   /**
    * @private
    * @type {string}
+   * @default ''
    * Browser and OS details.
    */
   private _userAgent: string = '';
@@ -63,6 +69,7 @@ export class UserInfoEnhancer implements UserInfoInterface {
   /**
    * @private
    * @type {string[]}
+   * @default []
    * Previous user actions.
    */
   private _actionHistory: string[] = [];
@@ -140,8 +147,19 @@ export class UserInfoEnhancer implements UserInfoInterface {
    * Sets the roles or permissions related to the error.
    *
    * @param roles - An array of roles or permissions
+   * @throws Will throw an error if the roles array is invalid.
    */
   public setRoles(roles: string[]): this {
+    if (!Array.isArray(roles) || roles.length === 0) {
+      throw new Error('Invalid roles: Must be a non-empty array');
+    }
+
+    for (const role of roles) {
+      if (typeof role !== 'string' || role.trim() === '') {
+        throw new Error('Invalid role: All roles must be non-empty strings');
+      }
+    }
+
     this._roles = roles;
     return this;
   }
