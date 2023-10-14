@@ -1,4 +1,4 @@
-name: Node.js CI/CD
+name: Build, Test, Lint
 
 env:
   SEMREL_GPG_SIGNKEY: ${{ secrets.SEMREL_GPG_SIGNKEY }}
