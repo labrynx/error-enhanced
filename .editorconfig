@@ -1,0 +1,21 @@
+# .editorconfig
+
+# General settings for all files
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Settings for JavaScript and TypeScript files
+[*.{js,ts,tsx}]
+indent_style = space
+indent_size = 2
+quote_type = single
+
+# Specific rules for Markdown files (if you have any)
+[*.md]
+trim_trailing_whitespace = false
+
+# Setting for Prettier
+max_line_length = 80
