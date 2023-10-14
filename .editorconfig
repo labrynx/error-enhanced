@@ -11,7 +11,6 @@ trim_trailing_whitespace = true
 [*.{js,ts,tsx}]
 indent_style = space
 indent_size = 2
-quote_type = single
 
 # Specific rules for Markdown files (if you have any)
 [*.md]
