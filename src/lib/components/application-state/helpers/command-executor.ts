@@ -63,10 +63,12 @@ export class CommandExecutor implements CommandExecutorInterface {
     const output = shell.exec(command, execOptions) as ShellString;
 
     // Check and return the command output or throw an error
-    if (output.code === 0) {
+    if (output && output.code === 0) {
       return output.stdout as string;
-    } else {
+    } else if (output && output.stderr) {
       throw new Error(`Execution failed: ${output.stderr}`);
+    } else {
+      throw new Error('Execution failed: Unknown error');
     }
   }
 }

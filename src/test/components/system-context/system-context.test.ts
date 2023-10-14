@@ -3,7 +3,7 @@ import {
   ErrorEnhanced,
   SystemContextEnhancer,
   SystemContextInterface,
-} from '../../lib';
+} from '../../../lib';
 
 type ErrorEnhancedType = Error & SystemContextInterface;
 
@@ -15,6 +15,14 @@ jest.mock('os', () => ({
   uptime: jest.fn(() => 1000),
 }));
 
+const setters = {
+  hostname: ['test-hostname'],
+  cpuArch: ['x64'],
+  osType: ['Linux'],
+  osRelease: ['5.4.0'],
+  systemUptime: [1000],
+};
+
 describe('SystemContextEnhancer', () => {
   let testeableError: ErrorEnhancedType;
 
@@ -25,13 +33,12 @@ describe('SystemContextEnhancer', () => {
   });
 
   // Test constructor and getters
-  describe('constructor', () => {
-    it('should initialize with the correct system context', () => {
-      expect(testeableError.hostname).toBe('test-hostname');
-      expect(testeableError.cpuArch).toBe('x64');
-      expect(testeableError.osType).toBe('Linux');
-      expect(testeableError.osRelease).toBe('5.4.0');
-      expect(testeableError.systemUptime).toBe(1000);
+  describe('Constructor', () => {
+    Object.keys(setters).forEach(setter => {
+      it(`should initialize ${setter} correctly`, () => {
+        const [validValue] = setters[setter];
+        expect(testeableError[setter]).toBe(validValue);
+      });
     });
   });
 

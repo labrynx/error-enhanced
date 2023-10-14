@@ -295,7 +295,7 @@ export class IdentifiersEnhancer implements IdentifiersInterface {
 
     if (!parsed.success) {
       throw new Error(
-        `Invalid Severity level: '${category}' not in valid Category: ${JSON.stringify(
+        `Invalid Category level: '${category}' not in valid Category: ${JSON.stringify(
           Category,
         )}`,
       );

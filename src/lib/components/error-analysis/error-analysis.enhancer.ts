@@ -122,8 +122,8 @@ export class ErrorAnalysisEnhancer implements ErrorAnalysisInterface {
 
     this._parsedStack = stackFrames.map(
       ({ functionName, fileName, lineNumber, columnNumber }) => ({
-        functionName: functionName || 'unknown',
-        fileName: fileName || 'unknown',
+        functionName: functionName ?? 'unknown',
+        fileName: fileName ?? 'unknown',
         lineNumber: lineNumber ?? -1,
         columnNumber: columnNumber ?? -1,
         typeName: functionName?.split('.')[0] ?? 'unknown',
@@ -148,9 +148,6 @@ export class ErrorAnalysisEnhancer implements ErrorAnalysisInterface {
    * ```
    */
   public get parsedStack(): Array<StackFrame> {
-    if (this._parsedStack === null) {
-      this._extractErrorInfo();
-    }
-    return this._parsedStack!;
+    return this._parsedStack;
   }
 }

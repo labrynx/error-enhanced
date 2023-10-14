@@ -16,3 +16,6 @@ interface BigInt {
 BigInt.prototype['toJSON'] = function () {
   return this.toString();
 };
+
+// Silence console.error
+(global.console as jest.Mocked<Console>).error = jest.fn();

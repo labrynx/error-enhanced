@@ -115,6 +115,7 @@ export class ApplicationStateEnhancer implements ApplicationStateInterface {
    * @public
    * @description Sets the application configurations.
    * @param configs - The application configurations.
+   * @throws {Error} Throws an error if configs is not an object or is null.
    * @returns {this} The instance of the class, useful for chaining.
    * @example
    * ```typescript
@@ -122,6 +123,9 @@ export class ApplicationStateEnhancer implements ApplicationStateInterface {
    * ```
    */
   public setConfigurations(configs: Record<string, any>): this {
+    if (typeof configs !== 'object' || configs === null) {
+      throw new Error('Invalid configuration: Must be an object.');
+    }
     this._configurations = configs;
     return this;
   }
@@ -131,6 +135,7 @@ export class ApplicationStateEnhancer implements ApplicationStateInterface {
    * @public
    * @description Sets a snapshot of the application state.
    * @param snapshot - The application state snapshot.
+   * @throws {Error} Throws an error if snapshot is not an object or is null.
    * @returns {this} The instance of the class, useful for chaining.
    * @example
    * ```typescript
@@ -138,6 +143,9 @@ export class ApplicationStateEnhancer implements ApplicationStateInterface {
    * ```
    */
   public setStateSnapshot(snapshot: Record<string, any>): this {
+    if (typeof snapshot !== 'object' || snapshot === null) {
+      throw new Error('Invalid state snapshot: Must be an object.');
+    }
     this._stateSnapshot = snapshot;
     return this;
   }
@@ -147,6 +155,7 @@ export class ApplicationStateEnhancer implements ApplicationStateInterface {
    * @public
    * @description Adds an event to the event history.
    * @param event - The event to add.
+   * @throws {Error} Throws an error if event is not a non-empty string.
    * @returns {this} The instance of the class, useful for chaining.
    * @example
    * ```typescript
@@ -154,6 +163,9 @@ export class ApplicationStateEnhancer implements ApplicationStateInterface {
    * ```
    */
   public addToEventHistory(event: string): this {
+    if (typeof event !== 'string' || event.trim() === '') {
+      throw new Error('Invalid event: Must be a non-empty string.');
+    }
     this._eventHistory.push(event);
     if (this._eventHistory.length > 10) {
       this._eventHistory.shift();
@@ -316,7 +328,6 @@ export class ApplicationStateEnhancer implements ApplicationStateInterface {
       return this._dependencies;
     } catch (error) {
       this._handleAppStateError(error as any, '_fetchDependencies');
-      return null;
     }
   }
 
@@ -371,7 +382,8 @@ export class ApplicationStateEnhancer implements ApplicationStateInterface {
    * ```
    */
   private _executeCommand(command: string): string {
-    return this._commandExecutor.execute(command);
+    const com = this._commandExecutor.execute(command);
+    return com;
   }
 
   /**
@@ -395,11 +407,13 @@ export class ApplicationStateEnhancer implements ApplicationStateInterface {
       this._dependenciesCache = this._dependencies;
       this._lastFetchTime = currentTime;
     } catch (e) {
+      const errorMsg = `Failed to parse JSON: ${
+        (e as any).message
+      }. JSON Content: ${output}`;
       this._handleAppStateError(
         new Error(`Failed to parse JSON: ${e as any}`),
         '_parseAndCacheDependencies',
       );
-      return;
     }
   }
 
