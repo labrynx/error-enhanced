@@ -3,7 +3,7 @@ name: Autopublish
 on:
     push:
         branches:
-            - master
+            - main
 
 jobs:
     autopublish:
