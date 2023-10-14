@@ -1,4 +1,4 @@
-name: 'Autopublish'
+name: Autopublish
 
 on:
     push:
