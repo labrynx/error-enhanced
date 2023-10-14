@@ -50,7 +50,6 @@
   },
   "scripts": {
     "prepare": "npm run build docs",
-    "prepublishOnly": "run-s lint test build",
     "postpackage": "mv *.tgz ./lib/",
     "start": "run-s build start:run",
     "start:run": "node lib/index.js",
