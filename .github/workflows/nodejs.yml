@@ -75,26 +75,6 @@ jobs:
           labels: 'automated-pr, update-version'
           draft: false
 
-  release-draft:
-    name: Create Release Draft
-    needs: build-test-lint
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Create Release Draft
-        id: create_release
-        uses: actions/create-release@v1
-        with:
-          tag_name: ${{ github.sha }}
-          release_name: Release Draft for ${{ github.sha }}
-          draft: true
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   release:
     needs: build-test-lint
     if: github.ref == 'refs/heads/main'
