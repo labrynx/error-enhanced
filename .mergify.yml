@@ -1,8 +1,0 @@
-pull_request_rules:
-  - name: Automatically merge updates to development
-    conditions:
-      - label=automated-pr
-      - label=update-version
-    actions:
-      merge:
-        method: merge
