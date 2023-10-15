@@ -1,8 +1,9 @@
 # Enhanced Error Enrichment for Node.js
-> Supercharge your Node.js error handling with this TypeScript library. Leverage modular architecture to enrich error objects with identifiers, system context, user info, and HTTP statuses. Perfect for debugging, logging, and boosting application robustness.
-
 [![npm](https://img.shields.io/npm/v/%40labrynx%2Ferror-enhanced?style=for-the-badge&logo=npm&logoColor=white&link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Ferror-enhanced
 )](https://www.npmjs.com/package/@labrynx/error-enhanced)
+
+| <picture><source media="(prefers-color-scheme: dark)" srcset="https://github.com/labrynx/error-enhanced/assets/26366705/e8032734-bf0b-48be-850e-a43e55c00fe4"/><img src="https://github.com/labrynx/error-enhanced/assets/26366705/16728c61-ceb7-4ef2-b9ba-24a296f08039" width="300px"/></picture> | Supercharge your Node.js error handling with this TypeScript library. Leverage modular architecture to enrich error objects with identifiers, system context, user info, and HTTP statuses. Perfect for debugging, logging, and boosting application robustness. |
+|:---:|:---|
 
 ## Features
 

@@ -277,7 +277,7 @@ describe('ApplicationState', () => {
     });
 
     it('should handle malformed JSON in _parseAndCacheDependencies', () => {
-      const malformedJSON = '{ name: \'my-app\', ';
+      const malformedJSON = "{ name: 'my-app', ";
       executeMock.mockReturnValueOnce(malformedJSON);
 
       expect(() => {
