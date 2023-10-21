@@ -1,3 +1,32 @@
+# [Unreleased](https://github.com/labrynx/error-enhanced/compare/v2.7.0...main)
+
+- Check the link for future changes
+
+# [2.7.0](https://github.com/labrynx/error-enhanced/compare/v2.6.0...v2.7.0) (2023-10-14)
+
+### Enhancements
+
+- Feat: Added default values and input validation to UserInfoEnhancer (@alessbarb)
+- Refactored error handling and added input validation for application config (@alessbarb)
+- Refactored error handling in CommandExecutor class (@alessbarb)
+
+### Bug Fixes
+
+- Fixed null check in parsedStack method in ErrorAnalysisEnhancer (@alessbarb)  
+- Fixed error message in IdentifiersEnhancer for invalid category level (@alessbarb)
+- Fixed JSON formatting issue in application-state.test.ts (@alessbarb)
+
+### Maintenance
+
+- Updated editor and linting configurations (@alessbarb)
+- Updated scripts in package.json (@alessbarb)
+- Reorganized test files (@alessbarb)
+- Bumped @types/node from 20.8.4 to 20.8.5 (@dependabot)
+- Updated configurations for format, lint, etc (@alessbarb)
+- Updated coverage config (@alessbarb)  
+- Added global config to silence console.error (@alessbarb)
+- Updated tests to 100% coverage (@alessbarb)
+
 # [2.6.0](https://github.com/labrynx/error-enhanced/compare/v2.5.0...v2.6.0) (2023-10-12)
 
 ### Build System and Project Structure
