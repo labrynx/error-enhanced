@@ -1,6 +1,26 @@
-# [Unreleased](https://github.com/labrynx/error-enhanced/compare/v2.7.0...main)
+# [Unreleased](https://github.com/labrynx/error-enhanced/compare/v2.7.1...main)
 
 - Check the link for future changes
+
+# [2.7.1](https://github.com/labrynx/error-enhanced/compare/v2.7.0...v2.7.1) (2023-10-27)
+
+### Changed
+- Update README.md (@alessbarb)
+
+### Dependency Updates
+- Bump @commitlint/cli from 17.7.2 to 18.2.0 (@dependabot[bot])
+- Bump @commitlint/config-conventional from 17.7.0 to 18.1.0 (@dependabot[bot])
+- Bump @types/jest from 29.5.5 to 29.5.6 (@dependabot[bot])
+- Bump @types/js-yaml from 4.0.7 to 4.0.8 (@dependabot[bot])
+- Bump @types/json-stringify-safe from 5.0.1 to 5.0.2 (@dependabot[bot])
+- Bump @types/node from 20.8.5 to 20.8.9 (@dependabot[bot])
+- Bump @types/papaparse from 5.3.9 to 5.3.10 (@dependabot[bot])
+- Bump @types/shelljs from 0.8.13 to 0.8.14 (@dependabot[bot])
+- Bump @types/uuid from 9.0.5 to 9.0.6 (@dependabot[bot])
+- Bump @typescript-eslint/eslint-plugin from 6.7.5 to 6.9.0 (@dependabot[bot])
+- Bump @typescript-eslint/parser from 6.7.5 to 6.9.0 (@dependabot[bot])
+- Bump eslint from 8.51.0 to 8.52.0 (@dependabot[bot])
+- Bump lint-staged from 14.0.1 to 15.0.2 (@dependabot[bot])
 
 # [2.7.0](https://github.com/labrynx/error-enhanced/compare/v2.6.0...v2.7.0) (2023-10-14)
 
