@@ -4278,9 +4278,9 @@
       }
     },
     "node_modules/@types/jest": {
-      "version": "29.5.7",
-      "resolved": "https://registry.npmjs.org/@types/jest/-/jest-29.5.7.tgz",
-      "integrity": "sha512-HLyetab6KVPSiF+7pFcUyMeLsx25LDNDemw9mGsJBkai/oouwrjTycocSDYopMEwFhN2Y4s9oPyOCZNofgSt2g==",
+      "version": "29.5.8",
+      "resolved": "https://registry.npmjs.org/@types/jest/-/jest-29.5.8.tgz",
+      "integrity": "sha512-fXEFTxMV2Co8ZF5aYFJv+YeA08RTYJfhtN5c9JSv/mFEMe+xxjufCb+PHL+bJcMs/ebPUsBu+UNTEz+ydXrR6g==",
       "dev": true,
       "dependencies": {
         "expect": "^29.0.0",
@@ -8310,18 +8310,6 @@
       "dev": true,
       "engines": {
         "node": ">=4"
-      }
-    },
-    "node_modules/import-from": {
-      "version": "4.0.0",
-      "resolved": "https://registry.npmjs.org/import-from/-/import-from-4.0.0.tgz",
-      "integrity": "sha512-P9J71vT5nLlDeV8FHs5nNxaLbrpfAV5cF5srvbZfpwpcJoM/xZR3hiv+q+SAnuSmuGbXMWud063iIMx/V/EWZQ==",
-      "dev": true,
-      "engines": {
-        "node": ">=12.2"
-      },
-      "funding": {
-        "url": "https://github.com/sponsors/sindresorhus"
       }
     },
     "node_modules/import-from-esm": {
