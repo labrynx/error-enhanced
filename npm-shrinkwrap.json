@@ -4329,9 +4329,9 @@
       "dev": true
     },
     "node_modules/@types/papaparse": {
-      "version": "5.3.10",
-      "resolved": "https://registry.npmjs.org/@types/papaparse/-/papaparse-5.3.10.tgz",
-      "integrity": "sha512-mS1Fta/xJ9EDYmAvpeWzcV9Gr0cOl1ClpW7di9+wSUNDIDO55tBtyXg97O7K+Syrd9rDEmuejM2iqmJIJ1SO5g==",
+      "version": "5.3.11",
+      "resolved": "https://registry.npmjs.org/@types/papaparse/-/papaparse-5.3.11.tgz",
+      "integrity": "sha512-ISil0lMkpRDrBTKRPnUgVb5IqxWwj19gWBrX/ROk3pbkkslBN3URa713r/BSfAUj+w9gTPg3S3f45aMToVfh1w==",
       "dependencies": {
         "@types/node": "*"
       }
@@ -8310,18 +8310,6 @@
       "dev": true,
       "engines": {
         "node": ">=4"
-      }
-    },
-    "node_modules/import-from": {
-      "version": "4.0.0",
-      "resolved": "https://registry.npmjs.org/import-from/-/import-from-4.0.0.tgz",
-      "integrity": "sha512-P9J71vT5nLlDeV8FHs5nNxaLbrpfAV5cF5srvbZfpwpcJoM/xZR3hiv+q+SAnuSmuGbXMWud063iIMx/V/EWZQ==",
-      "dev": true,
-      "engines": {
-        "node": ">=12.2"
-      },
-      "funding": {
-        "url": "https://github.com/sponsors/sindresorhus"
       }
     },
     "node_modules/import-from-esm": {
