@@ -48,6 +48,12 @@ jobs:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
 
+      # (3.1) Set up Node.js environment (for Node-based projects)
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
       # (4) Detect project type & commands
       - name: 🔍 Detect Project Type
         id: detect
@@ -213,7 +219,6 @@ jobs:
           # Example: Save a successful test summary message
           echo "TESTS_SUMMARY='All tests passed (example)'" >> $GITHUB_ENV
         env:
-          # These variables would be defined in previous steps of your workflow
           PROJECT_TYPE: ${{ env.PROJECT_TYPE }}
           BUILD_COMMAND: ${{ env.BUILD_COMMAND }}
           TEST_COMMAND: ${{ env.TEST_COMMAND }}
@@ -241,7 +246,7 @@ jobs:
           echo "COMMIT_SHA=$COMMIT_SHA" >> $GITHUB_ENV
           echo "COMMIT_MESSAGE=$COMMIT_MESSAGE" >> $GITHUB_ENV
 
-      # (8) Gather PR details
+      # (8) Gather PR details (labels, changed files)
       - name: 📊 Gather PR Details
         id: pr_details
         run: |
@@ -274,7 +279,7 @@ jobs:
             DELETIONS=$(_jq '.deletions')
             CHANGES=$(_jq '.changes')
 
-            echo "- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Add: $ADDITIONS, Del: $DELETIONS, Changes: $CHANGES)" >> files_linked.txt
+            echo "- [$FILE_NAME]($REPO_URL/$FILE_NAME) (Additions: $ADDITIONS, Deletions: $DELETIONS, Changes: $CHANGES)" >> files_linked.txt
           done
 
           {
@@ -282,6 +287,8 @@ jobs:
             cat files_linked.txt
             echo EOF
           } >> "$GITHUB_ENV"
+
+          echo "PR details gathered successfully."
 
       # (9) Workflow status steps
       - name: ✔️ Workflow Status = Success
@@ -322,10 +329,11 @@ jobs:
                 "Hey @" + $pr_author + ",\n\n" +
                 "## 🚀 Pull Request Summary\n" +
                 "**Title**: " + $pr_title + "\n" +
-                "**URL**: " + $pr_url + "\n" +
-                "**Labels**: " + $pr_labels + "\n\n" +
-                "<details><summary>Files Changed</summary>\n\n" +
-                $files_linked + "\n</details>\n\n" +
+                "**PR URL**: " + $pr_url + "\n" +
+                "**PR Body**: " + $pr_body + "\n" +
+                "**Labels**: " + $pr_labels + "\n" +
+                "**Workflow Status**: " + $workflow_status + "\n\n" +
+                "**Files Changed:**\n" + $files_linked + "\n\n" +
                 "### Lint Results\n" + $lint_results + "\n\n" +
                 "### Test Summary\n" + $tests_summary + "\n\n" +
                 "### Coverage Report\n" + $coverage_report + "\n\n" +
